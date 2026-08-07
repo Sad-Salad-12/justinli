@@ -34,6 +34,10 @@ test("server-renders English as the default portfolio language", async () => {
   assert.match(html, /FORWARD DEPLOYED ENGINEER/);
   assert.match(html, /Complex systems/);
   assert.match(html, /SELECTED WORK/);
+  assert.match(html, /WORK EXPERIENCE/);
+  assert.match(html, /AI Advertisement Report Automation/);
+  assert.match(html, /Verba — Internal AI Sales Agent/);
+  assert.match(html, /justin-shanghai-portrait\.jpg/);
   assert.match(html, /Preview online/);
   assert.match(html, /English/);
   assert.match(html, /简体中文/);
@@ -65,8 +69,12 @@ test("keeps bilingual content and PDF work samples wired correctly", async () =>
   assert.match(page, /portfolio-language/);
   assert.match(page, /setLanguage\("en"\)/);
   assert.match(page, /setLanguage\("zh"\)/);
+  assert.match(page, /href="#experience"/);
+  await access(new URL("../public/justin-shanghai-portrait.jpg", import.meta.url));
   assert.match(content, /把复杂的系统/);
   assert.match(content, /解决方案架构师/);
+  assert.match(content, /人工智能广告报告自动化/);
+  assert.match(content, /运行 300 多次/);
   assert.match(layout, /lang="en"/);
   assert.match(layout, /justin\.zl5626\.chatgpt\.site/);
   assert.doesNotMatch(layout, /justin-solutions-fde\.zl5626\.chatgpt\.site/);
@@ -80,6 +88,7 @@ test("keeps every main section white except the final contact section", async ()
   );
 
   assert.match(css, /\.capabilities\s*\{[^}]*background:\s*var\(--white\)/s);
+  assert.match(css, /\.experience\s*\{[^}]*background:\s*var\(--white\)/s);
   assert.match(css, /\.work\s*\{[^}]*background:\s*var\(--white\)/s);
   assert.match(css, /\.approach\s*\{[^}]*background:\s*var\(--white\)/s);
   assert.match(css, /\.contact\s*\{[^}]*background:\s*var\(--ink\)/s);

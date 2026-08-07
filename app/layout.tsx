@@ -4,7 +4,7 @@ import "./globals.css";
 
 const defaultTitle = "Justin — Solutions Architect & FDE";
 const defaultDescription =
-  "A Solutions Architect and Forward Deployed Engineer portfolio spanning discovery, system design, and production delivery.";
+  "A Solutions Architect and Forward Deployed Engineer portfolio featuring applied AI experience, system design, and production delivery.";
 
 export async function generateMetadata(): Promise<Metadata> {
   const requestHeaders = await headers();

@@ -17,6 +17,18 @@ export type LocalizedCapability = {
   tags: string[];
 };
 
+export type LocalizedExperience = {
+  number: string;
+  eyebrow: string;
+  title: string;
+  meta?: string;
+  bullets: string[];
+  metrics: Array<{
+    value: string;
+    label: string;
+  }>;
+};
+
 export type LocalizedStep = {
   number: string;
   title: string;
@@ -33,12 +45,14 @@ type PortfolioContent = {
     pageNavigation: string;
     backToTop: string;
     languageSelector: string;
+    portraitAlt: string;
     capabilityTags: (title: string) => string;
     previewWork: (title: string) => string;
     closePdf: string;
     pdfPreview: (title: string) => string;
   };
   nav: {
+    experience: string;
     capabilities: string;
     work: string;
     approach: string;
@@ -53,12 +67,7 @@ type PortfolioContent = {
     bodyLineTwo: string;
     primaryAction: string;
     secondaryAction: string;
-    systemFrom: string;
-    systemTo: string;
-    systemDiscover: string;
-    systemDesign: string;
-    systemDeploy: string;
-    systemScale: string;
+    portraitCaption: string;
     location: string;
     availability: string;
     scroll: string;
@@ -69,6 +78,12 @@ type PortfolioContent = {
     headlineAccent: string;
     body: string;
     note: string;
+  };
+  experience: {
+    label: string;
+    headline: string;
+    intro: string;
+    items: LocalizedExperience[];
   };
   capabilities: {
     label: string;
@@ -121,19 +136,21 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
     meta: {
       title: "Justin — Solutions Architect & FDE",
       description:
-        "A Solutions Architect and Forward Deployed Engineer portfolio spanning discovery, system design, and production delivery.",
+        "A Solutions Architect and Forward Deployed Engineer portfolio featuring applied AI experience, system design, and production delivery.",
     },
     a11y: {
       mainNavigation: "Main navigation",
       pageNavigation: "Page navigation",
       backToTop: "Back to top",
       languageSelector: "Choose display language",
+      portraitAlt: "Portrait of Justin in Shanghai",
       capabilityTags: (title) => `${title} capabilities`,
       previewWork: (title) => `Preview ${title}`,
       closePdf: "Close PDF preview",
       pdfPreview: (title) => `${title} PDF preview`,
     },
     nav: {
+      experience: "Experience",
       capabilities: "Capabilities",
       work: "Work",
       approach: "Approach",
@@ -146,17 +163,12 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       headlineAccent: "made useful.",
       bodyLineOne: "I work where business reality meets technical systems —",
       bodyLineTwo: "finding the real problem, proving the path, and shipping to production.",
-      primaryAction: "View selected work",
+      primaryAction: "View experience",
       secondaryAction: "Start a conversation",
-      systemFrom: "FIELD",
-      systemTo: "IMPACT",
-      systemDiscover: "DISCOVER",
-      systemDesign: "DESIGN",
-      systemDeploy: "DEPLOY",
-      systemScale: "SCALE",
+      portraitCaption: "JUSTIN / SHANGHAI",
       location: "BASED IN CHINA",
       availability: "OPEN TO SOLUTIONS ARCHITECT / FDE ROLES",
-      scroll: "SCROLL — 01 / 05",
+      scroll: "SCROLL — 01 / 06",
     },
     positioning: {
       label: "01 — POSITIONING",
@@ -166,8 +178,41 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
         "I thrive in high-ambiguity environments: building a shared language across business and engineering, turning fuzzy goals into a clear path, and working with customers, product, and engineering teams to deliver the outcome.",
       note: "BUILT FOR AMBIGUITY",
     },
+    experience: {
+      label: "02 — WORK EXPERIENCE",
+      headline: "Built in ambiguity. Shipped with evidence.",
+      intro: "Selected work turning operational pain points into testable AI products and real user outcomes.",
+      items: [
+        {
+          number: "01",
+          eyebrow: "AI PRODUCT DEVELOPMENT",
+          title: "AI Advertisement Report Automation Project",
+          meta: "Product Lead · Virtual · May 2025 — Aug 2025",
+          bullets: [
+            "Authored PRDs and decomposed a repetitive Meta and Google Ads reporting workflow into data inputs, transformation rules, slide templates, and few-shot examples for an LLM-generated reporting prototype.",
+            "Partnered with a University of Chicago developer to prototype and evaluate two alpha versions in one month, refining output quality through peer feedback.",
+          ],
+          metrics: [
+            { value: "2", label: "ALPHA VERSIONS" },
+            { value: "1 MONTH", label: "BUILD CYCLE" },
+          ],
+        },
+        {
+          number: "02",
+          eyebrow: "AI SALES ENABLEMENT",
+          title: "Verba — Internal AI Sales Agent",
+          bullets: [
+            "Designed and launched Verba using Coze and a local database, enabling sales team members to retrieve prior industry solutions and generate tailored outreach messages. More than 300 agent runs and feedback from 30+ users informed ongoing iteration.",
+          ],
+          metrics: [
+            { value: "300+", label: "AGENT RUNS" },
+            { value: "30+", label: "USERS IN FEEDBACK LOOP" },
+          ],
+        },
+      ],
+    },
     capabilities: {
-      label: "02 — CAPABILITIES",
+      label: "03 — CAPABILITIES",
       headline: "From problem to production.",
       intro: "A practical way of working that shortens the distance between an idea and a real-world result.",
       items: [
@@ -198,7 +243,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       ],
     },
     work: {
-      label: "03 — SELECTED WORK",
+      label: "04 — SELECTED WORK",
       headline: "Work is more than a file.",
       intro: "It should reveal how you think, the trade-offs you make, and how you move the work forward.",
       libraryLabel: "PDF LIBRARY",
@@ -238,7 +283,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       ],
     },
     approach: {
-      label: "04 — HOW I WORK",
+      label: "05 — HOW I WORK",
       headline: "Close to the field.",
       headlineAccent: "Whole system in view.",
       steps: [
@@ -267,7 +312,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       quoteLineTwo: "It’s the one that delivers a useful result in the real world.",
     },
     contact: {
-      label: "05 — LET'S TALK",
+      label: "06 — LET'S TALK",
       headline: "Let’s solve",
       headlineAccent: "something real.",
       body:
@@ -289,19 +334,21 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
   zh: {
     meta: {
       title: "Justin — 解决方案与前线部署工程师",
-      description: "解决方案架构师与前线部署工程师个人作品集：从问题发现、系统设计到生产交付。",
+      description: "解决方案架构师与前线部署工程师个人作品集：包含人工智能项目经历、系统设计与生产交付。",
     },
     a11y: {
       mainNavigation: "主导航",
       pageNavigation: "页面导航",
       backToTop: "返回顶部",
       languageSelector: "选择显示语言",
+      portraitAlt: "Justin 在上海的个人照片",
       capabilityTags: (title) => `${title}相关能力`,
       previewWork: (title) => `预览${title}`,
       closePdf: "关闭文档预览",
       pdfPreview: (title) => `${title}文档预览`,
     },
     nav: {
+      experience: "经历",
       capabilities: "能力",
       work: "作品",
       approach: "方法",
@@ -314,17 +361,12 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       headlineAccent: "落成可用的答案。",
       bodyLineOne: "我在业务现场与技术系统之间工作——发现真正的问题，",
       bodyLineTwo: "设计可验证的路径，并把方案送进生产。",
-      primaryAction: "查看作品",
+      primaryAction: "查看经历",
       secondaryAction: "聊聊机会",
-      systemFrom: "现场",
-      systemTo: "结果",
-      systemDiscover: "发现",
-      systemDesign: "设计",
-      systemDeploy: "落地",
-      systemScale: "规模化",
+      portraitCaption: "JUSTIN / 上海",
       location: "常驻中国",
       availability: "期待解决方案架构师与前线部署工程师岗位机会",
-      scroll: "向下浏览 — 01 / 05",
+      scroll: "向下浏览 — 01 / 06",
     },
     positioning: {
       label: "01 — 定位",
@@ -334,8 +376,41 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
         "我擅长在不确定性很高的环境里工作：快速建立业务与技术的共同语言，把模糊目标拆成清晰路径，再与客户、产品和工程团队一起把结果做出来。",
       note: "为不确定性而生",
     },
+    experience: {
+      label: "02 — 工作经历",
+      headline: "从模糊需求，到真实上线。",
+      intro: "把业务中的重复问题转化为可验证的人工智能产品，并用真实使用反馈推动迭代。",
+      items: [
+        {
+          number: "01",
+          eyebrow: "人工智能产品开发",
+          title: "人工智能广告报告自动化项目",
+          meta: "产品负责人 · 远程 · 2025 年 5 月—8 月",
+          bullets: [
+            "编写产品需求文档，将重复的 Meta 与 Google Ads 报告流程拆解为数据输入、转换规则、演示文稿模板和少样本示例，用于构建大语言模型自动生成报告原型。",
+            "与芝加哥大学开发者合作，在一个月内完成并评估两个内测版本，并结合同行反馈持续优化输出质量。",
+          ],
+          metrics: [
+            { value: "2 个", label: "内测版本" },
+            { value: "1 个月", label: "构建周期" },
+          ],
+        },
+        {
+          number: "02",
+          eyebrow: "人工智能销售赋能",
+          title: "Verba — 内部人工智能销售助手",
+          bullets: [
+            "使用 Coze 与本地数据库设计并上线内部人工智能销售助手 Verba，帮助销售团队检索既往行业方案并生成定制化外联信息；累计运行 300 多次，并收集 30 多位用户的反馈用于持续迭代。",
+          ],
+          metrics: [
+            { value: "300+", label: "运行次数" },
+            { value: "30+", label: "反馈用户" },
+          ],
+        },
+      ],
+    },
     capabilities: {
-      label: "02 — 核心能力",
+      label: "03 — 核心能力",
       headline: "从问题到生产。",
       intro: "一条不断缩短“想法”与“真实结果”距离的工作路径。",
       items: [
@@ -363,7 +438,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       ],
     },
     work: {
-      label: "03 — 精选作品",
+      label: "04 — 精选作品",
       headline: "作品，不只是一份文件。",
       intro: "它应该让人看见你如何思考、如何取舍，以及如何推动事情发生。",
       libraryLabel: "文档作品库",
@@ -400,7 +475,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       ],
     },
     approach: {
-      label: "04 — 工作方法",
+      label: "05 — 工作方法",
       headline: "站在现场，",
       headlineAccent: "保持系统视角。",
       steps: [
@@ -429,7 +504,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       quoteLineTwo: "而是最先在真实世界里产生结果的那个。",
     },
     contact: {
-      label: "05 — 联系",
+      label: "06 — 联系",
       headline: "一起解决",
       headlineAccent: "真实的问题。",
       body: "正在寻找解决方案架构师或前线部署工程师相关机会，也愿意聊聊值得落地的复杂问题。",

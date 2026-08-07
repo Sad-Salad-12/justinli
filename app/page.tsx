@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { type Language, portfolioContent } from "./portfolio-content";
 
@@ -126,6 +127,7 @@ export default function Home() {
           JUSTIN<span> / 01</span>
         </a>
         <nav className="nav-links" aria-label={t.a11y.pageNavigation}>
+          <a href="#experience">{t.nav.experience}</a>
           <a href="#capabilities">{t.nav.capabilities}</a>
           <a href="#work">{t.nav.work}</a>
           <a href="#approach">{t.nav.approach}</a>
@@ -179,7 +181,7 @@ export default function Home() {
               {t.hero.bodyLineTwo}
             </p>
             <div className="hero-actions">
-              <a className="primary-link" href="#work">
+              <a className="primary-link" href="#experience">
                 {t.hero.primaryAction} <span aria-hidden="true">↓</span>
               </a>
               <a className="text-link" href="#contact">
@@ -189,31 +191,19 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="hero-system hero-enter hero-enter-4" aria-hidden="true">
-          <div className="system-orbit orbit-one" />
-          <div className="system-orbit orbit-two" />
-          <div className="system-core">
-            <span>{t.hero.systemFrom}</span>
-            <strong>→</strong>
-            <span>{t.hero.systemTo}</span>
-          </div>
-          <div className="system-node node-discover">
-            <i />
-            {t.hero.systemDiscover}
-          </div>
-          <div className="system-node node-design">
-            <i />
-            {t.hero.systemDesign}
-          </div>
-          <div className="system-node node-deploy">
-            <i />
-            {t.hero.systemDeploy}
-          </div>
-          <div className="system-node node-scale">
-            <i />
-            {t.hero.systemScale}
-          </div>
-        </div>
+        <figure className="hero-portrait hero-enter hero-enter-4">
+          <span className="portrait-orbit" aria-hidden="true" />
+          <Image
+            src="/justin-shanghai-portrait.jpg"
+            alt={t.a11y.portraitAlt}
+            width={1080}
+            height={1619}
+            sizes="(max-width: 700px) 82vw, (max-width: 980px) 430px, 35vw"
+            priority
+            unoptimized
+          />
+          <figcaption>{t.hero.portraitCaption}</figcaption>
+        </figure>
 
         <div className="hero-index hero-enter hero-enter-5">
           <span>{t.hero.location}</span>
@@ -237,6 +227,39 @@ export default function Home() {
         <div className="positioning-note" data-reveal>
           <span className="pulse-dot" aria-hidden="true" />
           {t.positioning.note}
+        </div>
+      </section>
+
+      <section className="experience" id="experience" aria-labelledby="experience-title">
+        <div className="section-head experience-head" data-reveal>
+          <p className="section-label">{t.experience.label}</p>
+          <h2 id="experience-title">{t.experience.headline}</h2>
+          <p>{t.experience.intro}</p>
+        </div>
+        <div className="experience-list">
+          {t.experience.items.map((experience) => (
+            <article className="experience-row" key={experience.number} data-reveal>
+              <span className="experience-number">{experience.number}</span>
+              <div className="experience-identity">
+                <p>{experience.eyebrow}</p>
+                <h3>{experience.title}</h3>
+                {experience.meta && <p className="experience-meta">{experience.meta}</p>}
+              </div>
+              <ul className="experience-bullets">
+                {experience.bullets.map((bullet) => (
+                  <li key={bullet}>{bullet}</li>
+                ))}
+              </ul>
+              <div className="experience-metrics">
+                {experience.metrics.map((metric) => (
+                  <div key={metric.label}>
+                    <strong>{metric.value}</strong>
+                    <span>{metric.label}</span>
+                  </div>
+                ))}
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 

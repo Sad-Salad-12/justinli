@@ -93,3 +93,13 @@ test("keeps every main section white except the final contact section", async ()
   assert.match(css, /\.approach\s*\{[^}]*background:\s*var\(--white\)/s);
   assert.match(css, /\.contact\s*\{[^}]*background:\s*var\(--ink\)/s);
 });
+
+test("keeps the PDF library note below the selected work headline", async () => {
+  const css = await readFile(
+    new URL("../app/globals.css", import.meta.url),
+    "utf8",
+  );
+
+  assert.match(css, /\.library-note\s*\{[^}]*grid-column:\s*2\s*\/\s*3/s);
+  assert.doesNotMatch(css, /\.library-note\s*\{[^}]*margin-top:\s*-/s);
+});

@@ -128,9 +128,7 @@ export default function Home() {
         </a>
         <nav className="nav-links" aria-label={t.a11y.pageNavigation}>
           <a href="#experience">{t.nav.experience}</a>
-          <a href="#capabilities">{t.nav.capabilities}</a>
           <a href="#work">{t.nav.work}</a>
-          <a href="#approach">{t.nav.approach}</a>
         </nav>
         <div className="header-actions">
           <div
@@ -265,34 +263,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="capabilities" id="capabilities" aria-labelledby="capabilities-title">
-        <div className="section-head" data-reveal>
-          <p className="section-label">{t.capabilities.label}</p>
-          <h2 id="capabilities-title">{t.capabilities.headline}</h2>
-          <p>{t.capabilities.intro}</p>
-        </div>
-        <div className="capability-list">
-          {t.capabilities.items.map((capability) => (
-            <article className="capability-row" key={capability.number} data-reveal>
-              <span className="capability-number">{capability.number}</span>
-              <div className="capability-title">
-                <p>{capability.eyebrow}</p>
-                <h3>{capability.title}</h3>
-              </div>
-              <p className="capability-description">{capability.description}</p>
-              <ul
-                className="capability-tags"
-                aria-label={t.a11y.capabilityTags(capability.title)}
-              >
-                {capability.tags.map((tag) => (
-                  <li key={tag}>{tag}</li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </div>
-      </section>
-
       <section className="work" id="work" aria-labelledby="work-title">
         <div className="section-head work-head" data-reveal>
           <p className="section-label">{t.work.label}</p>
@@ -358,31 +328,6 @@ export default function Home() {
             </article>
           ))}
         </div>
-      </section>
-
-      <section className="approach" id="approach" aria-labelledby="approach-title">
-        <div className="approach-intro" data-reveal>
-          <p className="section-label">{t.approach.label}</p>
-          <h2 id="approach-title">
-            {t.approach.headline}
-            <br />
-            <span>{t.approach.headlineAccent}</span>
-          </h2>
-        </div>
-        <ol className="approach-steps">
-          {t.approach.steps.map((step) => (
-            <li key={step.number} data-reveal>
-              <span>{step.number}</span>
-              <h3>{step.title}</h3>
-              <p>{step.description}</p>
-            </li>
-          ))}
-        </ol>
-        <blockquote data-reveal>
-          “{t.approach.quoteLineOne}
-          <br />
-          {t.approach.quoteLineTwo}”
-        </blockquote>
       </section>
 
       <section className="contact" id="contact" aria-labelledby="contact-title">

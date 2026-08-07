@@ -9,14 +9,6 @@ export type LocalizedWork = {
   deliverable: string;
 };
 
-export type LocalizedCapability = {
-  number: string;
-  title: string;
-  eyebrow: string;
-  description: string;
-  tags: string[];
-};
-
 export type LocalizedExperience = {
   number: string;
   eyebrow: string;
@@ -27,12 +19,6 @@ export type LocalizedExperience = {
     value: string;
     label: string;
   }>;
-};
-
-export type LocalizedStep = {
-  number: string;
-  title: string;
-  description: string;
 };
 
 type PortfolioContent = {
@@ -46,16 +32,13 @@ type PortfolioContent = {
     backToTop: string;
     languageSelector: string;
     portraitAlt: string;
-    capabilityTags: (title: string) => string;
     previewWork: (title: string) => string;
     closePdf: string;
     pdfPreview: (title: string) => string;
   };
   nav: {
     experience: string;
-    capabilities: string;
     work: string;
-    approach: string;
     contact: string;
   };
   hero: {
@@ -85,12 +68,6 @@ type PortfolioContent = {
     intro: string;
     items: LocalizedExperience[];
   };
-  capabilities: {
-    label: string;
-    headline: string;
-    intro: string;
-    items: LocalizedCapability[];
-  };
   work: {
     label: string;
     headline: string;
@@ -102,14 +79,6 @@ type PortfolioContent = {
     previewAction: string;
     downloadAction: string;
     items: LocalizedWork[];
-  };
-  approach: {
-    label: string;
-    headline: string;
-    headlineAccent: string;
-    steps: LocalizedStep[];
-    quoteLineOne: string;
-    quoteLineTwo: string;
   };
   contact: {
     label: string;
@@ -144,16 +113,13 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       backToTop: "Back to top",
       languageSelector: "Choose display language",
       portraitAlt: "Portrait of Justin in Shanghai",
-      capabilityTags: (title) => `${title} capabilities`,
       previewWork: (title) => `Preview ${title}`,
       closePdf: "Close PDF preview",
       pdfPreview: (title) => `${title} PDF preview`,
     },
     nav: {
       experience: "Experience",
-      capabilities: "Capabilities",
       work: "Work",
-      approach: "Approach",
       contact: "Contact",
     },
     hero: {
@@ -168,7 +134,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       portraitCaption: "JUSTIN / SHANGHAI",
       location: "BASED IN CHINA",
       availability: "OPEN TO SOLUTIONS ARCHITECT / FDE ROLES",
-      scroll: "SCROLL — 01 / 06",
+      scroll: "SCROLL — 01 / 04",
     },
     positioning: {
       label: "01 — POSITIONING",
@@ -211,39 +177,8 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
         },
       ],
     },
-    capabilities: {
-      label: "03 — CAPABILITIES",
-      headline: "From problem to production.",
-      intro: "A practical way of working that shortens the distance between an idea and a real-world result.",
-      items: [
-        {
-          number: "01",
-          title: "Find the real problem",
-          eyebrow: "DISCOVER",
-          description:
-            "Navigate business goals, technical constraints, and incomplete information to identify the problem worth solving.",
-          tags: ["Discovery", "Business Mapping", "Technical Due Diligence"],
-        },
-        {
-          number: "02",
-          title: "Design a testable path",
-          eyebrow: "DESIGN",
-          description:
-            "Compress complexity into a clear architecture, then validate the critical assumptions with prototypes, evaluation, and real data.",
-          tags: ["Architecture", "Rapid Prototyping", "AI / Data Systems"],
-        },
-        {
-          number: "03",
-          title: "Deliver in the field",
-          eyebrow: "DEPLOY",
-          description:
-            "Work inside the user workflow to drive integration, launch, and adoption — turning technology into a reliable operating outcome.",
-          tags: ["Integration", "Production Delivery", "Adoption"],
-        },
-      ],
-    },
     work: {
-      label: "04 — SELECTED WORK",
+      label: "03 — SELECTED WORK",
       headline: "Work is more than a file.",
       intro: "It should reveal how you think, the trade-offs you make, and how you move the work forward.",
       libraryLabel: "PDF LIBRARY",
@@ -282,37 +217,8 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
         },
       ],
     },
-    approach: {
-      label: "05 — HOW I WORK",
-      headline: "Close to the field.",
-      headlineAccent: "Whole system in view.",
-      steps: [
-        {
-          number: "01",
-          title: "Enter the field",
-          description: "Listen to stakeholders and observe how the system actually works.",
-        },
-        {
-          number: "02",
-          title: "Form a point of view",
-          description: "Turn signals, constraints, and opportunities into a shared model.",
-        },
-        {
-          number: "03",
-          title: "Validate quickly",
-          description: "Use the smallest realistic prototype to test the value and technical approach.",
-        },
-        {
-          number: "04",
-          title: "Deliver the outcome",
-          description: "Drive the production launch and turn what we learn into repeatable system capabilities.",
-        },
-      ],
-      quoteLineOne: "The best solution isn’t the most complex.",
-      quoteLineTwo: "It’s the one that delivers a useful result in the real world.",
-    },
     contact: {
-      label: "06 — LET'S TALK",
+      label: "04 — LET'S TALK",
       headline: "Let’s solve",
       headlineAccent: "something real.",
       body:
@@ -342,16 +248,13 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       backToTop: "返回顶部",
       languageSelector: "选择显示语言",
       portraitAlt: "Justin 在上海的个人照片",
-      capabilityTags: (title) => `${title}相关能力`,
       previewWork: (title) => `预览${title}`,
       closePdf: "关闭文档预览",
       pdfPreview: (title) => `${title}文档预览`,
     },
     nav: {
       experience: "经历",
-      capabilities: "能力",
       work: "作品",
-      approach: "方法",
       contact: "联系",
     },
     hero: {
@@ -366,7 +269,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       portraitCaption: "JUSTIN / 上海",
       location: "常驻中国",
       availability: "期待解决方案架构师与前线部署工程师岗位机会",
-      scroll: "向下浏览 — 01 / 06",
+      scroll: "向下浏览 — 01 / 04",
     },
     positioning: {
       label: "01 — 定位",
@@ -409,36 +312,8 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
         },
       ],
     },
-    capabilities: {
-      label: "03 — 核心能力",
-      headline: "从问题到生产。",
-      intro: "一条不断缩短“想法”与“真实结果”距离的工作路径。",
-      items: [
-        {
-          number: "01",
-          title: "找到真问题",
-          eyebrow: "发现",
-          description: "在模糊需求、业务目标和技术约束之间，找到真正值得解决的那一个问题。",
-          tags: ["现场发现", "业务梳理", "技术尽职调查"],
-        },
-        {
-          number: "02",
-          title: "做出可验证方案",
-          eyebrow: "设计",
-          description: "把复杂系统压缩成清晰架构，用原型、评估和真实数据尽快验证关键假设。",
-          tags: ["系统架构", "快速原型", "人工智能与数据系统"],
-        },
-        {
-          number: "03",
-          title: "把方案落到现场",
-          eyebrow: "落地",
-          description: "深入用户工作流程，推进集成、上线与采用，让技术真正变成可持续的业务成果。",
-          tags: ["系统集成", "生产交付", "用户采用"],
-        },
-      ],
-    },
     work: {
-      label: "04 — 精选作品",
+      label: "03 — 精选作品",
       headline: "作品，不只是一份文件。",
       intro: "它应该让人看见你如何思考、如何取舍，以及如何推动事情发生。",
       libraryLabel: "文档作品库",
@@ -474,37 +349,8 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
         },
       ],
     },
-    approach: {
-      label: "05 — 工作方法",
-      headline: "站在现场，",
-      headlineAccent: "保持系统视角。",
-      steps: [
-        {
-          number: "01",
-          title: "进入现场",
-          description: "听业务，也看系统实际如何运转。",
-        },
-        {
-          number: "02",
-          title: "形成判断",
-          description: "把信号、约束与机会形成各方都能理解的判断框架。",
-        },
-        {
-          number: "03",
-          title: "快速验证",
-          description: "用最小可行原型验证价值与技术路径。",
-        },
-        {
-          number: "04",
-          title: "交付结果",
-          description: "推进生产落地，并把经验沉淀成系统能力。",
-        },
-      ],
-      quoteLineOne: "最好的解决方案，不是看起来最复杂的那个，",
-      quoteLineTwo: "而是最先在真实世界里产生结果的那个。",
-    },
     contact: {
-      label: "06 — 联系",
+      label: "04 — 联系",
       headline: "一起解决",
       headlineAccent: "真实的问题。",
       body: "正在寻找解决方案架构师或前线部署工程师相关机会，也愿意聊聊值得落地的复杂问题。",

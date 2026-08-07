@@ -39,6 +39,9 @@ test("server-renders English as the default portfolio language", async () => {
   assert.match(html, /Verba — Internal AI Sales Agent/);
   assert.match(html, /justin-shanghai-portrait\.jpg/);
   assert.match(html, /class="portrait-frame"/);
+  assert.match(html, /03 — SELECTED WORK/);
+  assert.match(html, /04 — LET&#x27;S TALK/);
+  assert.match(html, /SCROLL — 01 \/ 04/);
   assert.match(html, /Preview online/);
   assert.match(html, /English/);
   assert.match(html, /简体中文/);
@@ -71,6 +74,7 @@ test("keeps bilingual content and PDF work samples wired correctly", async () =>
   assert.match(page, /setLanguage\("en"\)/);
   assert.match(page, /setLanguage\("zh"\)/);
   assert.match(page, /href="#experience"/);
+  assert.doesNotMatch(page, /href="#capabilities"|href="#approach"/);
   await access(new URL("../public/justin-shanghai-portrait.jpg", import.meta.url));
   assert.match(content, /把复杂的系统/);
   assert.match(content, /解决方案架构师/);
@@ -82,17 +86,23 @@ test("keeps bilingual content and PDF work samples wired correctly", async () =>
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
 });
 
-test("keeps every main section white except the final contact section", async () => {
+test("keeps the retained main sections white except the final contact section", async () => {
   const css = await readFile(
     new URL("../app/globals.css", import.meta.url),
     "utf8",
   );
 
-  assert.match(css, /\.capabilities\s*\{[^}]*background:\s*var\(--white\)/s);
   assert.match(css, /\.experience\s*\{[^}]*background:\s*var\(--white\)/s);
   assert.match(css, /\.work\s*\{[^}]*background:\s*var\(--white\)/s);
-  assert.match(css, /\.approach\s*\{[^}]*background:\s*var\(--white\)/s);
   assert.match(css, /\.contact\s*\{[^}]*background:\s*var\(--ink\)/s);
+});
+
+test("omits the former capability and approach sections", async () => {
+  const response = await render();
+  const html = await response.text();
+
+  assert.doesNotMatch(html, /id="capabilities"|id="approach"/);
+  assert.doesNotMatch(html, />Capabilities<|>Approach</);
 });
 
 test("keeps the PDF library note below the selected work headline", async () => {

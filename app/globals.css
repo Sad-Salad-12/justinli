@@ -353,21 +353,65 @@ a {
 .hero-portrait {
   position: absolute;
   z-index: 1;
-  top: calc(var(--header-height) + 2vh);
-  right: 0;
-  bottom: 34px;
-  width: clamp(390px, 35vw, 640px);
+  top: clamp(145px, 17vh, 190px);
+  right: clamp(48px, 7vw, 120px);
+  bottom: auto;
+  width: clamp(280px, 24vw, 390px);
+  aspect-ratio: 4 / 5;
   margin: 0;
   isolation: isolate;
 }
 
 .hero-portrait::before {
   position: absolute;
+  z-index: -2;
+  inset: -24%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(20 91 255 / 9%) 0, rgb(20 91 255 / 0%) 68%);
+  filter: blur(14px);
+  content: "";
+  pointer-events: none;
+}
+
+.hero-portrait::after {
+  position: absolute;
+  z-index: 3;
+  top: 52%;
+  left: 50%;
+  width: 142%;
+  height: 48%;
+  border: 1px solid rgb(20 91 255 / 34%);
+  border-radius: 50%;
+  clip-path: inset(49% 0 0 0);
+  content: "";
+  pointer-events: none;
+  transform: translate(-50%, -50%) rotate(-11deg);
+}
+
+.portrait-frame {
+  position: absolute;
   z-index: 2;
   inset: 0;
+  display: block;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 84%);
+  border-radius: clamp(24px, 2.2vw, 34px);
+  background: #dfe5e9;
+  box-shadow:
+    0 34px 90px rgb(11 12 15 / 13%),
+    0 3px 14px rgb(11 12 15 / 7%),
+    inset 0 0 0 1px rgb(11 12 15 / 5%);
+  transition: box-shadow 500ms ease;
+}
+
+.portrait-frame::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  border-radius: inherit;
   background:
-    linear-gradient(90deg, var(--white) 0%, transparent 25%, transparent 94%, var(--white) 100%),
-    linear-gradient(180deg, var(--white) 0%, transparent 8%, transparent 74%, var(--white) 100%);
+    linear-gradient(145deg, rgb(255 255 255 / 24%), transparent 30%),
+    linear-gradient(180deg, transparent 68%, rgb(5 12 25 / 8%));
   content: "";
   pointer-events: none;
 }
@@ -380,44 +424,65 @@ a {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 32%;
-  filter: saturate(0.74) contrast(1.045) brightness(1.025);
-  transform: scale(1.015);
+  object-position: 50% 31%;
+  filter: saturate(0.84) contrast(1.035) brightness(1.02);
+  transform: scale(1.01);
   transition:
     filter 700ms ease,
     transform 900ms cubic-bezier(0.2, 0.72, 0, 1);
 }
 
+.hero-portrait:hover .portrait-frame {
+  box-shadow:
+    0 40px 100px rgb(11 12 15 / 16%),
+    0 4px 18px rgb(11 12 15 / 8%),
+    inset 0 0 0 1px rgb(11 12 15 / 5%);
+}
+
 .hero-portrait:hover img {
-  filter: saturate(0.92) contrast(1.035) brightness(1.02);
-  transform: scale(1.035);
+  filter: saturate(0.9) contrast(1.035) brightness(1.02);
+  transform: scale(1.025);
 }
 
 .portrait-orbit {
   position: absolute;
   z-index: 0;
-  top: 17%;
-  right: -9%;
-  width: 86%;
-  aspect-ratio: 1;
-  border: 1px solid rgb(20 91 255 / 18%);
+  top: 52%;
+  left: 50%;
+  width: 142%;
+  height: 48%;
+  border: 1px solid rgb(20 91 255 / 24%);
   border-radius: 50%;
+  transform: translate(-50%, -50%) rotate(-11deg);
 }
 
-.portrait-orbit::after {
+.portrait-orbit::before {
   position: absolute;
-  inset: 18%;
-  border: 1px dashed rgb(20 91 255 / 22%);
+  inset: 13% 10%;
+  border: 1px dashed rgb(20 91 255 / 25%);
   border-radius: 50%;
   content: "";
   animation: orbit-rotate 32s linear infinite;
 }
 
+.portrait-orbit::after {
+  position: absolute;
+  top: 47%;
+  left: -4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--blue);
+  box-shadow: 0 0 0 7px rgb(20 91 255 / 11%);
+  content: "";
+  animation: dot-pulse 2.6s ease-out infinite;
+}
+
 .hero-portrait figcaption {
   position: absolute;
-  z-index: 3;
-  right: 7%;
-  bottom: 7%;
+  z-index: 4;
+  right: 0;
+  bottom: -27px;
   color: #565a63;
   font-family: "SFMono-Regular", Consolas, monospace;
   font-size: 8px;
@@ -1374,10 +1439,14 @@ a {
   }
 
   .hero-portrait {
-    top: 105px;
-    right: -80px;
-    bottom: 42px;
-    width: 430px;
+    top: 190px;
+    right: clamp(24px, 4vw, 40px);
+    bottom: auto;
+    width: clamp(260px, 32vw, 310px);
+  }
+
+  .portrait-frame {
+    border-radius: 28px;
   }
 
   .positioning,
@@ -1524,17 +1593,15 @@ a {
   }
 
   .hero-portrait {
-    top: 160px;
-    right: -10vw;
+    top: 220px;
+    right: 18px;
     bottom: auto;
-    width: 82vw;
-    height: 430px;
+    width: clamp(180px, 54vw, 224px);
+    height: auto;
   }
 
-  .hero-portrait::before {
-    background:
-      linear-gradient(90deg, var(--white) 0%, transparent 38%, transparent 94%, var(--white) 100%),
-      linear-gradient(180deg, var(--white) 0%, transparent 8%, transparent 70%, var(--white) 100%);
+  .portrait-frame {
+    border-radius: 22px;
   }
 
   .hero-portrait figcaption {

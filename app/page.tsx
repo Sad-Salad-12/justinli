@@ -193,15 +193,17 @@ export default function Home() {
 
         <figure className="hero-portrait hero-enter hero-enter-4">
           <span className="portrait-orbit" aria-hidden="true" />
-          <Image
-            src="/justin-shanghai-portrait.jpg"
-            alt={t.a11y.portraitAlt}
-            width={1080}
-            height={1619}
-            sizes="(max-width: 700px) 82vw, (max-width: 980px) 430px, 35vw"
-            priority
-            unoptimized
-          />
+          <span className="portrait-frame">
+            <Image
+              src="/justin-shanghai-portrait.jpg"
+              alt={t.a11y.portraitAlt}
+              width={1080}
+              height={1619}
+              sizes="(max-width: 700px) 54vw, (max-width: 980px) 32vw, 24vw"
+              priority
+              unoptimized
+            />
+          </span>
           <figcaption>{t.hero.portraitCaption}</figcaption>
         </figure>
 

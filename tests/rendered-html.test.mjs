@@ -38,6 +38,7 @@ test("server-renders English as the default portfolio language", async () => {
   assert.match(html, /AI Advertisement Report Automation/);
   assert.match(html, /Verba — Internal AI Sales Agent/);
   assert.match(html, /justin-shanghai-portrait\.jpg/);
+  assert.match(html, /class="portrait-frame"/);
   assert.match(html, /Preview online/);
   assert.match(html, /English/);
   assert.match(html, /简体中文/);
@@ -102,4 +103,16 @@ test("keeps the PDF library note below the selected work headline", async () => 
 
   assert.match(css, /\.library-note\s*\{[^}]*grid-column:\s*2\s*\/\s*3/s);
   assert.doesNotMatch(css, /\.library-note\s*\{[^}]*margin-top:\s*-/s);
+});
+
+test("uses a compact rounded portrait card with an orbit", async () => {
+  const css = await readFile(
+    new URL("../app/globals.css", import.meta.url),
+    "utf8",
+  );
+
+  assert.match(css, /\.hero-portrait\s*\{[^}]*width:\s*clamp\(280px,\s*24vw,\s*390px\)/s);
+  assert.match(css, /\.portrait-frame\s*\{[^}]*border-radius:\s*clamp\(/s);
+  assert.match(css, /\.portrait-orbit\s*\{[^}]*width:\s*142%/s);
+  assert.doesNotMatch(css, /width:\s*82vw|height:\s*430px/);
 });

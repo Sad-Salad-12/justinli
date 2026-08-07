@@ -1,0 +1,450 @@
+export type Language = "en" | "zh";
+
+export type LocalizedWork = {
+  type: string;
+  title: string;
+  coverTitle: string;
+  summary: string;
+  role: string;
+  deliverable: string;
+};
+
+export type LocalizedCapability = {
+  number: string;
+  title: string;
+  eyebrow: string;
+  description: string;
+  tags: string[];
+};
+
+export type LocalizedStep = {
+  number: string;
+  title: string;
+  description: string;
+};
+
+type PortfolioContent = {
+  meta: {
+    title: string;
+    description: string;
+  };
+  a11y: {
+    mainNavigation: string;
+    pageNavigation: string;
+    backToTop: string;
+    languageSelector: string;
+    capabilityTags: (title: string) => string;
+    previewWork: (title: string) => string;
+    closePdf: string;
+    pdfPreview: (title: string) => string;
+  };
+  nav: {
+    capabilities: string;
+    work: string;
+    approach: string;
+    contact: string;
+  };
+  hero: {
+    roleLeft: string;
+    roleRight: string;
+    headline: string;
+    headlineAccent: string;
+    bodyLineOne: string;
+    bodyLineTwo: string;
+    primaryAction: string;
+    secondaryAction: string;
+    systemFrom: string;
+    systemTo: string;
+    systemDiscover: string;
+    systemDesign: string;
+    systemDeploy: string;
+    systemScale: string;
+    location: string;
+    availability: string;
+    scroll: string;
+  };
+  positioning: {
+    label: string;
+    headline: string;
+    headlineAccent: string;
+    body: string;
+    note: string;
+  };
+  capabilities: {
+    label: string;
+    headline: string;
+    intro: string;
+    items: LocalizedCapability[];
+  };
+  work: {
+    label: string;
+    headline: string;
+    intro: string;
+    libraryLabel: string;
+    libraryNote: string;
+    roleLabel: string;
+    outputLabel: string;
+    previewAction: string;
+    downloadAction: string;
+    items: LocalizedWork[];
+  };
+  approach: {
+    label: string;
+    headline: string;
+    headlineAccent: string;
+    steps: LocalizedStep[];
+    quoteLineOne: string;
+    quoteLineTwo: string;
+  };
+  contact: {
+    label: string;
+    headline: string;
+    headlineAccent: string;
+    body: string;
+    emailPlaceholder: string;
+    emailNote: string;
+    footerRole: string;
+    footerStatement: string;
+    backToTop: string;
+  };
+  pdf: {
+    openWindow: string;
+    download: string;
+    close: string;
+    unsupported: string;
+    openFallback: string;
+  };
+};
+
+export const portfolioContent: Record<Language, PortfolioContent> = {
+  en: {
+    meta: {
+      title: "Justin — Solutions Architect & FDE",
+      description:
+        "A Solutions Architect and Forward Deployed Engineer portfolio spanning discovery, system design, and production delivery.",
+    },
+    a11y: {
+      mainNavigation: "Main navigation",
+      pageNavigation: "Page navigation",
+      backToTop: "Back to top",
+      languageSelector: "Choose display language",
+      capabilityTags: (title) => `${title} capabilities`,
+      previewWork: (title) => `Preview ${title}`,
+      closePdf: "Close PDF preview",
+      pdfPreview: (title) => `${title} PDF preview`,
+    },
+    nav: {
+      capabilities: "Capabilities",
+      work: "Work",
+      approach: "Approach",
+      contact: "Contact",
+    },
+    hero: {
+      roleLeft: "SOLUTIONS ARCHITECT",
+      roleRight: "FORWARD DEPLOYED ENGINEER",
+      headline: "Complex systems,",
+      headlineAccent: "made useful.",
+      bodyLineOne: "I work where business reality meets technical systems —",
+      bodyLineTwo: "finding the real problem, proving the path, and shipping to production.",
+      primaryAction: "View selected work",
+      secondaryAction: "Start a conversation",
+      systemFrom: "FIELD",
+      systemTo: "IMPACT",
+      systemDiscover: "DISCOVER",
+      systemDesign: "DESIGN",
+      systemDeploy: "DEPLOY",
+      systemScale: "SCALE",
+      location: "BASED IN CHINA",
+      availability: "OPEN TO SOLUTIONS ARCHITECT / FDE ROLES",
+      scroll: "SCROLL — 01 / 05",
+    },
+    positioning: {
+      label: "01 — POSITIONING",
+      headline: "Business-aware.",
+      headlineAccent: "Built to deliver.",
+      body:
+        "I thrive in high-ambiguity environments: building a shared language across business and engineering, turning fuzzy goals into a clear path, and working with customers, product, and engineering teams to deliver the outcome.",
+      note: "BUILT FOR AMBIGUITY",
+    },
+    capabilities: {
+      label: "02 — CAPABILITIES",
+      headline: "From problem to production.",
+      intro: "A practical way of working that shortens the distance between an idea and a real-world result.",
+      items: [
+        {
+          number: "01",
+          title: "Find the real problem",
+          eyebrow: "DISCOVER",
+          description:
+            "Navigate business goals, technical constraints, and incomplete information to identify the problem worth solving.",
+          tags: ["Discovery", "Business Mapping", "Technical Due Diligence"],
+        },
+        {
+          number: "02",
+          title: "Design a testable path",
+          eyebrow: "DESIGN",
+          description:
+            "Compress complexity into a clear architecture, then validate the critical assumptions with prototypes, evaluation, and real data.",
+          tags: ["Architecture", "Rapid Prototyping", "AI / Data Systems"],
+        },
+        {
+          number: "03",
+          title: "Deliver in the field",
+          eyebrow: "DEPLOY",
+          description:
+            "Work inside the user workflow to drive integration, launch, and adoption — turning technology into a reliable operating outcome.",
+          tags: ["Integration", "Production Delivery", "Adoption"],
+        },
+      ],
+    },
+    work: {
+      label: "03 — SELECTED WORK",
+      headline: "Work is more than a file.",
+      intro: "It should reveal how you think, the trade-offs you make, and how you move the work forward.",
+      libraryLabel: "PDF LIBRARY",
+      libraryNote: "Demo documents shown. Replace them with your own de-identified work.",
+      roleLabel: "ROLE",
+      outputLabel: "OUTPUT",
+      previewAction: "Preview online",
+      downloadAction: "Download PDF",
+      items: [
+        {
+          type: "SOLUTION DESIGN",
+          title: "Enterprise Knowledge System",
+          coverTitle: "Solution Blueprint",
+          summary:
+            "A structured path from business framing to RAG evaluation, permission boundaries, and a production rollout plan.",
+          role: "Discovery · Architecture",
+          deliverable: "Solution blueprint / Demo PDF",
+        },
+        {
+          type: "FIELD ENGINEERING",
+          title: "Field Discovery & Validation",
+          coverTitle: "Field Discovery Notes",
+          summary:
+            "A method for turning interviews, system signals, and blockers into clear hypotheses that can be tested with a focused prototype.",
+          role: "Field discovery · Prototyping",
+          deliverable: "Discovery notes / Demo PDF",
+        },
+        {
+          type: "DELIVERY SYSTEM",
+          title: "Production Readiness",
+          coverTitle: "Production Readiness",
+          summary:
+            "A practical checklist across integration, quality, monitoring, rollback, and adoption — moving a demo into a dependable workflow.",
+          role: "Production delivery · Launch",
+          deliverable: "Readiness checklist / Demo PDF",
+        },
+      ],
+    },
+    approach: {
+      label: "04 — HOW I WORK",
+      headline: "Close to the field.",
+      headlineAccent: "Whole system in view.",
+      steps: [
+        {
+          number: "01",
+          title: "Enter the field",
+          description: "Listen to stakeholders and observe how the system actually works.",
+        },
+        {
+          number: "02",
+          title: "Form a point of view",
+          description: "Turn signals, constraints, and opportunities into a shared model.",
+        },
+        {
+          number: "03",
+          title: "Validate quickly",
+          description: "Use the smallest realistic prototype to test the value and technical approach.",
+        },
+        {
+          number: "04",
+          title: "Deliver the outcome",
+          description: "Drive the production launch and turn what we learn into repeatable system capabilities.",
+        },
+      ],
+      quoteLineOne: "The best solution isn’t the most complex.",
+      quoteLineTwo: "It’s the one that delivers a useful result in the real world.",
+    },
+    contact: {
+      label: "05 — LET'S TALK",
+      headline: "Let’s solve",
+      headlineAccent: "something real.",
+      body:
+        "I’m exploring Solutions Architect and Forward Deployed Engineer roles — and I’m always open to discussing a hard problem worth solving.",
+      emailPlaceholder: "YOUR EMAIL HERE",
+      emailNote: "Replace with your real email before using this site for applications.",
+      footerRole: "JUSTIN / SOLUTIONS × FDE",
+      footerStatement: "DESIGNED FOR THE REAL WORLD",
+      backToTop: "BACK TO TOP ↑",
+    },
+    pdf: {
+      openWindow: "New window",
+      download: "Download",
+      close: "Close ×",
+      unsupported: "This browser cannot display the PDF inline.",
+      openFallback: "Open it in a new window",
+    },
+  },
+  zh: {
+    meta: {
+      title: "Justin — 解决方案与前线部署工程师",
+      description: "解决方案架构师与前线部署工程师个人作品集：从问题发现、系统设计到生产交付。",
+    },
+    a11y: {
+      mainNavigation: "主导航",
+      pageNavigation: "页面导航",
+      backToTop: "返回顶部",
+      languageSelector: "选择显示语言",
+      capabilityTags: (title) => `${title}相关能力`,
+      previewWork: (title) => `预览${title}`,
+      closePdf: "关闭文档预览",
+      pdfPreview: (title) => `${title}文档预览`,
+    },
+    nav: {
+      capabilities: "能力",
+      work: "作品",
+      approach: "方法",
+      contact: "联系",
+    },
+    hero: {
+      roleLeft: "解决方案架构师",
+      roleRight: "前线部署工程师",
+      headline: "把复杂的系统，",
+      headlineAccent: "落成可用的答案。",
+      bodyLineOne: "我在业务现场与技术系统之间工作——发现真正的问题，",
+      bodyLineTwo: "设计可验证的路径，并把方案送进生产。",
+      primaryAction: "查看作品",
+      secondaryAction: "聊聊机会",
+      systemFrom: "现场",
+      systemTo: "结果",
+      systemDiscover: "发现",
+      systemDesign: "设计",
+      systemDeploy: "落地",
+      systemScale: "规模化",
+      location: "常驻中国",
+      availability: "期待解决方案架构师与前线部署工程师岗位机会",
+      scroll: "向下浏览 — 01 / 05",
+    },
+    positioning: {
+      label: "01 — 定位",
+      headline: "懂业务的工程师，",
+      headlineAccent: "能落地的解决方案伙伴。",
+      body:
+        "我擅长在不确定性很高的环境里工作：快速建立业务与技术的共同语言，把模糊目标拆成清晰路径，再与客户、产品和工程团队一起把结果做出来。",
+      note: "为不确定性而生",
+    },
+    capabilities: {
+      label: "02 — 核心能力",
+      headline: "从问题到生产。",
+      intro: "一条不断缩短“想法”与“真实结果”距离的工作路径。",
+      items: [
+        {
+          number: "01",
+          title: "找到真问题",
+          eyebrow: "发现",
+          description: "在模糊需求、业务目标和技术约束之间，找到真正值得解决的那一个问题。",
+          tags: ["现场发现", "业务梳理", "技术尽职调查"],
+        },
+        {
+          number: "02",
+          title: "做出可验证方案",
+          eyebrow: "设计",
+          description: "把复杂系统压缩成清晰架构，用原型、评估和真实数据尽快验证关键假设。",
+          tags: ["系统架构", "快速原型", "人工智能与数据系统"],
+        },
+        {
+          number: "03",
+          title: "把方案落到现场",
+          eyebrow: "落地",
+          description: "深入用户工作流程，推进集成、上线与采用，让技术真正变成可持续的业务成果。",
+          tags: ["系统集成", "生产交付", "用户采用"],
+        },
+      ],
+    },
+    work: {
+      label: "03 — 精选作品",
+      headline: "作品，不只是一份文件。",
+      intro: "它应该让人看见你如何思考、如何取舍，以及如何推动事情发生。",
+      libraryLabel: "文档作品库",
+      libraryNote: "以下为示例文档，正式发布前可替换为脱敏后的真实作品。",
+      roleLabel: "角色",
+      outputLabel: "交付物",
+      previewAction: "在线预览",
+      downloadAction: "下载 PDF",
+      items: [
+        {
+          type: "方案设计",
+          title: "企业知识智能系统方案",
+          coverTitle: "方案蓝图",
+          summary: "从业务问题拆解到检索增强生成评估、权限边界与上线节奏，形成一份可讨论、可验证的系统方案。",
+          role: "需求澄清 · 架构设计",
+          deliverable: "方案蓝图 / 示例 PDF",
+        },
+        {
+          type: "现场工程",
+          title: "现场发现与验证手册",
+          coverTitle: "现场发现纪要",
+          summary: "把访谈、系统信号和障碍压缩成清晰假设，用最小可行原型验证真正值得解决的问题。",
+          role: "现场发现 · 原型验证",
+          deliverable: "发现纪要 / 示例 PDF",
+        },
+        {
+          type: "交付体系",
+          title: "生产上线准备清单",
+          coverTitle: "生产准备清单",
+          summary: "覆盖集成、质量、监控、回滚和用户采用，让方案从演示环境稳稳走进真实工作流程。",
+          role: "交付推进 · 上线保障",
+          deliverable: "交付清单 / 示例 PDF",
+        },
+      ],
+    },
+    approach: {
+      label: "04 — 工作方法",
+      headline: "站在现场，",
+      headlineAccent: "保持系统视角。",
+      steps: [
+        {
+          number: "01",
+          title: "进入现场",
+          description: "听业务，也看系统实际如何运转。",
+        },
+        {
+          number: "02",
+          title: "形成判断",
+          description: "把信号、约束与机会形成各方都能理解的判断框架。",
+        },
+        {
+          number: "03",
+          title: "快速验证",
+          description: "用最小可行原型验证价值与技术路径。",
+        },
+        {
+          number: "04",
+          title: "交付结果",
+          description: "推进生产落地，并把经验沉淀成系统能力。",
+        },
+      ],
+      quoteLineOne: "最好的解决方案，不是看起来最复杂的那个，",
+      quoteLineTwo: "而是最先在真实世界里产生结果的那个。",
+    },
+    contact: {
+      label: "05 — 联系",
+      headline: "一起解决",
+      headlineAccent: "真实的问题。",
+      body: "正在寻找解决方案架构师或前线部署工程师相关机会，也愿意聊聊值得落地的复杂问题。",
+      emailPlaceholder: "请填入你的邮箱",
+      emailNote: "用于正式求职前，请替换成你的真实邮箱。",
+      footerRole: "JUSTIN / 解决方案 × 前线部署",
+      footerStatement: "为真实世界而设计",
+      backToTop: "返回顶部 ↑",
+    },
+    pdf: {
+      openWindow: "新窗口",
+      download: "下载",
+      close: "关闭 ×",
+      unsupported: "当前浏览器无法直接显示这份文档。",
+      openFallback: "在新窗口打开",
+    },
+  },
+};

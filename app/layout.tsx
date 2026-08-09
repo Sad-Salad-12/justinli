@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import "./globals.css";
 
-const defaultTitle = "Justin — Solutions Architect & FDE";
+const defaultTitle = "Justin Li — Solutions Architect & FDE";
 const defaultDescription =
-  "A Solutions Architect and Forward Deployed Engineer portfolio featuring applied AI experience, system design, and production delivery.";
+  "Justin Li’s Solutions Architect and Forward Deployed Engineer portfolio, featuring applied AI experience, system design, and production delivery.";
 
 export async function generateMetadata(): Promise<Metadata> {
   const requestHeaders = await headers();
@@ -27,13 +27,13 @@ export async function generateMetadata(): Promise<Metadata> {
       locale: "en_US",
       alternateLocale: ["zh_CN"],
       url: origin,
-      siteName: "Justin — Solutions & FDE",
+      siteName: "Justin Li — Solutions & FDE",
       images: [
         {
           url: socialImage,
           width: 1731,
           height: 909,
-          alt: "Justin — Complex systems, made useful.",
+          alt: "Justin Li — Complex systems, made useful.",
         },
       ],
     },

@@ -124,7 +124,7 @@ export default function Home() {
     <main data-language={language}>
       <header className="site-header" aria-label={t.a11y.mainNavigation}>
         <a className="brand" href="#top" aria-label={t.a11y.backToTop}>
-          JUSTIN<span> / 01</span>
+          {t.identity.name}<span> / 01</span>
         </a>
         <nav className="nav-links" aria-label={t.a11y.pageNavigation}>
           <a href="#experience">{t.nav.experience}</a>
@@ -166,7 +166,7 @@ export default function Home() {
           <p className="eyebrow hero-enter hero-enter-1">
             {t.hero.roleLeft} <span>×</span> {t.hero.roleRight}
           </p>
-          <h1 className="hero-name hero-enter hero-enter-2">JUSTIN.</h1>
+          <h1 className="hero-name hero-enter hero-enter-2">{t.identity.heroName}</h1>
           <div className="hero-statement hero-enter hero-enter-3">
             <h2 id="hero-title">
               {t.hero.headline}
@@ -206,8 +206,10 @@ export default function Home() {
         </figure>
 
         <div className="hero-index hero-enter hero-enter-5">
-          <span>{t.hero.location}</span>
-          <span>{t.hero.availability}</span>
+          <span>{t.identity.location}</span>
+          <a className="hero-index-email" href={`mailto:${t.identity.email}`}>
+            {t.identity.email}
+          </a>
           <span>{t.hero.scroll}</span>
         </div>
       </section>
@@ -346,8 +348,23 @@ export default function Home() {
             <span>{t.contact.headlineAccent}</span>
           </h2>
           <p>{t.contact.body}</p>
-          <span className="contact-email">{t.contact.emailPlaceholder}</span>
-          <small>{t.contact.emailNote}</small>
+          <address className="contact-details">
+            <div className="contact-identity">
+              <strong>{t.identity.name}</strong>
+              <span>{t.identity.location}</span>
+            </div>
+            <div className="contact-channels">
+              <a className="contact-email" href={`mailto:${t.identity.email}`}>
+                <span>{t.contact.emailLabel}</span>
+                <strong>{t.identity.email}</strong>
+                <i aria-hidden="true">↗</i>
+              </a>
+              <a className="contact-phone" href={`tel:${t.identity.phoneHref}`}>
+                <span>{t.contact.phoneLabel}</span>
+                <strong>{t.identity.phone}</strong>
+              </a>
+            </div>
+          </address>
         </div>
         <footer>
           <span>{t.contact.footerRole}</span>

@@ -26,6 +26,14 @@ type PortfolioContent = {
     title: string;
     description: string;
   };
+  identity: {
+    name: string;
+    heroName: string;
+    email: string;
+    phone: string;
+    phoneHref: string;
+    location: string;
+  };
   a11y: {
     mainNavigation: string;
     pageNavigation: string;
@@ -51,8 +59,6 @@ type PortfolioContent = {
     primaryAction: string;
     secondaryAction: string;
     portraitCaption: string;
-    location: string;
-    availability: string;
     scroll: string;
   };
   positioning: {
@@ -85,8 +91,8 @@ type PortfolioContent = {
     headline: string;
     headlineAccent: string;
     body: string;
-    emailPlaceholder: string;
-    emailNote: string;
+    emailLabel: string;
+    phoneLabel: string;
     footerRole: string;
     footerStatement: string;
     backToTop: string;
@@ -103,9 +109,17 @@ type PortfolioContent = {
 export const portfolioContent: Record<Language, PortfolioContent> = {
   en: {
     meta: {
-      title: "Justin — Solutions Architect & FDE",
+      title: "Justin Li — Solutions Architect & FDE",
       description:
-        "A Solutions Architect and Forward Deployed Engineer portfolio featuring applied AI experience, system design, and production delivery.",
+        "Justin Li’s Solutions Architect and Forward Deployed Engineer portfolio, featuring applied AI experience, system design, and production delivery.",
+    },
+    identity: {
+      name: "JUSTIN LI",
+      heroName: "JUSTIN LI.",
+      email: "justinli@stern.nyu.edu",
+      phone: "(646) 228-4995",
+      phoneHref: "+16462284995",
+      location: "NEW YORK, NY",
     },
     a11y: {
       mainNavigation: "Main navigation",
@@ -131,9 +145,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       bodyLineTwo: "finding the real problem, proving the path, and shipping to production.",
       primaryAction: "View experience",
       secondaryAction: "Start a conversation",
-      portraitCaption: "JUSTIN / SHANGHAI",
-      location: "BASED IN CHINA",
-      availability: "OPEN TO SOLUTIONS ARCHITECT / FDE ROLES",
+      portraitCaption: "JUSTIN LI / PORTRAIT",
       scroll: "SCROLL — 01 / 04",
     },
     positioning: {
@@ -223,9 +235,9 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       headlineAccent: "something real.",
       body:
         "I’m exploring Solutions Architect and Forward Deployed Engineer roles — and I’m always open to discussing a hard problem worth solving.",
-      emailPlaceholder: "YOUR EMAIL HERE",
-      emailNote: "Replace with your real email before using this site for applications.",
-      footerRole: "JUSTIN / SOLUTIONS × FDE",
+      emailLabel: "EMAIL",
+      phoneLabel: "PHONE",
+      footerRole: "JUSTIN LI / SOLUTIONS × FDE",
       footerStatement: "DESIGNED FOR THE REAL WORLD",
       backToTop: "BACK TO TOP ↑",
     },
@@ -239,15 +251,23 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
   },
   zh: {
     meta: {
-      title: "Justin — 解决方案与前线部署工程师",
-      description: "解决方案架构师与前线部署工程师个人作品集：包含人工智能项目经历、系统设计与生产交付。",
+      title: "李泽霆 — 解决方案与前线部署工程师",
+      description: "李泽霆的解决方案架构师与前线部署工程师个人作品集：包含人工智能项目经历、系统设计与生产交付。",
+    },
+    identity: {
+      name: "李泽霆",
+      heroName: "李泽霆",
+      email: "justinli@stern.nyu.edu",
+      phone: "18019052377",
+      phoneHref: "+8618019052377",
+      location: "美国纽约",
     },
     a11y: {
       mainNavigation: "主导航",
       pageNavigation: "页面导航",
       backToTop: "返回顶部",
       languageSelector: "选择显示语言",
-      portraitAlt: "Justin 在上海的个人照片",
+      portraitAlt: "李泽霆在上海的个人照片",
       previewWork: (title) => `预览${title}`,
       closePdf: "关闭文档预览",
       pdfPreview: (title) => `${title}文档预览`,
@@ -266,9 +286,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       bodyLineTwo: "设计可验证的路径，并把方案送进生产。",
       primaryAction: "查看经历",
       secondaryAction: "聊聊机会",
-      portraitCaption: "JUSTIN / 上海",
-      location: "常驻中国",
-      availability: "期待解决方案架构师与前线部署工程师岗位机会",
+      portraitCaption: "李泽霆 / 个人照片",
       scroll: "向下浏览 — 01 / 04",
     },
     positioning: {
@@ -354,9 +372,9 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       headline: "一起解决",
       headlineAccent: "真实的问题。",
       body: "正在寻找解决方案架构师或前线部署工程师相关机会，也愿意聊聊值得落地的复杂问题。",
-      emailPlaceholder: "请填入你的邮箱",
-      emailNote: "用于正式求职前，请替换成你的真实邮箱。",
-      footerRole: "JUSTIN / 解决方案 × 前线部署",
+      emailLabel: "邮箱",
+      phoneLabel: "电话",
+      footerRole: "李泽霆 / 解决方案 × 前线部署",
       footerStatement: "为真实世界而设计",
       backToTop: "返回顶部 ↑",
     },

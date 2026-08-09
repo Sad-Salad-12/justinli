@@ -30,7 +30,8 @@ test("server-renders English as the default portfolio language", async () => {
 
   const html = await response.text();
   assert.match(html, /<html lang="en"/i);
-  assert.match(html, /<title>Justin — Solutions Architect &amp; FDE<\/title>/i);
+  assert.match(html, /<title>Justin Li — Solutions Architect &amp; FDE<\/title>/i);
+  assert.match(html, /JUSTIN LI\./);
   assert.match(html, /FORWARD DEPLOYED ENGINEER/);
   assert.match(html, /Complex systems/);
   assert.match(html, /SELECTED WORK/);
@@ -45,7 +46,11 @@ test("server-renders English as the default portfolio language", async () => {
   assert.match(html, /Preview online/);
   assert.match(html, /English/);
   assert.match(html, /简体中文/);
-  assert.match(html, /YOUR EMAIL HERE/);
+  assert.match(html, /href="mailto:justinli@stern\.nyu\.edu"/);
+  assert.match(html, /href="tel:\+16462284995"/);
+  assert.match(html, /\(646\) 228-4995/);
+  assert.match(html, /NEW YORK, NY/);
+  assert.doesNotMatch(html, /YOUR EMAIL HERE|Zeting Li/);
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|react-loading-skeleton/);
 });
 
@@ -80,7 +85,13 @@ test("keeps bilingual content and PDF work samples wired correctly", async () =>
   assert.match(content, /解决方案架构师/);
   assert.match(content, /人工智能广告报告自动化/);
   assert.match(content, /运行 300 多次/);
+  assert.match(content, /李泽霆/);
+  assert.match(content, /18019052377/);
+  assert.match(content, /justinli@stern\.nyu\.edu/);
+  assert.match(page, /mailto:\$\{t\.identity\.email\}/);
+  assert.match(page, /tel:\$\{t\.identity\.phoneHref\}/);
   assert.match(layout, /lang="en"/);
+  assert.match(layout, /Justin Li — Solutions Architect & FDE/);
   assert.match(layout, /justin\.zl5626\.chatgpt\.site/);
   assert.doesNotMatch(layout, /justin-solutions-fde\.zl5626\.chatgpt\.site/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);

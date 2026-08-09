@@ -202,7 +202,7 @@ a {
 .hero {
   position: relative;
   display: grid;
-  min-height: 100svh;
+  min-height: clamp(760px, 100svh, 980px);
   padding: calc(var(--header-height) + 5vh) var(--page-gutter) 32px;
   overflow: hidden;
   background: var(--white);
@@ -233,11 +233,11 @@ a {
   z-index: 3;
   display: flex;
   flex-direction: column;
-  align-self: stretch;
+  align-self: start;
   width: min(66vw, 1120px);
 }
 
-.eyebrow,
+.hero-disciplines,
 .section-label {
   margin: 0;
   color: #4b4e55;
@@ -247,9 +247,22 @@ a {
   letter-spacing: 0.12em;
 }
 
-.eyebrow span {
-  margin: 0 8px;
+.hero-disciplines {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 0;
+  list-style: none;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+}
+
+.hero-disciplines li + li::before {
+  margin-right: 12px;
   color: var(--blue);
+  content: "×";
 }
 
 .hero-name {
@@ -270,8 +283,8 @@ a {
   position: relative;
   z-index: 3;
   width: min(610px, 48vw);
-  margin-top: auto;
-  padding-bottom: clamp(42px, 7vh, 80px);
+  margin-top: clamp(34px, 4.5vh, 58px);
+  padding-bottom: 0;
 }
 
 .hero-statement h2 {
@@ -1510,12 +1523,13 @@ a {
   }
 
   .hero-statement {
-    width: min(560px, 62vw);
-    padding-bottom: 102px;
+    width: min(500px, 56vw);
+    margin-top: clamp(36px, 5vh, 54px);
+    padding-bottom: 0;
   }
 
   [data-language="en"] .hero-statement {
-    width: min(570px, 64vw);
+    width: min(500px, 56vw);
   }
 
   .hero-portrait {
@@ -1599,11 +1613,12 @@ a {
   }
 
   .hero {
-    min-height: 900px;
+    min-height: 850px;
     padding-bottom: 24px;
   }
 
   .hero-copy {
+    align-self: stretch;
     width: 100%;
   }
 
@@ -1632,9 +1647,15 @@ a {
     background: linear-gradient(to bottom, var(--white) 0 35%, transparent 72%);
   }
 
-  .eyebrow {
-    max-width: 260px;
-    line-height: 1.7;
+  .hero-disciplines {
+    gap: 6px 10px;
+    max-width: 320px;
+    font-size: 9px;
+    line-height: 1.55;
+  }
+
+  .hero-disciplines li + li::before {
+    margin-right: 10px;
   }
 
   .hero-name {
@@ -1650,7 +1671,8 @@ a {
 
   .hero-statement {
     width: 100%;
-    padding-bottom: 110px;
+    margin-top: auto;
+    padding-bottom: 90px;
   }
 
   .hero-statement h2 {
@@ -1678,10 +1700,10 @@ a {
   }
 
   .hero-portrait {
-    top: 220px;
+    top: 200px;
     right: 18px;
     bottom: auto;
-    width: clamp(180px, 54vw, 224px);
+    width: clamp(174px, 50vw, 208px);
     height: auto;
   }
 

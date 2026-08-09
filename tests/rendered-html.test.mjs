@@ -32,7 +32,9 @@ test("server-renders English as the default portfolio language", async () => {
   assert.match(html, /<html lang="en"/i);
   assert.match(html, /<title>Justin Li — Solutions Architect &amp; FDE<\/title>/i);
   assert.match(html, /JUSTIN LI\./);
-  assert.match(html, /FORWARD DEPLOYED ENGINEER/);
+  assert.match(html, /Solution Architect/);
+  assert.match(html, /Product Management/);
+  assert.match(html, /AI Operations/);
   assert.match(html, /Complex systems/);
   assert.match(html, /SELECTED WORK/);
   assert.match(html, /WORK EXPERIENCE/);
@@ -83,6 +85,8 @@ test("keeps bilingual content and PDF work samples wired correctly", async () =>
   await access(new URL("../public/justin-shanghai-portrait.jpg", import.meta.url));
   assert.match(content, /把复杂的系统/);
   assert.match(content, /解决方案架构师/);
+  assert.match(content, /产品管理/);
+  assert.match(content, /AI 运营/);
   assert.match(content, /人工智能广告报告自动化/);
   assert.match(content, /运行 300 多次/);
   assert.match(content, /李泽霆/);
@@ -136,4 +140,15 @@ test("uses a compact rounded portrait card with an orbit", async () => {
   assert.match(css, /\.portrait-frame\s*\{[^}]*border-radius:\s*clamp\(/s);
   assert.match(css, /\.portrait-orbit\s*\{[^}]*width:\s*142%/s);
   assert.doesNotMatch(css, /width:\s*82vw|height:\s*430px/);
+});
+
+test("keeps the hero compact on tall screens", async () => {
+  const css = await readFile(
+    new URL("../app/globals.css", import.meta.url),
+    "utf8",
+  );
+
+  assert.match(css, /\.hero\s*\{[^}]*min-height:\s*clamp\(760px,\s*100svh,\s*980px\)/s);
+  assert.match(css, /\.hero-statement\s*\{[^}]*margin-top:\s*clamp\(34px,\s*4\.5vh,\s*58px\)/s);
+  assert.match(css, /\.hero-disciplines\s*\{[^}]*display:\s*flex/s);
 });

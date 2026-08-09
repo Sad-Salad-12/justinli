@@ -50,8 +50,7 @@ type PortfolioContent = {
     contact: string;
   };
   hero: {
-    roleLeft: string;
-    roleRight: string;
+    disciplines: string[];
     headline: string;
     headlineAccent: string;
     bodyLineOne: string;
@@ -137,8 +136,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       contact: "Contact",
     },
     hero: {
-      roleLeft: "SOLUTIONS ARCHITECT",
-      roleRight: "FORWARD DEPLOYED ENGINEER",
+      disciplines: ["Solution Architect", "Product Management", "AI Operations"],
       headline: "Complex systems,",
       headlineAccent: "made useful.",
       bodyLineOne: "I work where business reality meets technical systems —",
@@ -278,8 +276,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       contact: "联系",
     },
     hero: {
-      roleLeft: "解决方案架构师",
-      roleRight: "前线部署工程师",
+      disciplines: ["解决方案架构师", "产品管理", "AI 运营"],
       headline: "把复杂的系统，",
       headlineAccent: "落成可用的答案。",
       bodyLineOne: "我在业务现场与技术系统之间工作——发现真正的问题，",

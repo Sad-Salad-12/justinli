@@ -163,9 +163,11 @@ export default function Home() {
       <section className="hero" id="top" aria-labelledby="hero-title">
         <div className="hero-grid" aria-hidden="true" />
         <div className="hero-copy">
-          <p className="eyebrow hero-enter hero-enter-1">
-            {t.hero.roleLeft} <span>×</span> {t.hero.roleRight}
-          </p>
+          <ul className="hero-disciplines hero-enter hero-enter-1">
+            {t.hero.disciplines.map((discipline) => (
+              <li key={discipline}>{discipline}</li>
+            ))}
+          </ul>
           <h1 className="hero-name hero-enter hero-enter-2">{t.identity.heroName}</h1>
           <div className="hero-statement hero-enter hero-enter-3">
             <h2 id="hero-title">

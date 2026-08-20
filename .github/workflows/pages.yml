@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Extract validated static portfolio
-        run: mkdir site && tar -xzf justinli-github-pages.tar.gz -C site
+        run: mkdir site && tar -xzf justinli-github-pages-v2.tar.gz -C site
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5

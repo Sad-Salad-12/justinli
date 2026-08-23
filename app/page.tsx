@@ -216,28 +216,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="positioning" aria-labelledby="positioning-title">
-        <p className="section-label" data-reveal>
-          {t.positioning.label}
-        </p>
-        <div className="positioning-copy" data-reveal>
-          <h2 id="positioning-title">
-            {t.positioning.headline}
-            <br />
-            <span>{t.positioning.headlineAccent}</span>
-          </h2>
-          <p>{t.positioning.body}</p>
-        </div>
-        <div className="positioning-note" data-reveal>
-          <span className="pulse-dot" aria-hidden="true" />
-          {t.positioning.note}
-        </div>
-      </section>
-
       <section className="experience" id="experience" aria-labelledby="experience-title">
         <div className="section-head experience-head" data-reveal>
           <p className="section-label">{t.experience.label}</p>
-          <h2 id="experience-title">{t.experience.headline}</h2>
+          <h2 id="experience-title">
+            {t.experience.headline}
+            <br />
+            <span>{t.experience.headlineAccent}</span>
+          </h2>
           <p>{t.experience.intro}</p>
         </div>
         <div className="experience-list">

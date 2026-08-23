@@ -9,10 +9,15 @@ const defaultDescription =
 export async function generateMetadata(): Promise<Metadata> {
   const requestHeaders = await headers();
   const forwardedHost = requestHeaders.get("x-forwarded-host");
-  const rawHost = forwardedHost ?? requestHeaders.get("host") ?? "justin.zl5626.chatgpt.site";
+  const rawHost =
+    forwardedHost ??
+    requestHeaders.get("host") ??
+    "justin.zl5626.chatgpt.site";
   const host = rawHost.split(",")[0].trim();
   const forwardedProtocol = requestHeaders.get("x-forwarded-proto");
-  const protocol = forwardedProtocol?.split(",")[0].trim() ?? (host.startsWith("localhost") ? "http" : "https");
+  const protocol =
+    forwardedProtocol?.split(",")[0].trim() ??
+    (host.startsWith("localhost") ? "http" : "https");
   const origin = `${protocol}://${host}`;
   const socialImage = new URL("/og.png", origin).toString();
 
@@ -20,6 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL(origin),
     title: defaultTitle,
     description: defaultDescription,
+    alternates: { canonical: origin },
     openGraph: {
       title: defaultTitle,
       description: defaultDescription,

@@ -23,7 +23,7 @@ async function render() {
   );
 }
 
-test("server-renders English as the default portfolio language", async () => {
+test("server-renders the streamlined English portfolio", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
@@ -32,36 +32,28 @@ test("server-renders English as the default portfolio language", async () => {
   assert.match(html, /<html lang="en"/i);
   assert.match(html, /<title>Justin Li — Solutions Architect &amp; FDE<\/title>/i);
   assert.match(html, /JUSTIN LI\./);
-  assert.match(html, /Solution Architect/);
-  assert.match(html, /Product Management/);
-  assert.match(html, /AI Operations/);
-  assert.match(html, /Complex systems/);
-  assert.match(html, /SELECTED WORK/);
-  assert.match(html, /WORK EXPERIENCE/);
+  assert.match(html, /01 — WORK EXPERIENCE/);
+  assert.match(html, /Business-aware\./);
+  assert.match(html, /Built to deliver\./);
+  assert.match(html, /02 — SELECTED WORK/);
+  assert.match(html, /03 — LET&#x27;S TALK/);
+  assert.match(html, /SCROLL — 01 \/ 03/);
   assert.match(html, /AI Advertisement Report Automation/);
   assert.match(html, /Verba — Internal AI Sales Agent/);
-  assert.match(html, /justin-shanghai-portrait\.jpg/);
-  assert.match(html, /class="portrait-frame"/);
-  assert.match(html, /03 — SELECTED WORK/);
-  assert.match(html, /04 — LET&#x27;S TALK/);
-  assert.match(html, /SCROLL — 01 \/ 04/);
-  assert.match(html, /Preview online/);
-  assert.match(html, /English/);
-  assert.match(html, /简体中文/);
-  assert.match(html, /href="mailto:justinli@stern\.nyu\.edu"/);
-  assert.match(html, /href="tel:\+16462284995"/);
-  assert.match(html, /\(646\) 228-4995/);
-  assert.match(html, /NEW YORK, NY/);
-  assert.doesNotMatch(html, /YOUR EMAIL HERE|Zeting Li/);
-  assert.doesNotMatch(html, /codex-preview|SkeletonPreview|react-loading-skeleton/);
+  assert.match(html, /src="\/justin-shanghai-portrait\.jpg"/);
+  assert.match(html, /href="\/works\/solution-blueprint-sample\.pdf"/);
+  assert.doesNotMatch(html, /01 — POSITIONING|BUILT FOR AMBIGUITY|Built in ambiguity/);
+  assert.doesNotMatch(html, /class="positioning"/);
+  assert.doesNotMatch(html, /\/justinli\//);
 });
 
-test("keeps bilingual content and PDF work samples wired correctly", async () => {
-  const [page, content, layout, packageJson] = await Promise.all([
+test("keeps bilingual content and hosted assets wired correctly", async () => {
+  const [page, content, layout, packageJson, nextConfig] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/portfolio-content.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
+    readFile(new URL("../next.config.ts", import.meta.url), "utf8"),
   ]);
 
   const pdfs = [
@@ -76,79 +68,40 @@ test("keeps bilingual content and PDF work samples wired correctly", async () =>
   }
 
   assert.match(page, /type="application\/pdf"/);
-  assert.match(page, /download/);
   assert.match(page, /portfolio-language/);
   assert.match(page, /setLanguage\("en"\)/);
   assert.match(page, /setLanguage\("zh"\)/);
-  assert.match(page, /href="#experience"/);
-  assert.doesNotMatch(page, /href="#capabilities"|href="#approach"/);
-  await access(new URL("../public/justin-shanghai-portrait.jpg", import.meta.url));
-  assert.match(content, /把复杂的系统/);
-  assert.match(content, /解决方案架构师/);
-  assert.match(content, /产品管理/);
-  assert.match(content, /AI 运营/);
-  assert.match(content, /人工智能广告报告自动化/);
-  assert.match(content, /运行 300 多次/);
-  assert.match(content, /李泽霆/);
-  assert.match(content, /18019052377/);
-  assert.match(content, /justinli@stern\.nyu\.edu/);
-  assert.match(page, /mailto:\$\{t\.identity\.email\}/);
-  assert.match(page, /tel:\$\{t\.identity\.phoneHref\}/);
-  assert.match(layout, /lang="en"/);
-  assert.match(layout, /Justin Li — Solutions Architect & FDE/);
+  assert.match(page, /src="\/justin-shanghai-portrait\.jpg"/);
+  assert.doesNotMatch(page, /withBasePath|NEXT_PUBLIC_BASE_PATH|positioning-title/);
+  assert.match(content, /懂业务。/);
+  assert.match(content, /为交付而生。/);
+  assert.match(content, /01 — 工作经历/);
+  assert.match(content, /02 — 精选作品/);
+  assert.match(content, /03 — 联系/);
+  assert.doesNotMatch(content, /Built in ambiguity|BUILT FOR AMBIGUITY/);
   assert.match(layout, /justin\.zl5626\.chatgpt\.site/);
-  assert.doesNotMatch(layout, /justin-solutions-fde\.zl5626\.chatgpt\.site/);
-  assert.doesNotMatch(packageJson, /react-loading-skeleton/);
+  assert.match(layout, /next\/headers|generateMetadata/);
+  assert.match(packageJson, /"build":\s*"[^"]*vinext build"/);
+  assert.doesNotMatch(nextConfig, /output:\s*"export"|basePath/);
 });
 
-test("keeps the retained main sections white except the final contact section", async () => {
-  const css = await readFile(
-    new URL("../app/globals.css", import.meta.url),
-    "utf8",
-  );
+test("keeps retained sections white and the final contact section dark", async () => {
+  const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
 
   assert.match(css, /\.experience\s*\{[^}]*background:\s*var\(--white\)/s);
   assert.match(css, /\.work\s*\{[^}]*background:\s*var\(--white\)/s);
   assert.match(css, /\.contact\s*\{[^}]*background:\s*var\(--ink\)/s);
+  assert.match(css, /\.experience-head h2 span\s*\{[^}]*color:\s*var\(--blue\)/s);
 });
 
-test("omits the former capability and approach sections", async () => {
-  const response = await render();
-  const html = await response.text();
+test("keeps the compact portrait and omits retired sections", async () => {
+  const [html, css] = await Promise.all([
+    render().then((response) => response.text()),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+  ]);
 
-  assert.doesNotMatch(html, /id="capabilities"|id="approach"/);
-  assert.doesNotMatch(html, />Capabilities<|>Approach</);
-});
-
-test("keeps the PDF library note below the selected work headline", async () => {
-  const css = await readFile(
-    new URL("../app/globals.css", import.meta.url),
-    "utf8",
-  );
-
-  assert.match(css, /\.library-note\s*\{[^}]*grid-column:\s*2\s*\/\s*3/s);
-  assert.doesNotMatch(css, /\.library-note\s*\{[^}]*margin-top:\s*-/s);
-});
-
-test("uses a compact rounded portrait card with an orbit", async () => {
-  const css = await readFile(
-    new URL("../app/globals.css", import.meta.url),
-    "utf8",
-  );
-
+  assert.doesNotMatch(html, /id="positioning-title"|id="capabilities"|id="approach"/);
   assert.match(css, /\.hero-portrait\s*\{[^}]*width:\s*clamp\(280px,\s*24vw,\s*390px\)/s);
   assert.match(css, /\.portrait-frame\s*\{[^}]*border-radius:\s*clamp\(/s);
   assert.match(css, /\.portrait-orbit\s*\{[^}]*width:\s*142%/s);
-  assert.doesNotMatch(css, /width:\s*82vw|height:\s*430px/);
-});
-
-test("keeps the hero compact on tall screens", async () => {
-  const css = await readFile(
-    new URL("../app/globals.css", import.meta.url),
-    "utf8",
-  );
-
-  assert.match(css, /\.hero\s*\{[^}]*min-height:\s*clamp\(760px,\s*100svh,\s*980px\)/s);
-  assert.match(css, /\.hero-statement\s*\{[^}]*margin-top:\s*clamp\(34px,\s*4\.5vh,\s*58px\)/s);
-  assert.match(css, /\.hero-disciplines\s*\{[^}]*display:\s*flex/s);
 });

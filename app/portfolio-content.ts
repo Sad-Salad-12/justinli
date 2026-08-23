@@ -60,16 +60,10 @@ type PortfolioContent = {
     portraitCaption: string;
     scroll: string;
   };
-  positioning: {
-    label: string;
-    headline: string;
-    headlineAccent: string;
-    body: string;
-    note: string;
-  };
   experience: {
     label: string;
     headline: string;
+    headlineAccent: string;
     intro: string;
     items: LocalizedExperience[];
   };
@@ -144,19 +138,12 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       primaryAction: "View experience",
       secondaryAction: "Start a conversation",
       portraitCaption: "JUSTIN LI / PORTRAIT",
-      scroll: "SCROLL — 01 / 04",
-    },
-    positioning: {
-      label: "01 — POSITIONING",
-      headline: "Business-aware.",
-      headlineAccent: "Built to deliver.",
-      body:
-        "I thrive in high-ambiguity environments: building a shared language across business and engineering, turning fuzzy goals into a clear path, and working with customers, product, and engineering teams to deliver the outcome.",
-      note: "BUILT FOR AMBIGUITY",
+      scroll: "SCROLL — 01 / 03",
     },
     experience: {
-      label: "02 — WORK EXPERIENCE",
-      headline: "Built in ambiguity. Shipped with evidence.",
+      label: "01 — WORK EXPERIENCE",
+      headline: "Business-aware.",
+      headlineAccent: "Built to deliver.",
       intro: "Selected work turning operational pain points into testable AI products and real user outcomes.",
       items: [
         {
@@ -188,7 +175,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       ],
     },
     work: {
-      label: "03 — SELECTED WORK",
+      label: "02 — SELECTED WORK",
       headline: "Work is more than a file.",
       intro: "It should reveal how you think, the trade-offs you make, and how you move the work forward.",
       libraryLabel: "PDF LIBRARY",
@@ -228,7 +215,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       ],
     },
     contact: {
-      label: "04 — LET'S TALK",
+      label: "03 — LET'S TALK",
       headline: "Let’s solve",
       headlineAccent: "something real.",
       body:
@@ -284,19 +271,12 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       primaryAction: "查看经历",
       secondaryAction: "聊聊机会",
       portraitCaption: "李泽霆 / 个人照片",
-      scroll: "向下浏览 — 01 / 04",
-    },
-    positioning: {
-      label: "01 — 定位",
-      headline: "懂业务的工程师，",
-      headlineAccent: "能落地的解决方案伙伴。",
-      body:
-        "我擅长在不确定性很高的环境里工作：快速建立业务与技术的共同语言，把模糊目标拆成清晰路径，再与客户、产品和工程团队一起把结果做出来。",
-      note: "为不确定性而生",
+      scroll: "向下浏览 — 01 / 03",
     },
     experience: {
-      label: "02 — 工作经历",
-      headline: "从模糊需求，到真实上线。",
+      label: "01 — 工作经历",
+      headline: "懂业务。",
+      headlineAccent: "为交付而生。",
       intro: "把业务中的重复问题转化为可验证的人工智能产品，并用真实使用反馈推动迭代。",
       items: [
         {
@@ -328,7 +308,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       ],
     },
     work: {
-      label: "03 — 精选作品",
+      label: "02 — 精选作品",
       headline: "作品，不只是一份文件。",
       intro: "它应该让人看见你如何思考、如何取舍，以及如何推动事情发生。",
       libraryLabel: "文档作品库",
@@ -365,7 +345,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       ],
     },
     contact: {
-      label: "04 — 联系",
+      label: "03 — 联系",
       headline: "一起解决",
       headlineAccent: "真实的问题。",
       body: "正在寻找解决方案架构师或前线部署工程师相关机会，也愿意聊聊值得落地的复杂问题。",

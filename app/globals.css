@@ -642,6 +642,10 @@ a {
   max-width: 830px;
 }
 
+.experience-head h2 span {
+  color: var(--blue);
+}
+
 .experience-list {
   border-top: 1px solid var(--line);
 }

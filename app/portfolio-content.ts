@@ -14,10 +14,31 @@ export type LocalizedExperience = {
   eyebrow: string;
   title: string;
   meta?: string;
+  media: "ad-report" | "verba-placeholder";
   bullets: string[];
   metrics: Array<{
     value: string;
     label: string;
+  }>;
+};
+
+export type LocalizedExperienceMedia = {
+  demoLabel: string;
+  demoCaption: string;
+  outputsLabel: string;
+  interactionHint: string;
+  carouselLabel: string;
+  previousSlide: string;
+  nextSlide: string;
+  openFullscreen: string;
+  closeFullscreen: string;
+  fullscreenLabel: string;
+  pendingLabel: string;
+  pendingHeadline: string;
+  pendingBody: string;
+  slides: Array<{
+    title: string;
+    alt: string;
   }>;
 };
 
@@ -65,6 +86,7 @@ type PortfolioContent = {
     headline: string;
     headlineAccent: string;
     intro: string;
+    media: LocalizedExperienceMedia;
     items: LocalizedExperience[];
   };
   work: {
@@ -145,12 +167,51 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       headline: "Business-aware.",
       headlineAccent: "Built to deliver.",
       intro: "Selected work turning operational pain points into testable AI products and real user outcomes.",
+      media: {
+        demoLabel: "LIVE PRODUCT DEMO",
+        demoCaption: "From a validated input folder to an editable weekly report.",
+        outputsLabel: "GENERATED OUTPUTS",
+        interactionHint: "DRAG OR USE ARROWS · CLICK TO INSPECT",
+        carouselLabel: "Generated advertising report slides",
+        previousSlide: "Previous output",
+        nextSlide: "Next output",
+        openFullscreen: "Inspect full-size output",
+        closeFullscreen: "Close detailed view",
+        fullscreenLabel: "Detailed advertising report output",
+        pendingLabel: "VERBA PRODUCT VISUALS",
+        pendingHeadline: "Visual documentation coming next.",
+        pendingBody:
+          "This space is reserved for real product screens and workflow evidence — no invented interface in the meantime.",
+        slides: [
+          {
+            title: "Brand A Advertising Performance",
+            alt: "Cover slide for the Brand A advertising performance weekly report",
+          },
+          {
+            title: "Paid Media Overall Performance",
+            alt: "Paid media overall performance dashboard with daily and product-level charts",
+          },
+          {
+            title: "Paid Media Creative Analysis",
+            alt: "Creative analysis slide with campaign metrics and a pinned product creative",
+          },
+          {
+            title: "Paid Media Audience Analysis",
+            alt: "Audience analysis slide comparing add-to-cart, purchases, ROAS, and spend",
+          },
+          {
+            title: "Paid Search Keyword Analysis",
+            alt: "Paid search keyword analysis slide with cost, conversion, and value charts",
+          },
+        ],
+      },
       items: [
         {
           number: "01",
           eyebrow: "AI PRODUCT DEVELOPMENT",
           title: "AI Advertisement Report Automation Project",
           meta: "Product Lead · Virtual · May 2025 — Aug 2025",
+          media: "ad-report",
           bullets: [
             "Authored PRDs and decomposed a repetitive Meta and Google Ads reporting workflow into data inputs, transformation rules, slide templates, and few-shot examples for an LLM-generated reporting prototype.",
             "Partnered with a University of Chicago developer to prototype and evaluate two alpha versions in one month, refining output quality through peer feedback.",
@@ -164,6 +225,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
           number: "02",
           eyebrow: "AI SALES ENABLEMENT",
           title: "Verba — Internal AI Sales Agent",
+          media: "verba-placeholder",
           bullets: [
             "Designed and launched Verba using Coze and a local database, enabling sales team members to retrieve prior industry solutions and generate tailored outreach messages. More than 300 agent runs and feedback from 30+ users informed ongoing iteration.",
           ],
@@ -278,12 +340,50 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       headline: "懂业务。",
       headlineAccent: "为交付而生。",
       intro: "把业务中的重复问题转化为可验证的人工智能产品，并用真实使用反馈推动迭代。",
+      media: {
+        demoLabel: "产品实时演示",
+        demoCaption: "从完成校验的输入文件夹，到可编辑的每周报告。",
+        outputsLabel: "生成成果",
+        interactionHint: "拖动或点击箭头 · 点击查看细节",
+        carouselLabel: "自动生成的广告报告幻灯片",
+        previousSlide: "上一张成果",
+        nextSlide: "下一张成果",
+        openFullscreen: "放大查看成果",
+        closeFullscreen: "关闭细节查看",
+        fullscreenLabel: "广告报告成果细节查看",
+        pendingLabel: "VERBA 产品视觉",
+        pendingHeadline: "真实产品素材将在下一版补充。",
+        pendingBody: "这里将用于展示真实界面与工作流证据；在素材就绪前，不使用虚构产品截图。",
+        slides: [
+          {
+            title: "品牌 A 广告表现",
+            alt: "品牌 A 广告表现周报的封面页",
+          },
+          {
+            title: "付费媒体整体表现",
+            alt: "包含每日及产品维度图表的付费媒体整体表现页面",
+          },
+          {
+            title: "付费媒体创意分析",
+            alt: "包含活动指标与重点产品创意的付费媒体创意分析页面",
+          },
+          {
+            title: "付费媒体受众分析",
+            alt: "对比加购、购买、广告回报与花费的受众分析页面",
+          },
+          {
+            title: "付费搜索关键词分析",
+            alt: "包含成本、转化与价值图表的付费搜索关键词分析页面",
+          },
+        ],
+      },
       items: [
         {
           number: "01",
           eyebrow: "人工智能产品开发",
           title: "人工智能广告报告自动化项目",
           meta: "产品负责人 · 远程 · 2025 年 5 月—8 月",
+          media: "ad-report",
           bullets: [
             "编写产品需求文档，将重复的 Meta 与 Google Ads 报告流程拆解为数据输入、转换规则、演示文稿模板和少样本示例，用于构建大语言模型自动生成报告原型。",
             "与芝加哥大学开发者合作，在一个月内完成并评估两个内测版本，并结合同行反馈持续优化输出质量。",
@@ -297,6 +397,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
           number: "02",
           eyebrow: "人工智能销售赋能",
           title: "Verba — 内部人工智能销售助手",
+          media: "verba-placeholder",
           bullets: [
             "使用 Coze 与本地数据库设计并上线内部人工智能销售助手 Verba，帮助销售团队检索既往行业方案并生成定制化外联信息；累计运行 300 多次，并收集 30 多位用户的反馈用于持续迭代。",
           ],

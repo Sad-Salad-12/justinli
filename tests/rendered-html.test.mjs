@@ -1,6 +1,11 @@
 import assert from "node:assert/strict";
-import { access, readFile } from "node:fs/promises";
+import { access, readFile, stat } from "node:fs/promises";
 import test from "node:test";
+import {
+  getDraggedSlideIndex,
+  getSlideStackPosition,
+  wrapSlideIndex,
+} from "../app/carousel-utils.ts";
 
 async function render() {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -40,6 +45,15 @@ test("server-renders the streamlined English portfolio", async () => {
   assert.match(html, /SCROLL — 01 \/ 03/);
   assert.match(html, /AI Advertisement Report Automation/);
   assert.match(html, /Verba — Internal AI Sales Agent/);
+  assert.equal((html.match(/class="experience-project"/g) ?? []).length, 2);
+  assert.match(html, /src="\/experience\/ad-report\/report-agent-demo\.mp4"/);
+  assert.match(html, /autoplay=""/i);
+  assert.match(html, /muted=""/i);
+  assert.match(html, /loop=""/i);
+  assert.match(html, /playsinline=""/i);
+  assert.match(html, /controls=""/i);
+  assert.match(html, /Generated advertising report slides/);
+  assert.match(html, /Visual documentation coming next/);
   assert.match(html, /src="\/justin-shanghai-portrait\.jpg"/);
   assert.match(html, /href="\/works\/solution-blueprint-sample\.pdf"/);
   assert.doesNotMatch(html, /01 — POSITIONING|BUILT FOR AMBIGUITY|Built in ambiguity/);
@@ -48,9 +62,10 @@ test("server-renders the streamlined English portfolio", async () => {
 });
 
 test("keeps bilingual content and hosted assets wired correctly", async () => {
-  const [page, content, layout, packageJson, nextConfig] = await Promise.all([
+  const [page, content, media, layout, packageJson, nextConfig] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/portfolio-content.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/experience-media.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
     readFile(new URL("../next.config.ts", import.meta.url), "utf8"),
@@ -78,11 +93,51 @@ test("keeps bilingual content and hosted assets wired correctly", async () => {
   assert.match(content, /01 — 工作经历/);
   assert.match(content, /02 — 精选作品/);
   assert.match(content, /03 — 联系/);
+  assert.match(content, /产品实时演示/);
+  assert.match(content, /生成成果/);
+  assert.match(content, /拖动或点击箭头/);
+  assert.match(content, /VERBA 产品视觉/);
   assert.doesNotMatch(content, /Built in ambiguity|BUILT FOR AMBIGUITY/);
+  assert.match(media, /autoplay|autoPlay/);
+  assert.match(media, /muted/);
+  assert.match(media, /playsInline/);
+  assert.match(media, /prefers-reduced-motion: reduce/);
+  assert.match(media, /createPortal/);
+  assert.match(media, /role="dialog"/);
+  assert.match(media, /aria-modal="true"/);
+  assert.match(media, /event\.key === "Escape"/);
+  assert.doesNotMatch(media, /\.gif/);
   assert.match(layout, /justin\.zl5626\.chatgpt\.site/);
   assert.match(layout, /next\/headers|generateMetadata/);
   assert.match(packageJson, /"build":\s*"[^"]*vinext build"/);
   assert.doesNotMatch(nextConfig, /output:\s*"export"|basePath/);
+});
+
+test("packages the MP4 demo and all five report outputs without the GIF", async () => {
+  const mediaDirectory = new URL("../public/experience/ad-report/", import.meta.url);
+  const video = new URL("report-agent-demo.mp4", mediaDirectory);
+  const slides = ["01", "02", "03", "07", "08"].map(
+    (number) => new URL(`slide-${number}.jpg`, mediaDirectory),
+  );
+
+  const videoStats = await stat(video);
+  assert.ok(videoStats.size > 10_000_000);
+  assert.ok(videoStats.size < 20_000_000);
+  for (const slide of slides) await access(slide);
+
+  await assert.rejects(access(new URL("report-agent-demo.gif", mediaDirectory)));
+});
+
+test("wraps carousel navigation and only changes slides after a real drag", () => {
+  assert.equal(wrapSlideIndex(-1, 5), 4);
+  assert.equal(wrapSlideIndex(5, 5), 0);
+  assert.equal(getDraggedSlideIndex(0, -60, 5), 1);
+  assert.equal(getDraggedSlideIndex(0, 60, 5), 4);
+  assert.equal(getDraggedSlideIndex(2, 20, 5), 2);
+  assert.equal(getSlideStackPosition(0, 0, 5), "active");
+  assert.equal(getSlideStackPosition(1, 0, 5), "next");
+  assert.equal(getSlideStackPosition(2, 0, 5), "after");
+  assert.equal(getSlideStackPosition(3, 0, 5), "hidden");
 });
 
 test("keeps retained sections white and the final contact section dark", async () => {
@@ -104,4 +159,17 @@ test("keeps the compact portrait and omits retired sections", async () => {
   assert.match(css, /\.hero-portrait\s*\{[^}]*width:\s*clamp\(280px,\s*24vw,\s*390px\)/s);
   assert.match(css, /\.portrait-frame\s*\{[^}]*border-radius:\s*clamp\(/s);
   assert.match(css, /\.portrait-orbit\s*\{[^}]*width:\s*142%/s);
+});
+
+test("keeps the demo dominant on desktop and stacks media on phones", async () => {
+  const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+
+  assert.match(
+    css,
+    /\.ad-report-media\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1\.78fr\)\s*minmax\(300px,\s*1fr\)/s,
+  );
+  assert.match(css, /\.output-lightbox-dialog\s*\{[^}]*width:\s*min\(80vw,\s*1280px\)/s);
+  assert.match(css, /@media \(max-width:\s*700px\)[\s\S]*?\.ad-report-media\s*\{[^}]*grid-template-columns:\s*1fr/s);
+  assert.match(css, /@media \(max-width:\s*700px\)[\s\S]*?\.output-lightbox-dialog\s*\{[^}]*width:\s*92vw/s);
+  assert.match(css, /body\.modal-open\s*\{[^}]*overflow:\s*hidden/s);
 });

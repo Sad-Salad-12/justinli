@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { AdReportMedia, VerbaVisualPlaceholder } from "./experience-media";
 import { type Language, portfolioContent } from "./portfolio-content";
 
 const workAssets = [
@@ -228,27 +229,39 @@ export default function Home() {
         </div>
         <div className="experience-list">
           {t.experience.items.map((experience) => (
-            <article className="experience-row" key={experience.number} data-reveal>
-              <span className="experience-number">{experience.number}</span>
-              <div className="experience-identity">
-                <p>{experience.eyebrow}</p>
-                <h3>{experience.title}</h3>
-                {experience.meta && <p className="experience-meta">{experience.meta}</p>}
+            <section
+              className="experience-project"
+              key={experience.number}
+              aria-labelledby={`experience-project-${experience.number}`}
+            >
+              <div className="experience-row" data-reveal>
+                <span className="experience-number">{experience.number}</span>
+                <div className="experience-identity">
+                  <p>{experience.eyebrow}</p>
+                  <h3 id={`experience-project-${experience.number}`}>{experience.title}</h3>
+                  {experience.meta && <p className="experience-meta">{experience.meta}</p>}
+                </div>
+                <ul className="experience-bullets">
+                  {experience.bullets.map((bullet) => (
+                    <li key={bullet}>{bullet}</li>
+                  ))}
+                </ul>
+                <div className="experience-metrics">
+                  {experience.metrics.map((metric) => (
+                    <div key={metric.label}>
+                      <strong>{metric.value}</strong>
+                      <span>{metric.label}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <ul className="experience-bullets">
-                {experience.bullets.map((bullet) => (
-                  <li key={bullet}>{bullet}</li>
-                ))}
-              </ul>
-              <div className="experience-metrics">
-                {experience.metrics.map((metric) => (
-                  <div key={metric.label}>
-                    <strong>{metric.value}</strong>
-                    <span>{metric.label}</span>
-                  </div>
-                ))}
-              </div>
-            </article>
+
+              {experience.media === "ad-report" ? (
+                <AdReportMedia copy={t.experience.media} />
+              ) : (
+                <VerbaVisualPlaceholder copy={t.experience.media} />
+              )}
+            </section>
           ))}
         </div>
       </section>

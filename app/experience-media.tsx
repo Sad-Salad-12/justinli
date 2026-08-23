@@ -1,0 +1,346 @@
+"use client";
+
+import Image from "next/image";
+import {
+  type CSSProperties,
+  type PointerEvent as ReactPointerEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { createPortal } from "react-dom";
+import {
+  getDraggedSlideIndex,
+  getSlideStackPosition,
+  wrapSlideIndex,
+} from "./carousel-utils";
+import type { LocalizedExperienceMedia } from "./portfolio-content";
+
+const slideAssets = [
+  "/experience/ad-report/slide-01.jpg",
+  "/experience/ad-report/slide-02.jpg",
+  "/experience/ad-report/slide-03.jpg",
+  "/experience/ad-report/slide-07.jpg",
+  "/experience/ad-report/slide-08.jpg",
+] as const;
+
+type AdReportMediaProps = {
+  copy: LocalizedExperienceMedia;
+};
+
+export function AdReportMedia({ copy }: AdReportMediaProps) {
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [expandedSlide, setExpandedSlide] = useState<number | null>(null);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const pointerStartRef = useRef<number | null>(null);
+  const dragDistanceRef = useRef(0);
+  const suppressClickRef = useRef(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const lastSlideTriggerRef = useRef<HTMLButtonElement>(null);
+  const slideTotal = slideAssets.length;
+  const isLightboxOpen = expandedSlide !== null;
+
+  const moveToSlide = (index: number) => {
+    setActiveSlide(wrapSlideIndex(index, slideTotal));
+  };
+
+  const moveExpandedSlide = (delta: number) => {
+    setExpandedSlide((current) =>
+      current === null ? null : wrapSlideIndex(current + delta, slideTotal),
+    );
+  };
+
+  const openExpandedSlide = (trigger: HTMLButtonElement) => {
+    if (suppressClickRef.current) {
+      suppressClickRef.current = false;
+      return;
+    }
+
+    lastSlideTriggerRef.current = trigger;
+    setExpandedSlide(activeSlide);
+  };
+
+  const handlePointerDown = (event: ReactPointerEvent<HTMLButtonElement>) => {
+    pointerStartRef.current = event.clientX;
+    dragDistanceRef.current = 0;
+    suppressClickRef.current = false;
+    setDragOffset(0);
+    setIsDragging(true);
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handlePointerMove = (event: ReactPointerEvent<HTMLButtonElement>) => {
+    if (pointerStartRef.current === null) return;
+
+    const distance = event.clientX - pointerStartRef.current;
+    dragDistanceRef.current = distance;
+    if (Math.abs(distance) > 6) suppressClickRef.current = true;
+    setDragOffset(Math.max(-110, Math.min(110, distance)));
+  };
+
+  const finishPointerGesture = (event: ReactPointerEvent<HTMLButtonElement>) => {
+    if (pointerStartRef.current === null) return;
+
+    const nextIndex = getDraggedSlideIndex(
+      activeSlide,
+      dragDistanceRef.current,
+      slideTotal,
+    );
+    setActiveSlide(nextIndex);
+    pointerStartRef.current = null;
+    dragDistanceRef.current = 0;
+    setDragOffset(0);
+    setIsDragging(false);
+
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+  };
+
+  useEffect(() => {
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const syncPlayback = () => {
+      if (!videoRef.current) return;
+      if (motionPreference.matches) {
+        videoRef.current.pause();
+        return;
+      }
+      void videoRef.current.play().catch(() => undefined);
+    };
+
+    syncPlayback();
+    motionPreference.addEventListener("change", syncPlayback);
+    return () => motionPreference.removeEventListener("change", syncPlayback);
+  }, []);
+
+  useEffect(() => {
+    if (!isLightboxOpen) return;
+
+    const handleDialogKeys = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setExpandedSlide(null);
+        return;
+      }
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        setExpandedSlide((current) =>
+          current === null ? null : wrapSlideIndex(current - 1, slideTotal),
+        );
+        return;
+      }
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        setExpandedSlide((current) =>
+          current === null ? null : wrapSlideIndex(current + 1, slideTotal),
+        );
+        return;
+      }
+      if (event.key !== "Tab") return;
+
+      const dialog = document.querySelector<HTMLElement>(".output-lightbox-dialog");
+      const focusable = Array.from(
+        dialog?.querySelectorAll<HTMLElement>("button:not([disabled]), [tabindex='0']") ?? [],
+      );
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.body.classList.add("modal-open");
+    closeButtonRef.current?.focus();
+    window.addEventListener("keydown", handleDialogKeys);
+
+    return () => {
+      document.body.classList.remove("modal-open");
+      window.removeEventListener("keydown", handleDialogKeys);
+      lastSlideTriggerRef.current?.focus();
+    };
+  }, [isLightboxOpen, slideTotal]);
+
+  return (
+    <>
+      <div className="ad-report-media" data-reveal>
+        <figure className="demo-video-block">
+        <div className="media-block-heading">
+          <span>{copy.demoLabel}</span>
+          <p>{copy.demoCaption}</p>
+        </div>
+        <div className="demo-video-frame">
+          <video
+            ref={videoRef}
+            src="/experience/ad-report/report-agent-demo.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            controls
+            preload="metadata"
+            title={copy.demoLabel}
+          />
+        </div>
+        </figure>
+
+        <section className="output-carousel" aria-label={copy.carouselLabel}>
+        <div className="media-block-heading carousel-heading">
+          <span>{copy.outputsLabel}</span>
+          <p>{copy.interactionHint}</p>
+        </div>
+
+        <div className="output-stack">
+          {slideAssets.map((src, index) => {
+            const position = getSlideStackPosition(index, activeSlide, slideTotal);
+            const isActive = position === "active";
+
+            return (
+              <button
+                type="button"
+                className={`output-card is-${position}${isDragging && isActive ? " is-dragging" : ""}`}
+                key={src}
+                style={
+                  isActive
+                    ? ({ "--drag-offset": `${dragOffset}px` } as CSSProperties)
+                    : undefined
+                }
+                tabIndex={isActive ? 0 : -1}
+                aria-hidden={!isActive}
+                aria-label={`${copy.openFullscreen}: ${copy.slides[index].title}`}
+                onClick={(event) => openExpandedSlide(event.currentTarget)}
+                onKeyDown={(event) => {
+                  if (event.key === "ArrowLeft") {
+                    event.preventDefault();
+                    moveToSlide(activeSlide - 1);
+                  } else if (event.key === "ArrowRight") {
+                    event.preventDefault();
+                    moveToSlide(activeSlide + 1);
+                  }
+                }}
+                onPointerDown={isActive ? handlePointerDown : undefined}
+                onPointerMove={isActive ? handlePointerMove : undefined}
+                onPointerUp={isActive ? finishPointerGesture : undefined}
+                onPointerCancel={isActive ? finishPointerGesture : undefined}
+              >
+                <Image
+                  src={src}
+                  alt={copy.slides[index].alt}
+                  width={720}
+                  height={405}
+                  sizes="(max-width: 700px) 92vw, (max-width: 980px) 68vw, 34vw"
+                  draggable={false}
+                  unoptimized
+                />
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="carousel-controls">
+          <div className="carousel-caption" aria-live="polite">
+            <span>
+              {String(activeSlide + 1).padStart(2, "0")} / {String(slideTotal).padStart(2, "0")}
+            </span>
+            <strong>{copy.slides[activeSlide].title}</strong>
+          </div>
+          <div className="carousel-arrows">
+            <button
+              type="button"
+              onClick={() => moveToSlide(activeSlide - 1)}
+              aria-label={copy.previousSlide}
+            >
+              ←
+            </button>
+            <button
+              type="button"
+              onClick={() => moveToSlide(activeSlide + 1)}
+              aria-label={copy.nextSlide}
+            >
+              →
+            </button>
+          </div>
+        </div>
+        </section>
+      </div>
+
+      {expandedSlide !== null &&
+        createPortal(
+        <div
+          className="output-lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label={copy.fullscreenLabel}
+          onPointerDown={(event) => {
+            if (event.currentTarget === event.target) setExpandedSlide(null);
+          }}
+        >
+          <div className="output-lightbox-dialog">
+            <button
+              ref={closeButtonRef}
+              type="button"
+              className="lightbox-close"
+              onClick={() => setExpandedSlide(null)}
+              aria-label={copy.closeFullscreen}
+            >
+              ×
+            </button>
+            <button
+              type="button"
+              className="lightbox-arrow lightbox-previous"
+              onClick={() => moveExpandedSlide(-1)}
+              aria-label={copy.previousSlide}
+            >
+              ←
+            </button>
+            <figure>
+              <Image
+                src={slideAssets[expandedSlide]}
+                alt={copy.slides[expandedSlide].alt}
+                width={720}
+                height={405}
+                sizes="80vw"
+                unoptimized
+              />
+              <figcaption>
+                <span>
+                  {String(expandedSlide + 1).padStart(2, "0")} / {String(slideTotal).padStart(2, "0")}
+                </span>
+                {copy.slides[expandedSlide].title}
+              </figcaption>
+            </figure>
+            <button
+              type="button"
+              className="lightbox-arrow lightbox-next"
+              onClick={() => moveExpandedSlide(1)}
+              aria-label={copy.nextSlide}
+            >
+              →
+            </button>
+          </div>
+        </div>,
+          document.body,
+        )}
+    </>
+  );
+}
+
+export function VerbaVisualPlaceholder({ copy }: AdReportMediaProps) {
+  return (
+    <div className="verba-visual-placeholder" aria-label={copy.pendingLabel} data-reveal>
+      <div className="placeholder-grid" aria-hidden="true" />
+      <span>{copy.pendingLabel}</span>
+      <div>
+        <strong>{copy.pendingHeadline}</strong>
+        <p>{copy.pendingBody}</p>
+      </div>
+      <i aria-hidden="true">+</i>
+    </div>
+  );
+}

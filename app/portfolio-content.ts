@@ -37,43 +37,19 @@ export type LocalizedExperienceMedia = {
     headline: string;
     body: string;
     diagramLabel: string;
-    prepareLabel: string;
-    prepareNote: string;
-    runLabel: string;
-    reusableEvidence: string;
+    cycleLabel: string;
     evidenceLabel: string;
     boundary: string;
-    prepareNodes: Array<{
+    core: {
+      label: string;
+      title: string;
+      details: string[];
+    };
+    cycleNodes: Array<{
       step: string;
       title: string;
       detail: string;
     }>;
-    brief: {
-      step: string;
-      eyebrow: string;
-      title: string;
-      detail: string;
-    };
-    retrieval: {
-      step: string;
-      eyebrow: string;
-      title: string;
-      detail: string;
-      signals: string[];
-    };
-    reasoning: {
-      step: string;
-      eyebrow: string;
-      title: string;
-      detail: string;
-    };
-    output: {
-      step: string;
-      eyebrow: string;
-      title: string;
-      detail: string;
-      sections: string[];
-    };
     evidence: Array<{
       value: string;
       label: string;
@@ -215,62 +191,49 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
           label: "VERBA / LOCAL-FIRST RAG",
           headline: "How Verba turns a new brief into a source-linked solution draft.",
           body:
-            "Historical case PDFs are indexed once. Each new brief retrieves relevant passages before a local model drafts a structured proposal with file and page references.",
-          diagramLabel: "Verba evidence convergence system map",
-          prepareLabel: "PREPARE ONCE",
-          prepareNote: "Index once. Reuse for every new brief.",
-          runLabel: "RUN PER BRIEF",
-          reusableEvidence: "REUSABLE EVIDENCE",
+            "A new brief moves through local evidence retrieval and structured drafting. Human review verifies sources and can refine the next pass.",
+          diagramLabel: "Verba source-linked solution cycle",
+          cycleLabel: "EVIDENCE-TO-SOLUTION LOOP",
           evidenceLabel: "PROTOTYPE EVIDENCE",
           boundary:
             "Local single-user prototype. Sources are surfaced for human review; citation accuracy is not automatically verified.",
-          prepareNodes: [
-            { step: "01", title: "Case Library", detail: "15 historical solution PDFs" },
+          core: {
+            label: "LOCAL EVIDENCE CORE",
+            title: "15 case PDFs",
+            details: ["111 indexed chunks", "BGE embeddings", "ChromaDB"],
+          },
+          cycleNodes: [
+            {
+              step: "01",
+              title: "Client Brief",
+              detail: "Business goals, requirements, and constraints",
+            },
             {
               step: "02",
-              title: "Parse & Index",
-              detail: "Extract text · 600-character chunks",
+              title: "Retrieve Evidence",
+              detail: "Top-5 semantic matches from the local store",
             },
             {
               step: "03",
-              title: "Local Evidence Store",
-              detail: "BGE embeddings · 111 chunks · ChromaDB",
+              title: "Ground Context",
+              detail: "Passage text · source file · page · similarity",
+            },
+            {
+              step: "04",
+              title: "Draft Locally",
+              detail: "FastAPI orchestration · Gemma",
+            },
+            {
+              step: "05",
+              title: "Structured Solution",
+              detail: "Six-part Markdown proposal with sources",
+            },
+            {
+              step: "06",
+              title: "Human Review & Refine",
+              detail: "Verify citations and sharpen the next pass",
             },
           ],
-          brief: {
-            step: "01",
-            eyebrow: "NEW INPUT",
-            title: "Client Brief",
-            detail: "Industry, goals, requirements, and constraints.",
-          },
-          retrieval: {
-            step: "02",
-            eyebrow: "EVIDENCE MATCH",
-            title: "Retrieve Grounded Context",
-            detail: "Top-5 semantic matches from the local evidence store.",
-            signals: ["PASSAGE TEXT", "SOURCE FILE", "PAGE", "COSINE SIMILARITY"],
-          },
-          reasoning: {
-            step: "03",
-            eyebrow: "LOCAL REASONING",
-            title: "Compare & Adapt",
-            detail:
-              "FastAPI orchestrates Gemma to translate retrieved evidence into a response tailored to the new brief.",
-          },
-          output: {
-            step: "04",
-            eyebrow: "DELIVERABLE",
-            title: "Structured Solution Draft",
-            detail: "A six-part Markdown proposal, ready for human review.",
-            sections: [
-              "Need diagnosis",
-              "Relevant case reuse",
-              "Target architecture",
-              "Delivery plan",
-              "Risks & mitigations",
-              "Sources & pages",
-            ],
-          },
           evidence: [
             { value: "15", label: "CASE PDFS" },
             { value: "111", label: "INDEXED CHUNKS" },
@@ -435,61 +398,49 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
           label: "VERBA / 本地优先 RAG",
           headline: "Verba 如何把新需求转化为有来源依据的方案初稿。",
           body:
-            "历史方案只需索引一次；每次收到新需求，系统先检索相关段落，再由本地模型生成带文件名和页码的结构化初稿。",
-          diagramLabel: "Verba 证据汇流系统图",
-          prepareLabel: "一次建立",
-          prepareNote: "一次索引，持续服务每次新需求。",
-          runLabel: "每次需求运行",
-          reusableEvidence: "复用历史证据",
+            "每个新需求都会经过本地证据检索与结构化生成；人工复核来源后，还可以继续完善下一轮输入。",
+          diagramLabel: "Verba 有来源依据的方案迭代闭环",
+          cycleLabel: "从证据到方案的迭代闭环",
           evidenceLabel: "原型验证",
           boundary:
             "当前为本地单用户原型；系统会展示来源供人工核验，但尚未自动验证引用准确性。",
-          prepareNodes: [
-            { step: "01", title: "案例库", detail: "15 份历史方案 PDF" },
+          core: {
+            label: "本地证据核心",
+            title: "15 份案例 PDF",
+            details: ["111 个索引切片", "BGE 向量", "ChromaDB"],
+          },
+          cycleNodes: [
+            {
+              step: "01",
+              title: "客户需求",
+              detail: "业务目标、具体要求与约束",
+            },
             {
               step: "02",
-              title: "解析并索引",
-              detail: "提取正文 · 600 字符分块",
+              title: "检索证据",
+              detail: "从本地证据库召回 Top-5 语义匹配",
             },
             {
               step: "03",
-              title: "本地证据库",
-              detail: "BGE 向量 · 111 个切片 · ChromaDB",
+              title: "组织上下文",
+              detail: "段落正文 · 来源文件 · 页码 · 相似度",
+            },
+            {
+              step: "04",
+              title: "本地生成",
+              detail: "FastAPI 编排 · Gemma",
+            },
+            {
+              step: "05",
+              title: "结构化方案",
+              detail: "带来源的六部分 Markdown 初稿",
+            },
+            {
+              step: "06",
+              title: "人工复核与完善",
+              detail: "核验引用，并完善下一轮输入",
             },
           ],
-          brief: {
-            step: "01",
-            eyebrow: "新输入",
-            title: "客户需求",
-            detail: "行业、目标、业务要求与约束。",
-          },
-          retrieval: {
-            step: "02",
-            eyebrow: "证据匹配",
-            title: "检索有依据的上下文",
-            detail: "从本地证据库召回 Top-5 语义匹配。",
-            signals: ["段落正文", "来源文件", "页码", "余弦相似度"],
-          },
-          reasoning: {
-            step: "03",
-            eyebrow: "本地推理",
-            title: "对比并适配",
-            detail: "FastAPI 编排 Gemma，把检索证据转化为针对当前需求的内容。",
-          },
-          output: {
-            step: "04",
-            eyebrow: "交付物",
-            title: "结构化方案初稿",
-            detail: "生成六部分 Markdown 方案，供人工复核。",
-            sections: [
-              "需求诊断与挑战",
-              "历史方案匹配与复用",
-              "定制架构设计",
-              "实施阶段",
-              "风险与预案",
-              "来源与页码",
-            ],
-          },
           evidence: [
             { value: "15", label: "案例 PDF" },
             { value: "111", label: "已索引切片" },

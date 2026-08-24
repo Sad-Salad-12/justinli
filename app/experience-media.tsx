@@ -374,14 +374,13 @@ export function VerbaSystemVisual({ copy }: AdReportMediaProps) {
         <p>{verba.body}</p>
       </header>
 
-      <div className="verba-system-map">
+      <div className="verba-cycle-map">
         <div className="verba-grid" aria-hidden="true" />
-        <section className="verba-prepare" aria-labelledby="verba-prepare-label">
-          <p id="verba-prepare-label" className="verba-lane-label">
-            {verba.prepareLabel}
-          </p>
-          <ol className="verba-prepare-track">
-            {verba.prepareNodes.map((node) => (
+        <p className="verba-cycle-label">{verba.cycleLabel}</p>
+        <div className="verba-cycle-canvas">
+          <span className="verba-cycle-ring" aria-hidden="true" />
+          <ol className="verba-cycle-nodes">
+            {verba.cycleNodes.map((node) => (
               <li key={node.step}>
                 <span>{node.step}</span>
                 <strong>{node.title}</strong>
@@ -389,62 +388,21 @@ export function VerbaSystemVisual({ copy }: AdReportMediaProps) {
               </li>
             ))}
           </ol>
-          <p className="verba-prepare-note">{verba.prepareNote}</p>
-          <div className="verba-evidence-feed" aria-hidden="true">
-            <span>{verba.reusableEvidence}</span>
-            <i>↓</i>
+          <ul className="verba-cycle-arrows" aria-hidden="true">
+            {["↘", "↓", "↙", "↖", "↑", "↗"].map((arrow, index) => (
+              <li key={`${arrow}-${index}`}>{arrow}</li>
+            ))}
+          </ul>
+          <div className="verba-cycle-core">
+            <span>{verba.core.label}</span>
+            <strong>{verba.core.title}</strong>
+            <ul>
+              {verba.core.details.map((detail) => (
+                <li key={detail}>{detail}</li>
+              ))}
+            </ul>
           </div>
-        </section>
-
-        <section className="verba-run" aria-labelledby="verba-run-label">
-          <p id="verba-run-label" className="verba-lane-label">
-            {verba.runLabel}
-          </p>
-          <ol className="verba-run-track">
-            <li className="verba-run-node is-brief">
-              <span>{verba.brief.step}</span>
-              <small>{verba.brief.eyebrow}</small>
-              <strong>{verba.brief.title}</strong>
-              <p>{verba.brief.detail}</p>
-            </li>
-            <li className="verba-run-node is-retrieval">
-              <span>{verba.retrieval.step}</span>
-              <small>{verba.retrieval.eyebrow}</small>
-              <strong>{verba.retrieval.title}</strong>
-              <p>{verba.retrieval.detail}</p>
-              <ul className="verba-retrieval-signals">
-                {verba.retrieval.signals.map((signal) => (
-                  <li key={signal}>{signal}</li>
-                ))}
-              </ul>
-            </li>
-            <li className="verba-run-node is-reasoning">
-              <span>{verba.reasoning.step}</span>
-              <small>{verba.reasoning.eyebrow}</small>
-              <strong>{verba.reasoning.title}</strong>
-              <p>{verba.reasoning.detail}</p>
-              <div className="verba-model-route" aria-hidden="true">
-                <b>FASTAPI</b>
-                <i>→</i>
-                <b>GEMMA</b>
-              </div>
-            </li>
-            <li className="verba-run-node is-output">
-              <span>{verba.output.step}</span>
-              <small>{verba.output.eyebrow}</small>
-              <strong>{verba.output.title}</strong>
-              <p>{verba.output.detail}</p>
-              <ol className="verba-output-sections">
-                {verba.output.sections.map((section, index) => (
-                  <li key={section}>
-                    <span>{String(index + 1).padStart(2, "0")}</span>
-                    {section}
-                  </li>
-                ))}
-              </ol>
-            </li>
-          </ol>
-        </section>
+        </div>
       </div>
 
       <div className="verba-evidence-strip">

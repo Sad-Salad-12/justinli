@@ -1,14 +1,17 @@
-# Justin - Solutions & FDE Portfolio
+# Justin Li — Solutions & FDE Portfolio
 
-白底、科技风的 Solution Architect / Forward Deployed Engineer 求职个人站。
+白底、科技风的双语求职个人网站，面向 Solution Architect、Product Management 与 AI Operations 岗位。
 
 网站包含：
 
-- 中英双语个人定位与能力介绍
-- 三个 PDF 案例入口
-- PDF 在线预览与下载
+- 英文优先、简体中文切换
+- AI Advertisement Report Automation 产品演示与成果轮播
+- Verba 本地优先 RAG 项目流程与验证数据
+- R&D Project Dashboards（Lark Base）真实项目快照
 - 响应式移动端布局
-- 克制的首屏、滚动与悬停动效
+- 联系方式与招聘导向的个人定位
+
+线上地址：[sad-salad-12.github.io/justinli](https://sad-salad-12.github.io/justinli/)
 
 ## 本地运行
 
@@ -22,5 +25,3 @@ npm run dev
 ```sh
 npm run build
 ```
-
-个人信息与 PDF 替换方式见 `作品更新说明.md`。

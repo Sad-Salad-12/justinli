@@ -62,7 +62,15 @@ test("server-renders the streamlined English portfolio", async () => {
   assert.match(html, /111/);
   assert.doesNotMatch(html, /Visual documentation coming next|verba-visual-placeholder/);
   assert.match(html, /src="\/justin-shanghai-portrait\.jpg"/);
-  assert.match(html, /href="\/works\/solution-blueprint-sample\.pdf"/);
+  assert.match(html, /R&amp;D Project Dashboards \(Lark Base\)/);
+  assert.match(html, /src="\/works\/rd-project-dashboard-lark-base\.png"/);
+  assert.match(html, /REAL PROJECT SNAPSHOT/);
+  assert.equal((html.match(/class="work-row"/g) ?? []).length, 1);
+  assert.doesNotMatch(
+    html,
+    /Enterprise Knowledge System|Field Discovery &amp; Validation|Production Readiness/,
+  );
+  assert.doesNotMatch(html, /sample\.pdf|application\/pdf/);
   assert.doesNotMatch(html, /01 — POSITIONING|BUILT FOR AMBIGUITY|Built in ambiguity/);
   assert.doesNotMatch(html, /class="positioning"/);
   assert.doesNotMatch(html, /\/justinli\//);
@@ -78,18 +86,15 @@ test("keeps bilingual content and hosted assets wired correctly", async () => {
     readFile(new URL("../next.config.ts", import.meta.url), "utf8"),
   ]);
 
-  const pdfs = [
-    "solution-blueprint-sample.pdf",
-    "field-discovery-sample.pdf",
-    "production-readiness-sample.pdf",
-  ];
-
-  for (const filename of pdfs) {
-    assert.match(page, new RegExp(filename.replaceAll(".", "\\.")));
-    await access(new URL(`../public/works/${filename}`, import.meta.url));
-  }
-
-  assert.match(page, /type="application\/pdf"/);
+  const dashboard = new URL(
+    "../public/works/rd-project-dashboard-lark-base.png",
+    import.meta.url,
+  );
+  assert.ok((await stat(dashboard)).size > 100_000);
+  assert.match(page, /rd-project-dashboard-lark-base\.png/);
+  assert.doesNotMatch(page, /sample\.pdf|application\/pdf/);
+  assert.match(page, /work-image-preview/);
+  assert.match(page, /work-image-modal/);
   assert.match(page, /portfolio-language/);
   assert.match(page, /setLanguage\("en"\)/);
   assert.match(page, /setLanguage\("zh"\)/);
@@ -108,6 +113,12 @@ test("keeps bilingual content and hosted assets wired correctly", async () => {
   assert.match(content, /15 份可复用案例文件/);
   assert.match(content, /知识库为证据检索提供依据/);
   assert.match(content, /生成的引用仍需人工复核/);
+  assert.match(content, /R&D Project Dashboards \(Lark Base\)/);
+  assert.match(content, /研发项目仪表盘（飞书多维表格）/);
+  assert.doesNotMatch(
+    content,
+    /Enterprise Knowledge System|Field Discovery & Validation|Production Readiness/,
+  );
   assert.doesNotMatch(content, /Built in ambiguity|BUILT FOR AMBIGUITY/);
   assert.match(media, /autoplay|autoPlay/);
   assert.match(media, /muted/);
@@ -167,6 +178,9 @@ test("keeps retained sections white and the final contact section dark", async (
   assert.match(css, /\.work\s*\{[^}]*background:\s*var\(--white\)/s);
   assert.match(css, /\.contact\s*\{[^}]*background:\s*var\(--ink\)/s);
   assert.match(css, /\.experience-head h2 span\s*\{[^}]*color:\s*var\(--blue\)/s);
+  assert.match(css, /\.work-image-preview\s*\{/);
+  assert.match(css, /\.work-image-modal\s*\{/);
+  assert.doesNotMatch(css, /\.document-cover|\.pdf-modal/);
 });
 
 test("keeps the compact portrait and omits retired sections", async () => {

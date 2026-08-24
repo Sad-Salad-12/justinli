@@ -3,10 +3,9 @@ export type Language = "en" | "zh";
 export type LocalizedWork = {
   type: string;
   title: string;
-  coverTitle: string;
   summary: string;
-  role: string;
-  deliverable: string;
+  imageAlt: string;
+  features: string[];
 };
 
 export type LocalizedExperience = {
@@ -84,8 +83,8 @@ type PortfolioContent = {
     languageSelector: string;
     portraitAlt: string;
     previewWork: (title: string) => string;
-    closePdf: string;
-    pdfPreview: (title: string) => string;
+    closeWorkPreview: string;
+    workPreview: (title: string) => string;
   };
   nav: {
     experience: string;
@@ -117,10 +116,7 @@ type PortfolioContent = {
     intro: string;
     libraryLabel: string;
     libraryNote: string;
-    roleLabel: string;
-    outputLabel: string;
     previewAction: string;
-    downloadAction: string;
     items: LocalizedWork[];
   };
   contact: {
@@ -133,13 +129,6 @@ type PortfolioContent = {
     footerRole: string;
     footerStatement: string;
     backToTop: string;
-  };
-  pdf: {
-    openWindow: string;
-    download: string;
-    close: string;
-    unsupported: string;
-    openFallback: string;
   };
 };
 
@@ -165,8 +154,8 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       languageSelector: "Choose display language",
       portraitAlt: "Portrait of Justin in Shanghai",
       previewWork: (title) => `Preview ${title}`,
-      closePdf: "Close PDF preview",
-      pdfPreview: (title) => `${title} PDF preview`,
+      closeWorkPreview: "Close project image",
+      workPreview: (title) => `${title} image preview`,
     },
     nav: {
       experience: "Experience",
@@ -307,39 +296,18 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       label: "02 — SELECTED WORK",
       headline: "Work is more than a file.",
       intro: "It should reveal how you think, the trade-offs you make, and how you move the work forward.",
-      libraryLabel: "PDF LIBRARY",
-      libraryNote: "Demo documents shown. Replace them with your own de-identified work.",
-      roleLabel: "ROLE",
-      outputLabel: "OUTPUT",
-      previewAction: "Preview online",
-      downloadAction: "Download PDF",
+      libraryLabel: "REAL PROJECT SNAPSHOT",
+      libraryNote: "Select the dashboard to inspect the full-size view.",
+      previewAction: "View full image",
       items: [
         {
-          type: "SOLUTION DESIGN",
-          title: "Enterprise Knowledge System",
-          coverTitle: "Solution Blueprint",
+          type: "PRODUCT OPERATIONS · LARK BASE",
+          title: "R&D Project Dashboards (Lark Base)",
           summary:
-            "A structured path from business framing to RAG evaluation, permission boundaries, and a production rollout plan.",
-          role: "Discovery · Architecture",
-          deliverable: "Solution blueprint / Demo PDF",
-        },
-        {
-          type: "FIELD ENGINEERING",
-          title: "Field Discovery & Validation",
-          coverTitle: "Field Discovery Notes",
-          summary:
-            "A method for turning interviews, system signals, and blockers into clear hypotheses that can be tested with a focused prototype.",
-          role: "Field discovery · Prototyping",
-          deliverable: "Discovery notes / Demo PDF",
-        },
-        {
-          type: "DELIVERY SYSTEM",
-          title: "Production Readiness",
-          coverTitle: "Production Readiness",
-          summary:
-            "A practical checklist across integration, quality, monitoring, rollback, and adoption — moving a demo into a dependable workflow.",
-          role: "Production delivery · Launch",
-          deliverable: "Readiness checklist / Demo PDF",
+            "A Lark Base project overview that brings task status, priority, team ranking, and recurring work themes into one operational dashboard.",
+          imageAlt:
+            "Lark Base R&D project dashboard showing task status, priority, team ranking, and task keyword charts",
+          features: ["Task status and priority", "Team ranking", "Task keyword patterns"],
         },
       ],
     },
@@ -354,13 +322,6 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       footerRole: "JUSTIN LI / SOLUTIONS × FDE",
       footerStatement: "DESIGNED FOR THE REAL WORLD",
       backToTop: "BACK TO TOP ↑",
-    },
-    pdf: {
-      openWindow: "New window",
-      download: "Download",
-      close: "Close ×",
-      unsupported: "This browser cannot display the PDF inline.",
-      openFallback: "Open it in a new window",
     },
   },
   zh: {
@@ -383,8 +344,8 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       languageSelector: "选择显示语言",
       portraitAlt: "李泽霆在上海的个人照片",
       previewWork: (title) => `预览${title}`,
-      closePdf: "关闭文档预览",
-      pdfPreview: (title) => `${title}文档预览`,
+      closeWorkPreview: "关闭项目图片",
+      workPreview: (title) => `${title}图片预览`,
     },
     nav: {
       experience: "经历",
@@ -525,36 +486,16 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       label: "02 — 精选作品",
       headline: "作品，不只是一份文件。",
       intro: "它应该让人看见你如何思考、如何取舍，以及如何推动事情发生。",
-      libraryLabel: "文档作品库",
-      libraryNote: "以下为示例文档，正式发布前可替换为脱敏后的真实作品。",
-      roleLabel: "角色",
-      outputLabel: "交付物",
-      previewAction: "在线预览",
-      downloadAction: "下载 PDF",
+      libraryLabel: "真实项目快照",
+      libraryNote: "点击仪表盘即可查看完整大图。",
+      previewAction: "查看完整图片",
       items: [
         {
-          type: "方案设计",
-          title: "企业知识智能系统方案",
-          coverTitle: "方案蓝图",
-          summary: "从业务问题拆解到检索增强生成评估、权限边界与上线节奏，形成一份可讨论、可验证的系统方案。",
-          role: "需求澄清 · 架构设计",
-          deliverable: "方案蓝图 / 示例 PDF",
-        },
-        {
-          type: "现场工程",
-          title: "现场发现与验证手册",
-          coverTitle: "现场发现纪要",
-          summary: "把访谈、系统信号和障碍压缩成清晰假设，用最小可行原型验证真正值得解决的问题。",
-          role: "现场发现 · 原型验证",
-          deliverable: "发现纪要 / 示例 PDF",
-        },
-        {
-          type: "交付体系",
-          title: "生产上线准备清单",
-          coverTitle: "生产准备清单",
-          summary: "覆盖集成、质量、监控、回滚和用户采用，让方案从演示环境稳稳走进真实工作流程。",
-          role: "交付推进 · 上线保障",
-          deliverable: "交付清单 / 示例 PDF",
+          type: "产品运营 · 飞书多维表格",
+          title: "研发项目仪表盘（飞书多维表格）",
+          summary: "通过一个项目总览集中呈现任务状态、优先级、团队排名与重复出现的工作主题。",
+          imageAlt: "展示任务状态、优先级、团队排名与任务关键词图表的飞书多维表格研发项目仪表盘",
+          features: ["任务状态与优先级", "团队排名", "任务关键词分布"],
         },
       ],
     },
@@ -568,13 +509,6 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       footerRole: "李泽霆 / 解决方案 × 前线部署",
       footerStatement: "为真实世界而设计",
       backToTop: "返回顶部 ↑",
-    },
-    pdf: {
-      openWindow: "新窗口",
-      download: "下载",
-      close: "关闭 ×",
-      unsupported: "当前浏览器无法直接显示这份文档。",
-      openFallback: "在新窗口打开",
     },
   },
 };

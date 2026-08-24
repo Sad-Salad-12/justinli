@@ -8,18 +8,7 @@ import { type Language, portfolioContent } from "./portfolio-content";
 const workAssets = [
   {
     index: "01",
-    pdf: "/works/solution-blueprint-sample.pdf",
-    color: "blue",
-  },
-  {
-    index: "02",
-    pdf: "/works/field-discovery-sample.pdf",
-    color: "ink",
-  },
-  {
-    index: "03",
-    pdf: "/works/production-readiness-sample.pdf",
-    color: "silver",
+    image: "/works/rd-project-dashboard-lark-base.png",
   },
 ] as const;
 
@@ -92,7 +81,7 @@ export default function Home() {
 
       if (event.key !== "Tab") return;
 
-      const dialog = document.querySelector<HTMLElement>(".pdf-dialog");
+      const dialog = document.querySelector<HTMLElement>(".work-image-dialog");
       const focusable = Array.from(
         dialog?.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex="0"]') ?? [],
       ).filter((element) => !element.hasAttribute("hidden"));
@@ -281,23 +270,23 @@ export default function Home() {
           {works.map((work, index) => (
             <article className="work-row" key={work.index} data-reveal>
               <button
-                className={`document-cover document-${work.color}`}
+                className="work-image-preview"
                 onClick={(event) => openWork(index, event.currentTarget)}
                 aria-label={t.a11y.previewWork(work.title)}
               >
-                <span className="document-top">
-                  {work.index}
-                  <i>PDF</i>
+                <Image
+                  src={work.image}
+                  alt={work.imageAlt}
+                  width={2940}
+                  height={1380}
+                  sizes="(max-width: 700px) 100vw, 66vw"
+                  unoptimized
+                />
+                <span className="work-image-index">
+                  {work.index} / LARK BASE
                 </span>
-                <span className="document-visual" aria-hidden="true">
-                  <i />
-                  <i />
-                  <i />
-                  <b />
-                </span>
-                <span className="document-bottom">
-                  <small>{work.type}</small>
-                  <strong>{work.coverTitle}</strong>
+                <span className="work-image-action">
+                  {t.work.previewAction} <i aria-hidden="true">↗</i>
                 </span>
               </button>
 
@@ -308,25 +297,17 @@ export default function Home() {
                 </div>
                 <h3>{work.title}</h3>
                 <p>{work.summary}</p>
-                <dl>
-                  <div>
-                    <dt>{t.work.roleLabel}</dt>
-                    <dd>{work.role}</dd>
-                  </div>
-                  <div>
-                    <dt>{t.work.outputLabel}</dt>
-                    <dd>{work.deliverable}</dd>
-                  </div>
-                </dl>
-              </div>
-
-              <div className="work-actions">
-                <button onClick={(event) => openWork(index, event.currentTarget)}>
+                <ul className="work-features">
+                  {work.features.map((feature) => (
+                    <li key={feature}>{feature}</li>
+                  ))}
+                </ul>
+                <button
+                  className="work-preview-action"
+                  onClick={(event) => openWork(index, event.currentTarget)}
+                >
                   {t.work.previewAction} <span aria-hidden="true">↗</span>
                 </button>
-                <a href={work.pdf} download>
-                  {t.work.downloadAction} <span aria-hidden="true">↓</span>
-                </a>
               </div>
             </article>
           ))}
@@ -376,49 +357,38 @@ export default function Home() {
 
       {activeWork && (
         <div
-          className="pdf-modal"
+          className="work-image-modal"
           role="dialog"
           aria-modal="true"
-          aria-labelledby="pdf-modal-title"
+          aria-labelledby="work-image-modal-title"
           onMouseDown={(event) => {
             if (event.currentTarget === event.target) setActiveWorkIndex(null);
           }}
         >
-          <div className="pdf-dialog">
-            <div className="pdf-toolbar">
+          <div className="work-image-dialog">
+            <div className="work-image-toolbar">
               <div>
                 <span>{activeWork.type}</span>
-                <strong id="pdf-modal-title">{activeWork.title}</strong>
+                <strong id="work-image-modal-title">{activeWork.title}</strong>
               </div>
-              <div className="pdf-toolbar-actions">
-                <a href={activeWork.pdf} target="_blank" rel="noreferrer">
-                  {t.pdf.openWindow}
-                </a>
-                <a href={activeWork.pdf} download>
-                  {t.pdf.download}
-                </a>
-                <button
-                  ref={closeButtonRef}
-                  onClick={() => setActiveWorkIndex(null)}
-                  aria-label={t.a11y.closePdf}
-                >
-                  {t.pdf.close}
-                </button>
-              </div>
+              <button
+                ref={closeButtonRef}
+                onClick={() => setActiveWorkIndex(null)}
+                aria-label={t.a11y.closeWorkPreview}
+              >
+                {t.a11y.closeWorkPreview} <span aria-hidden="true">×</span>
+              </button>
             </div>
-            <object
-              data={activeWork.pdf}
-              type="application/pdf"
-              className="pdf-frame"
-              title={t.a11y.pdfPreview(activeWork.title)}
-            >
-              <div className="pdf-fallback">
-                <p>{t.pdf.unsupported}</p>
-                <a href={activeWork.pdf} target="_blank" rel="noreferrer">
-                  {t.pdf.openFallback}
-                </a>
-              </div>
-            </object>
+            <div className="work-image-stage">
+              <Image
+                src={activeWork.image}
+                alt={activeWork.imageAlt}
+                width={2940}
+                height={1380}
+                sizes="96vw"
+                unoptimized
+              />
+            </div>
           </div>
         </div>
       )}

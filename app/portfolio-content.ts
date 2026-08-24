@@ -37,21 +37,43 @@ export type LocalizedExperienceMedia = {
     headline: string;
     body: string;
     diagramLabel: string;
-    knowledgeLane: string;
-    requestLane: string;
-    retrievalBridge: string;
+    prepareLabel: string;
+    prepareNote: string;
+    runLabel: string;
+    reusableEvidence: string;
     evidenceLabel: string;
     boundary: string;
-    knowledgeNodes: Array<{
+    prepareNodes: Array<{
       step: string;
       title: string;
       detail: string;
     }>;
-    requestNodes: Array<{
+    brief: {
       step: string;
+      eyebrow: string;
       title: string;
       detail: string;
-    }>;
+    };
+    retrieval: {
+      step: string;
+      eyebrow: string;
+      title: string;
+      detail: string;
+      signals: string[];
+    };
+    reasoning: {
+      step: string;
+      eyebrow: string;
+      title: string;
+      detail: string;
+    };
+    output: {
+      step: string;
+      eyebrow: string;
+      title: string;
+      detail: string;
+      sections: string[];
+    };
     evidence: Array<{
       value: string;
       label: string;
@@ -190,35 +212,65 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
         closeFullscreen: "Close detailed view",
         fullscreenLabel: "Detailed advertising report output",
         verba: {
-          label: "VERBA / SOLUTION INTELLIGENCE",
-          headline: "From scattered case files to a source-aware solution draft.",
+          label: "VERBA / LOCAL-FIRST RAG",
+          headline: "How Verba turns a new brief into a source-linked solution draft.",
           body:
-            "Verba evolved from a rapid sales-agent MVP into a local-first RAG workspace. It turns historical solution PDFs into reusable evidence, retrieves relevant passages for a new brief, and drafts a structured proposal with source and page references.",
-          diagramLabel: "Verba solution-matching system architecture",
-          knowledgeLane: "01 / BUILD ONCE",
-          requestLane: "02 / RUN FOR EACH NEW BRIEF",
-          retrievalBridge: "KNOWLEDGE BASE GROUNDS RETRIEVAL",
+            "Historical case PDFs are indexed once. Each new brief retrieves relevant passages before a local model drafts a structured proposal with file and page references.",
+          diagramLabel: "Verba evidence convergence system map",
+          prepareLabel: "PREPARE ONCE",
+          prepareNote: "Index once. Reuse for every new brief.",
+          runLabel: "RUN PER BRIEF",
+          reusableEvidence: "REUSABLE EVIDENCE",
           evidenceLabel: "PROTOTYPE EVIDENCE",
           boundary:
-            "Prototype boundary — local, single-user workflow. Generated citations remain human-reviewed rather than automatically verified.",
-          knowledgeNodes: [
-            { step: "01", title: "Historical Case PDFs", detail: "15 reusable solution files" },
+            "Local single-user prototype. Sources are surfaced for human review; citation accuracy is not automatically verified.",
+          prepareNodes: [
+            { step: "01", title: "Case Library", detail: "15 historical solution PDFs" },
             {
               step: "02",
-              title: "Build Local Knowledge Base",
-              detail: "Parse → chunk → BGE embeddings → ChromaDB",
+              title: "Parse & Index",
+              detail: "Extract text · 600-character chunks",
             },
-          ],
-          requestNodes: [
-            { step: "03", title: "Client Brief", detail: "New industry and requirements" },
-            { step: "04", title: "Retrieve Evidence", detail: "Top-k passages · file + page" },
-            { step: "05", title: "Reason Locally", detail: "Gemma · FastAPI orchestration" },
             {
-              step: "06",
-              title: "Draft Solution",
-              detail: "Diagnosis → architecture → plan → risks → sources",
+              step: "03",
+              title: "Local Evidence Store",
+              detail: "BGE embeddings · 111 chunks · ChromaDB",
             },
           ],
+          brief: {
+            step: "01",
+            eyebrow: "NEW INPUT",
+            title: "Client Brief",
+            detail: "Industry, goals, requirements, and constraints.",
+          },
+          retrieval: {
+            step: "02",
+            eyebrow: "EVIDENCE MATCH",
+            title: "Retrieve Grounded Context",
+            detail: "Top-5 semantic matches from the local evidence store.",
+            signals: ["PASSAGE TEXT", "SOURCE FILE", "PAGE", "COSINE SIMILARITY"],
+          },
+          reasoning: {
+            step: "03",
+            eyebrow: "LOCAL REASONING",
+            title: "Compare & Adapt",
+            detail:
+              "FastAPI orchestrates Gemma to translate retrieved evidence into a response tailored to the new brief.",
+          },
+          output: {
+            step: "04",
+            eyebrow: "DELIVERABLE",
+            title: "Structured Solution Draft",
+            detail: "A six-part Markdown proposal, ready for human review.",
+            sections: [
+              "Need diagnosis",
+              "Relevant case reuse",
+              "Target architecture",
+              "Delivery plan",
+              "Risks & mitigations",
+              "Sources & pages",
+            ],
+          },
           evidence: [
             { value: "15", label: "CASE PDFS" },
             { value: "111", label: "INDEXED CHUNKS" },
@@ -380,35 +432,64 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
         closeFullscreen: "关闭细节查看",
         fullscreenLabel: "广告报告成果细节查看",
         verba: {
-          label: "VERBA / 方案智能",
-          headline: "把分散的案例文件，转化为有来源依据的方案初稿。",
+          label: "VERBA / 本地优先 RAG",
+          headline: "Verba 如何把新需求转化为有来源依据的方案初稿。",
           body:
-            "Verba 从快速验证的销售助手原型演进为本地优先的 RAG 工作台：把历史方案 PDF 转化为可复用证据，为新需求检索相关段落，并生成带文件名和页码来源的结构化方案。",
-          diagramLabel: "Verba 方案匹配系统架构",
-          knowledgeLane: "01 / 一次性构建",
-          requestLane: "02 / 每次新需求运行",
-          retrievalBridge: "知识库为证据检索提供依据",
+            "历史方案只需索引一次；每次收到新需求，系统先检索相关段落，再由本地模型生成带文件名和页码的结构化初稿。",
+          diagramLabel: "Verba 证据汇流系统图",
+          prepareLabel: "一次建立",
+          prepareNote: "一次索引，持续服务每次新需求。",
+          runLabel: "每次需求运行",
+          reusableEvidence: "复用历史证据",
           evidenceLabel: "原型验证",
           boundary:
-            "原型边界——当前为本地单用户工作流；生成的引用仍需人工复核，尚未实现自动真实性验证。",
-          knowledgeNodes: [
-            { step: "01", title: "历史方案 PDF", detail: "15 份可复用案例文件" },
+            "当前为本地单用户原型；系统会展示来源供人工核验，但尚未自动验证引用准确性。",
+          prepareNodes: [
+            { step: "01", title: "案例库", detail: "15 份历史方案 PDF" },
             {
               step: "02",
-              title: "构建本地知识库",
-              detail: "解析 → 分块 → BGE 向量化 → ChromaDB",
+              title: "解析并索引",
+              detail: "提取正文 · 600 字符分块",
             },
-          ],
-          requestNodes: [
-            { step: "03", title: "客户需求", detail: "新的行业场景与业务要求" },
-            { step: "04", title: "检索证据", detail: "Top-K 段落 · 文件名与页码" },
-            { step: "05", title: "本地推理", detail: "Gemma · FastAPI 编排" },
             {
-              step: "06",
-              title: "生成方案初稿",
-              detail: "诊断 → 架构 → 实施 → 风险 → 来源",
+              step: "03",
+              title: "本地证据库",
+              detail: "BGE 向量 · 111 个切片 · ChromaDB",
             },
           ],
+          brief: {
+            step: "01",
+            eyebrow: "新输入",
+            title: "客户需求",
+            detail: "行业、目标、业务要求与约束。",
+          },
+          retrieval: {
+            step: "02",
+            eyebrow: "证据匹配",
+            title: "检索有依据的上下文",
+            detail: "从本地证据库召回 Top-5 语义匹配。",
+            signals: ["段落正文", "来源文件", "页码", "余弦相似度"],
+          },
+          reasoning: {
+            step: "03",
+            eyebrow: "本地推理",
+            title: "对比并适配",
+            detail: "FastAPI 编排 Gemma，把检索证据转化为针对当前需求的内容。",
+          },
+          output: {
+            step: "04",
+            eyebrow: "交付物",
+            title: "结构化方案初稿",
+            detail: "生成六部分 Markdown 方案，供人工复核。",
+            sections: [
+              "需求诊断与挑战",
+              "历史方案匹配与复用",
+              "定制架构设计",
+              "实施阶段",
+              "风险与预案",
+              "来源与页码",
+            ],
+          },
           evidence: [
             { value: "15", label: "案例 PDF" },
             { value: "111", label: "已索引切片" },

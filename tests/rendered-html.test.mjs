@@ -221,9 +221,10 @@ test("keeps the demo dominant on desktop and stacks media on phones", async () =
   assert.match(css, /\.verba-cycle-canvas\s*\{[^}]*aspect-ratio:\s*1\.34/s);
   assert.match(css, /\.verba-cycle-band\s*\{[^}]*conic-gradient/s);
   assert.match(css, /\.verba-cycle-band\s*\{[^}]*radial-gradient/s);
+  assert.match(css, /\.verba-arrow-loop\s*\{[^}]*width:\s*min\(38%,\s*450px\)/s);
   assert.match(css, /\.verba-cycle-core\s*\{[^}]*border-radius:\s*50%/s);
   assert.match(css, /\.verba-cycle-heads i\s*\{[^}]*clip-path:\s*polygon/s);
-  assert.match(css, /\.verba-cycle-heads i\s*\{[^}]*animation:\s*cycle-segment-focus/s);
+  assert.doesNotMatch(css, /cycle-segment-focus|transparent 52deg 60deg/);
   assert.match(css, /@media \(max-width:\s*700px\)[\s\S]*?\.verba-arrow-loop\s*\{[^}]*display:\s*none/s);
   assert.match(css, /@media \(max-width:\s*700px\)[\s\S]*?\.verba-cycle-nodes\s*\{[^}]*display:\s*grid/s);
 });

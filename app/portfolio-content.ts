@@ -192,8 +192,8 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
           headline: "How Verba turns a new brief into a source-linked solution draft.",
           body:
             "A new brief moves through local evidence retrieval and structured drafting. Human review verifies sources and can refine the next pass.",
-          diagramLabel: "Verba source-linked solution cycle",
-          cycleLabel: "EVIDENCE-TO-SOLUTION LOOP",
+          diagramLabel: "Verba source-linked solution workflow",
+          cycleLabel: "SOURCE-LINKED WORKFLOW",
           evidenceLabel: "PROTOTYPE EVIDENCE",
           boundary:
             "Local single-user prototype. Sources are surfaced for human review; citation accuracy is not automatically verified.",
@@ -399,8 +399,8 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
           headline: "Verba 如何把新需求转化为有来源依据的方案初稿。",
           body:
             "每个新需求都会经过本地证据检索与结构化生成；人工复核来源后，还可以继续完善下一轮输入。",
-          diagramLabel: "Verba 有来源依据的方案迭代闭环",
-          cycleLabel: "从证据到方案的迭代闭环",
+          diagramLabel: "Verba 有来源依据的方案流程",
+          cycleLabel: "有来源依据的方案流程",
           evidenceLabel: "原型验证",
           boundary:
             "当前为本地单用户原型；系统会展示来源供人工核验，但尚未自动验证引用准确性。",

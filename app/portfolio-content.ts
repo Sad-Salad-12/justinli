@@ -3,10 +3,9 @@ export type Language = "en" | "zh";
 export type LocalizedWork = {
   type: string;
   title: string;
-  coverTitle: string;
   summary: string;
-  role: string;
-  deliverable: string;
+  imageAlt: string;
+  features: string[];
 };
 
 export type LocalizedExperience = {
@@ -14,10 +13,51 @@ export type LocalizedExperience = {
   eyebrow: string;
   title: string;
   meta?: string;
+  media: "ad-report" | "verba-system";
   bullets: string[];
   metrics: Array<{
     value: string;
     label: string;
+  }>;
+};
+
+export type LocalizedExperienceMedia = {
+  demoLabel: string;
+  demoCaption: string;
+  outputsLabel: string;
+  interactionHint: string;
+  carouselLabel: string;
+  previousSlide: string;
+  nextSlide: string;
+  openFullscreen: string;
+  closeFullscreen: string;
+  fullscreenLabel: string;
+  verba: {
+    label: string;
+    headline: string;
+    body: string;
+    diagramLabel: string;
+    cycleLabel: string;
+    evidenceLabel: string;
+    boundary: string;
+    core: {
+      label: string;
+      title: string;
+      details: string[];
+    };
+    cycleNodes: Array<{
+      step: string;
+      title: string;
+      detail: string;
+    }>;
+    evidence: Array<{
+      value: string;
+      label: string;
+    }>;
+  };
+  slides: Array<{
+    title: string;
+    alt: string;
   }>;
 };
 
@@ -41,8 +81,8 @@ type PortfolioContent = {
     languageSelector: string;
     portraitAlt: string;
     previewWork: (title: string) => string;
-    closePdf: string;
-    pdfPreview: (title: string) => string;
+    closeWorkPreview: string;
+    workPreview: (title: string) => string;
   };
   nav: {
     experience: string;
@@ -60,17 +100,12 @@ type PortfolioContent = {
     portraitCaption: string;
     scroll: string;
   };
-  positioning: {
-    label: string;
-    headline: string;
-    headlineAccent: string;
-    body: string;
-    note: string;
-  };
   experience: {
     label: string;
     headline: string;
+    headlineAccent: string;
     intro: string;
+    media: LocalizedExperienceMedia;
     items: LocalizedExperience[];
   };
   work: {
@@ -79,10 +114,7 @@ type PortfolioContent = {
     intro: string;
     libraryLabel: string;
     libraryNote: string;
-    roleLabel: string;
-    outputLabel: string;
     previewAction: string;
-    downloadAction: string;
     items: LocalizedWork[];
   };
   contact: {
@@ -95,13 +127,6 @@ type PortfolioContent = {
     footerRole: string;
     footerStatement: string;
     backToTop: string;
-  };
-  pdf: {
-    openWindow: string;
-    download: string;
-    close: string;
-    unsupported: string;
-    openFallback: string;
   };
 };
 
@@ -127,8 +152,8 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       languageSelector: "Choose display language",
       portraitAlt: "Portrait of Justin in Shanghai",
       previewWork: (title) => `Preview ${title}`,
-      closePdf: "Close PDF preview",
-      pdfPreview: (title) => `${title} PDF preview`,
+      closeWorkPreview: "Close project image",
+      workPreview: (title) => `${title} image preview`,
     },
     nav: {
       experience: "Experience",
@@ -144,26 +169,120 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       primaryAction: "View experience",
       secondaryAction: "Start a conversation",
       portraitCaption: "JUSTIN LI / PORTRAIT",
-      scroll: "SCROLL — 01 / 04",
-    },
-    positioning: {
-      label: "01 — POSITIONING",
-      headline: "Business-aware.",
-      headlineAccent: "Built to deliver.",
-      body:
-        "I thrive in high-ambiguity environments: building a shared language across business and engineering, turning fuzzy goals into a clear path, and working with customers, product, and engineering teams to deliver the outcome.",
-      note: "BUILT FOR AMBIGUITY",
+      scroll: "SCROLL — 01 / 03",
     },
     experience: {
-      label: "02 — WORK EXPERIENCE",
-      headline: "Built in ambiguity. Shipped with evidence.",
+      label: "01 — WORK EXPERIENCE",
+      headline: "Business-aware.",
+      headlineAccent: "Built to deliver.",
       intro: "Selected work turning operational pain points into testable AI products and real user outcomes.",
+      media: {
+        demoLabel: "LIVE PRODUCT DEMO",
+        demoCaption: "From a validated input folder to an editable weekly report.",
+        outputsLabel: "GENERATED OUTPUTS",
+        interactionHint: "DRAG OR USE ARROWS · CLICK TO INSPECT",
+        carouselLabel: "Generated advertising report slides",
+        previousSlide: "Previous output",
+        nextSlide: "Next output",
+        openFullscreen: "Inspect full-size output",
+        closeFullscreen: "Close detailed view",
+        fullscreenLabel: "Detailed advertising report output",
+        verba: {
+          label: "VERBA / LOCAL-FIRST RAG",
+          headline: "How Verba turns a new brief into a source-linked solution draft.",
+          body:
+            "A new brief moves through local evidence retrieval and structured drafting. Human review verifies sources and can refine the next pass.",
+          diagramLabel: "Verba source-linked solution workflow",
+          cycleLabel: "SOURCE-LINKED WORKFLOW",
+          evidenceLabel: "PROTOTYPE EVIDENCE",
+          boundary:
+            "Local single-user prototype. Sources are surfaced for human review; citation accuracy is not automatically verified.",
+          core: {
+            label: "LOCAL EVIDENCE CORE",
+            title: "15 case PDFs",
+            details: ["111 indexed chunks", "BGE embeddings", "ChromaDB"],
+          },
+          cycleNodes: [
+            {
+              step: "01",
+              title: "Client Brief",
+              detail: "Capture the business goal, target users, constraints, and the decisions the proposal needs to support.",
+            },
+            {
+              step: "02",
+              title: "Retrieve Evidence",
+              detail: "Embed the brief and retrieve the five most relevant passages from 111 locally indexed chunks.",
+            },
+            {
+              step: "03",
+              title: "Ground Context",
+              detail: "Assemble passage text with its source file, page number, and similarity score so evidence stays traceable.",
+            },
+            {
+              step: "04",
+              title: "Draft Locally",
+              detail: "FastAPI orchestrates retrieval and sends the grounded prompt to a locally hosted Gemma model.",
+            },
+            {
+              step: "05",
+              title: "Structured Solution",
+              detail: "Return a six-part Markdown draft covering diagnosis, fit, architecture, rollout, risks, and sources.",
+            },
+            {
+              step: "06",
+              title: "Human Review & Refine",
+              detail: "A solution lead checks claims and citations, then refines the brief or evidence for the next pass.",
+            },
+          ],
+          evidence: [
+            { value: "15", label: "CASE PDFS" },
+            { value: "111", label: "INDEXED CHUNKS" },
+            { value: "11/11", label: "CORE TESTS" },
+            { value: "LOCAL", label: "DEFAULT INFERENCE" },
+          ],
+        },
+        slides: [
+          {
+            title: "Brand A Advertising Performance",
+            alt: "Cover slide for the Brand A advertising performance weekly report",
+          },
+          {
+            title: "Paid Media Overall Performance",
+            alt: "Paid media overall performance dashboard with daily and product-level charts",
+          },
+          {
+            title: "Creative Analysis · Product Alpha",
+            alt: "Product Alpha creative analysis slide with campaign metrics and a pinned robotic lawn mower creative",
+          },
+          {
+            title: "Creative Analysis · Product Beta",
+            alt: "Product Beta creative analysis slide with campaign metrics and a pinned robot vacuum creative",
+          },
+          {
+            title: "Creative Analysis · Product Gamma",
+            alt: "Product Gamma creative analysis slide with campaign metrics and a pinned window-cleaning robot creative",
+          },
+          {
+            title: "Paid Media Traffic Analysis",
+            alt: "Paid media traffic analysis slide comparing campaigns, clicks, landing-page views, and costs",
+          },
+          {
+            title: "Paid Media Audience Analysis",
+            alt: "Audience analysis slide comparing add-to-cart, purchases, ROAS, and spend",
+          },
+          {
+            title: "Paid Search Keyword Analysis",
+            alt: "Paid search keyword analysis slide with cost, conversion, and value charts",
+          },
+        ],
+      },
       items: [
         {
           number: "01",
           eyebrow: "AI PRODUCT DEVELOPMENT",
           title: "AI Advertisement Report Automation Project",
           meta: "Product Lead · Virtual · May 2025 — Aug 2025",
+          media: "ad-report",
           bullets: [
             "Authored PRDs and decomposed a repetitive Meta and Google Ads reporting workflow into data inputs, transformation rules, slide templates, and few-shot examples for an LLM-generated reporting prototype.",
             "Partnered with a University of Chicago developer to prototype and evaluate two alpha versions in one month, refining output quality through peer feedback.",
@@ -177,6 +296,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
           number: "02",
           eyebrow: "AI SALES ENABLEMENT",
           title: "Verba — Internal AI Sales Agent",
+          media: "verba-system",
           bullets: [
             "Designed and launched Verba using Coze and a local database, enabling sales team members to retrieve prior industry solutions and generate tailored outreach messages. More than 300 agent runs and feedback from 30+ users informed ongoing iteration.",
           ],
@@ -188,47 +308,26 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       ],
     },
     work: {
-      label: "03 — SELECTED WORK",
+      label: "02 — SELECTED WORK",
       headline: "Work is more than a file.",
       intro: "It should reveal how you think, the trade-offs you make, and how you move the work forward.",
-      libraryLabel: "PDF LIBRARY",
-      libraryNote: "Demo documents shown. Replace them with your own de-identified work.",
-      roleLabel: "ROLE",
-      outputLabel: "OUTPUT",
-      previewAction: "Preview online",
-      downloadAction: "Download PDF",
+      libraryLabel: "REAL PROJECT SNAPSHOT",
+      libraryNote: "Select the dashboard to inspect the full-size view.",
+      previewAction: "View full image",
       items: [
         {
-          type: "SOLUTION DESIGN",
-          title: "Enterprise Knowledge System",
-          coverTitle: "Solution Blueprint",
+          type: "PRODUCT OPERATIONS · LARK BASE",
+          title: "R&D Project Dashboards (Lark Base)",
           summary:
-            "A structured path from business framing to RAG evaluation, permission boundaries, and a production rollout plan.",
-          role: "Discovery · Architecture",
-          deliverable: "Solution blueprint / Demo PDF",
-        },
-        {
-          type: "FIELD ENGINEERING",
-          title: "Field Discovery & Validation",
-          coverTitle: "Field Discovery Notes",
-          summary:
-            "A method for turning interviews, system signals, and blockers into clear hypotheses that can be tested with a focused prototype.",
-          role: "Field discovery · Prototyping",
-          deliverable: "Discovery notes / Demo PDF",
-        },
-        {
-          type: "DELIVERY SYSTEM",
-          title: "Production Readiness",
-          coverTitle: "Production Readiness",
-          summary:
-            "A practical checklist across integration, quality, monitoring, rollback, and adoption — moving a demo into a dependable workflow.",
-          role: "Production delivery · Launch",
-          deliverable: "Readiness checklist / Demo PDF",
+            "A Lark Base project overview that brings task status, priority, team ranking, and recurring work themes into one operational dashboard.",
+          imageAlt:
+            "Lark Base R&D project dashboard showing task status, priority, team ranking, and task keyword charts",
+          features: ["Task status and priority", "Team ranking", "Task keyword patterns"],
         },
       ],
     },
     contact: {
-      label: "04 — LET'S TALK",
+      label: "03 — LET'S TALK",
       headline: "Let’s solve",
       headlineAccent: "something real.",
       body:
@@ -238,13 +337,6 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       footerRole: "JUSTIN LI / SOLUTIONS × FDE",
       footerStatement: "DESIGNED FOR THE REAL WORLD",
       backToTop: "BACK TO TOP ↑",
-    },
-    pdf: {
-      openWindow: "New window",
-      download: "Download",
-      close: "Close ×",
-      unsupported: "This browser cannot display the PDF inline.",
-      openFallback: "Open it in a new window",
     },
   },
   zh: {
@@ -267,8 +359,8 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       languageSelector: "选择显示语言",
       portraitAlt: "李泽霆在上海的个人照片",
       previewWork: (title) => `预览${title}`,
-      closePdf: "关闭文档预览",
-      pdfPreview: (title) => `${title}文档预览`,
+      closeWorkPreview: "关闭项目图片",
+      workPreview: (title) => `${title}图片预览`,
     },
     nav: {
       experience: "经历",
@@ -284,26 +376,120 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       primaryAction: "查看经历",
       secondaryAction: "聊聊机会",
       portraitCaption: "李泽霆 / 个人照片",
-      scroll: "向下浏览 — 01 / 04",
-    },
-    positioning: {
-      label: "01 — 定位",
-      headline: "懂业务的工程师，",
-      headlineAccent: "能落地的解决方案伙伴。",
-      body:
-        "我擅长在不确定性很高的环境里工作：快速建立业务与技术的共同语言，把模糊目标拆成清晰路径，再与客户、产品和工程团队一起把结果做出来。",
-      note: "为不确定性而生",
+      scroll: "向下浏览 — 01 / 03",
     },
     experience: {
-      label: "02 — 工作经历",
-      headline: "从模糊需求，到真实上线。",
+      label: "01 — 工作经历",
+      headline: "懂业务。",
+      headlineAccent: "为交付而生。",
       intro: "把业务中的重复问题转化为可验证的人工智能产品，并用真实使用反馈推动迭代。",
+      media: {
+        demoLabel: "产品实时演示",
+        demoCaption: "从完成校验的输入文件夹，到可编辑的每周报告。",
+        outputsLabel: "生成成果",
+        interactionHint: "拖动或点击箭头 · 点击查看细节",
+        carouselLabel: "自动生成的广告报告幻灯片",
+        previousSlide: "上一张成果",
+        nextSlide: "下一张成果",
+        openFullscreen: "放大查看成果",
+        closeFullscreen: "关闭细节查看",
+        fullscreenLabel: "广告报告成果细节查看",
+        verba: {
+          label: "VERBA / 本地优先 RAG",
+          headline: "Verba 如何把新需求转化为有来源依据的方案初稿。",
+          body:
+            "每个新需求都会经过本地证据检索与结构化生成；人工复核来源后，还可以继续完善下一轮输入。",
+          diagramLabel: "Verba 有来源依据的方案流程",
+          cycleLabel: "有来源依据的方案流程",
+          evidenceLabel: "原型验证",
+          boundary:
+            "当前为本地单用户原型；系统会展示来源供人工核验，但尚未自动验证引用准确性。",
+          core: {
+            label: "本地证据核心",
+            title: "15 份案例 PDF",
+            details: ["111 个索引切片", "BGE 向量", "ChromaDB"],
+          },
+          cycleNodes: [
+            {
+              step: "01",
+              title: "客户需求",
+              detail: "明确业务目标、目标用户、关键约束，以及这份方案需要支持的核心决策。",
+            },
+            {
+              step: "02",
+              title: "检索证据",
+              detail: "对需求进行向量化，并从 111 个本地索引切片中召回最相关的五段内容。",
+            },
+            {
+              step: "03",
+              title: "组织上下文",
+              detail: "组合段落正文、来源文件、页码和相似度，让每条用于生成的证据都可以追溯。",
+            },
+            {
+              step: "04",
+              title: "本地生成",
+              detail: "由 FastAPI 编排检索流程，并把有证据支撑的提示词交给本地 Gemma 模型。",
+            },
+            {
+              step: "05",
+              title: "结构化方案",
+              detail: "输出六部分 Markdown 初稿，覆盖问题诊断、方案匹配、架构、落地阶段、风险与来源。",
+            },
+            {
+              step: "06",
+              title: "人工复核与完善",
+              detail: "由方案负责人核验结论与引用，再调整需求或证据，进入下一轮完善。",
+            },
+          ],
+          evidence: [
+            { value: "15", label: "案例 PDF" },
+            { value: "111", label: "已索引切片" },
+            { value: "11/11", label: "核心测试" },
+            { value: "本地", label: "默认推理方式" },
+          ],
+        },
+        slides: [
+          {
+            title: "品牌 A 广告表现",
+            alt: "品牌 A 广告表现周报的封面页",
+          },
+          {
+            title: "付费媒体整体表现",
+            alt: "包含每日及产品维度图表的付费媒体整体表现页面",
+          },
+          {
+            title: "创意分析 · 产品 Alpha",
+            alt: "包含活动指标与重点割草机器人素材的产品 Alpha 创意分析页面",
+          },
+          {
+            title: "创意分析 · 产品 Beta",
+            alt: "包含活动指标与重点扫地机器人素材的产品 Beta 创意分析页面",
+          },
+          {
+            title: "创意分析 · 产品 Gamma",
+            alt: "包含活动指标与重点擦窗机器人素材的产品 Gamma 创意分析页面",
+          },
+          {
+            title: "付费媒体流量分析",
+            alt: "对比广告活动、点击、落地页浏览与成本的付费媒体流量分析页面",
+          },
+          {
+            title: "付费媒体受众分析",
+            alt: "对比加购、购买、广告回报与花费的受众分析页面",
+          },
+          {
+            title: "付费搜索关键词分析",
+            alt: "包含成本、转化与价值图表的付费搜索关键词分析页面",
+          },
+        ],
+      },
       items: [
         {
           number: "01",
           eyebrow: "人工智能产品开发",
           title: "人工智能广告报告自动化项目",
           meta: "产品负责人 · 远程 · 2025 年 5 月—8 月",
+          media: "ad-report",
           bullets: [
             "编写产品需求文档，将重复的 Meta 与 Google Ads 报告流程拆解为数据输入、转换规则、演示文稿模板和少样本示例，用于构建大语言模型自动生成报告原型。",
             "与芝加哥大学开发者合作，在一个月内完成并评估两个内测版本，并结合同行反馈持续优化输出质量。",
@@ -317,6 +503,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
           number: "02",
           eyebrow: "人工智能销售赋能",
           title: "Verba — 内部人工智能销售助手",
+          media: "verba-system",
           bullets: [
             "使用 Coze 与本地数据库设计并上线内部人工智能销售助手 Verba，帮助销售团队检索既往行业方案并生成定制化外联信息；累计运行 300 多次，并收集 30 多位用户的反馈用于持续迭代。",
           ],
@@ -328,44 +515,24 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       ],
     },
     work: {
-      label: "03 — 精选作品",
+      label: "02 — 精选作品",
       headline: "作品，不只是一份文件。",
       intro: "它应该让人看见你如何思考、如何取舍，以及如何推动事情发生。",
-      libraryLabel: "文档作品库",
-      libraryNote: "以下为示例文档，正式发布前可替换为脱敏后的真实作品。",
-      roleLabel: "角色",
-      outputLabel: "交付物",
-      previewAction: "在线预览",
-      downloadAction: "下载 PDF",
+      libraryLabel: "真实项目快照",
+      libraryNote: "点击仪表盘即可查看完整大图。",
+      previewAction: "查看完整图片",
       items: [
         {
-          type: "方案设计",
-          title: "企业知识智能系统方案",
-          coverTitle: "方案蓝图",
-          summary: "从业务问题拆解到检索增强生成评估、权限边界与上线节奏，形成一份可讨论、可验证的系统方案。",
-          role: "需求澄清 · 架构设计",
-          deliverable: "方案蓝图 / 示例 PDF",
-        },
-        {
-          type: "现场工程",
-          title: "现场发现与验证手册",
-          coverTitle: "现场发现纪要",
-          summary: "把访谈、系统信号和障碍压缩成清晰假设，用最小可行原型验证真正值得解决的问题。",
-          role: "现场发现 · 原型验证",
-          deliverable: "发现纪要 / 示例 PDF",
-        },
-        {
-          type: "交付体系",
-          title: "生产上线准备清单",
-          coverTitle: "生产准备清单",
-          summary: "覆盖集成、质量、监控、回滚和用户采用，让方案从演示环境稳稳走进真实工作流程。",
-          role: "交付推进 · 上线保障",
-          deliverable: "交付清单 / 示例 PDF",
+          type: "产品运营 · 飞书多维表格",
+          title: "研发项目仪表盘（飞书多维表格）",
+          summary: "通过一个项目总览集中呈现任务状态、优先级、团队排名与重复出现的工作主题。",
+          imageAlt: "展示任务状态、优先级、团队排名与任务关键词图表的飞书多维表格研发项目仪表盘",
+          features: ["任务状态与优先级", "团队排名", "任务关键词分布"],
         },
       ],
     },
     contact: {
-      label: "04 — 联系",
+      label: "03 — 联系",
       headline: "一起解决",
       headlineAccent: "真实的问题。",
       body: "正在寻找解决方案架构师或前线部署工程师相关机会，也愿意聊聊值得落地的复杂问题。",
@@ -374,13 +541,6 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       footerRole: "李泽霆 / 解决方案 × 前线部署",
       footerStatement: "为真实世界而设计",
       backToTop: "返回顶部 ↑",
-    },
-    pdf: {
-      openWindow: "新窗口",
-      download: "下载",
-      close: "关闭 ×",
-      unsupported: "当前浏览器无法直接显示这份文档。",
-      openFallback: "在新窗口打开",
     },
   },
 };

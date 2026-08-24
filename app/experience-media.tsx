@@ -36,6 +36,7 @@ export function AdReportMedia({ copy }: AdReportMediaProps) {
   const [expandedSlide, setExpandedSlide] = useState<number | null>(null);
   const [dragOffset, setDragOffset] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
   const pointerStartRef = useRef<number | null>(null);
   const dragDistanceRef = useRef(0);
   const suppressClickRef = useRef(false);
@@ -103,6 +104,26 @@ export function AdReportMedia({ copy }: AdReportMediaProps) {
   };
 
   useEffect(() => {
+    let loadTimer: number | undefined;
+    const queueVideoLoad = () => {
+      loadTimer = window.setTimeout(() => setShouldLoadVideo(true), 450);
+    };
+
+    if (document.readyState === "complete") {
+      queueVideoLoad();
+    } else {
+      window.addEventListener("load", queueVideoLoad, { once: true });
+    }
+
+    return () => {
+      window.removeEventListener("load", queueVideoLoad);
+      if (loadTimer !== undefined) window.clearTimeout(loadTimer);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!shouldLoadVideo) return;
+
     const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
     const syncPlayback = () => {
       if (!videoRef.current) return;
@@ -116,7 +137,7 @@ export function AdReportMedia({ copy }: AdReportMediaProps) {
     syncPlayback();
     motionPreference.addEventListener("change", syncPlayback);
     return () => motionPreference.removeEventListener("change", syncPlayback);
-  }, []);
+  }, [shouldLoadVideo]);
 
   useEffect(() => {
     if (!isLightboxOpen) return;
@@ -181,13 +202,19 @@ export function AdReportMedia({ copy }: AdReportMediaProps) {
         <div className="demo-video-frame">
           <video
             ref={videoRef}
-            src="/experience/ad-report/report-agent-demo.mp4"
+            src={
+              shouldLoadVideo
+                ? "/experience/ad-report/report-agent-demo.mp4"
+                : undefined
+            }
+            poster="/experience/ad-report/report-agent-poster.jpg"
             autoPlay
             muted
             loop
             playsInline
             controls
-            preload="metadata"
+            preload="none"
+            aria-busy={!shouldLoadVideo}
             title={copy.demoLabel}
           />
         </div>
@@ -366,6 +393,7 @@ export function VerbaSystemVisual({ copy }: AdReportMediaProps) {
 
         <div className="verba-flow-bridge" aria-hidden="true">
           <span />
+          <em>{verba.retrievalBridge}</em>
         </div>
 
         <section className="verba-lane" aria-labelledby="verba-request-lane">

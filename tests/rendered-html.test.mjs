@@ -46,7 +46,9 @@ test("server-renders the streamlined English portfolio", async () => {
   assert.match(html, /AI Advertisement Report Automation/);
   assert.match(html, /Verba — Internal AI Sales Agent/);
   assert.equal((html.match(/class="experience-project"/g) ?? []).length, 2);
-  assert.match(html, /src="\/experience\/ad-report\/report-agent-demo\.mp4"/);
+  assert.match(html, /poster="\/experience\/ad-report\/report-agent-poster\.jpg"/);
+  assert.match(html, /preload="none"/i);
+  assert.doesNotMatch(html, /src="\/experience\/ad-report\/report-agent-demo\.mp4"/);
   assert.match(html, /autoplay=""/i);
   assert.match(html, /muted=""/i);
   assert.match(html, /loop=""/i);
@@ -55,7 +57,8 @@ test("server-renders the streamlined English portfolio", async () => {
   assert.match(html, /Generated advertising report slides/);
   assert.match(html, /From scattered case files to a source-aware solution draft/);
   assert.match(html, /Verba solution-matching system architecture/);
-  assert.match(html, /15 historical solution PDFs/);
+  assert.match(html, /15 reusable solution files/);
+  assert.match(html, /KNOWLEDGE BASE GROUNDS RETRIEVAL/);
   assert.match(html, /111/);
   assert.doesNotMatch(html, /Visual documentation coming next|verba-visual-placeholder/);
   assert.match(html, /src="\/justin-shanghai-portrait\.jpg"/);
@@ -102,13 +105,18 @@ test("keeps bilingual content and hosted assets wired correctly", async () => {
   assert.match(content, /拖动或点击箭头/);
   assert.match(content, /VERBA \/ 方案智能/);
   assert.match(content, /本地优先的 RAG 工作台/);
-  assert.match(content, /15 份历史方案 PDF/);
+  assert.match(content, /15 份可复用案例文件/);
+  assert.match(content, /知识库为证据检索提供依据/);
   assert.match(content, /生成的引用仍需人工复核/);
   assert.doesNotMatch(content, /Built in ambiguity|BUILT FOR AMBIGUITY/);
   assert.match(media, /autoplay|autoPlay/);
   assert.match(media, /muted/);
   assert.match(media, /playsInline/);
   assert.match(media, /prefers-reduced-motion: reduce/);
+  assert.match(media, /document\.readyState === "complete"/);
+  assert.match(media, /setShouldLoadVideo\(true\)/);
+  assert.match(media, /report-agent-poster\.jpg/);
+  assert.match(media, /preload="none"/);
   assert.match(media, /createPortal/);
   assert.match(media, /role="dialog"/);
   assert.match(media, /aria-modal="true"/);
@@ -126,6 +134,7 @@ test("keeps bilingual content and hosted assets wired correctly", async () => {
 test("packages the MP4 demo and all eight report outputs without the GIF", async () => {
   const mediaDirectory = new URL("../public/experience/ad-report/", import.meta.url);
   const video = new URL("report-agent-demo.mp4", mediaDirectory);
+  const poster = new URL("report-agent-poster.jpg", mediaDirectory);
   const slides = ["01", "02", "03", "04", "05", "06", "07", "08"].map(
     (number) => new URL(`slide-${number}.jpg`, mediaDirectory),
   );
@@ -133,6 +142,7 @@ test("packages the MP4 demo and all eight report outputs without the GIF", async
   const videoStats = await stat(video);
   assert.ok(videoStats.size > 10_000_000);
   assert.ok(videoStats.size < 20_000_000);
+  assert.ok((await stat(poster)).size < 200_000);
   for (const slide of slides) await access(slide);
 
   await assert.rejects(access(new URL("report-agent-demo.gif", mediaDirectory)));
@@ -182,7 +192,10 @@ test("keeps the demo dominant on desktop and stacks media on phones", async () =
   assert.match(css, /@media \(max-width:\s*700px\)[\s\S]*?\.ad-report-media\s*\{[^}]*grid-template-columns:\s*1fr/s);
   assert.match(css, /@media \(max-width:\s*700px\)[\s\S]*?\.output-lightbox-dialog\s*\{[^}]*width:\s*92vw/s);
   assert.match(css, /body\.modal-open\s*\{[^}]*overflow:\s*hidden/s);
-  assert.match(css, /\.verba-flow-knowledge\s*\{[^}]*grid-template-columns:\s*repeat\(3/s);
+  assert.match(css, /\.demo-video-frame\s*\{[^}]*aspect-ratio:\s*1600\s*\/\s*1018/s);
+  assert.match(css, /\.demo-video-frame video\s*\{[^}]*object-position:\s*center top/s);
+  assert.match(css, /\.verba-flow-knowledge\s*\{[^}]*grid-template-columns:\s*repeat\(4/s);
   assert.match(css, /\.verba-flow-request\s*\{[^}]*grid-template-columns:\s*repeat\(4/s);
+  assert.match(css, /\.verba-flow-bridge\s*\{[^}]*grid-template-columns:\s*repeat\(4/s);
   assert.match(css, /@media \(max-width:\s*700px\)[\s\S]*?\.verba-flow-knowledge,[\s\S]*?grid-template-columns:\s*1fr/s);
 });

@@ -40,6 +40,7 @@ export type LocalizedExperienceMedia = {
     diagramLabel: string;
     knowledgeLane: string;
     requestLane: string;
+    retrievalBridge: string;
     evidenceLabel: string;
     boundary: string;
     knowledgeNodes: Array<{
@@ -205,21 +206,29 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
           body:
             "Verba evolved from a rapid sales-agent MVP into a local-first RAG workspace. It turns historical solution PDFs into reusable evidence, retrieves relevant passages for a new brief, and drafts a structured proposal with source and page references.",
           diagramLabel: "Verba solution-matching system architecture",
-          knowledgeLane: "KNOWLEDGE PIPELINE",
-          requestLane: "REQUEST PIPELINE",
+          knowledgeLane: "01 / BUILD ONCE",
+          requestLane: "02 / RUN FOR EACH NEW BRIEF",
+          retrievalBridge: "KNOWLEDGE BASE GROUNDS RETRIEVAL",
           evidenceLabel: "PROTOTYPE EVIDENCE",
           boundary:
             "Prototype boundary — local, single-user workflow. Generated citations remain human-reviewed rather than automatically verified.",
           knowledgeNodes: [
-            { step: "01", title: "Case Library", detail: "15 historical solution PDFs" },
-            { step: "02", title: "Parse & Index", detail: "PyMuPDF · semantic chunks" },
-            { step: "03", title: "Vector Memory", detail: "BGE-small-zh · ChromaDB" },
+            { step: "01", title: "Historical Case PDFs", detail: "15 reusable solution files" },
+            {
+              step: "02",
+              title: "Build Local Knowledge Base",
+              detail: "Parse → chunk → BGE embeddings → ChromaDB",
+            },
           ],
           requestNodes: [
-            { step: "04", title: "Client Brief", detail: "New requirements · top-k" },
-            { step: "05", title: "Evidence Retrieval", detail: "Cosine search · source + page" },
-            { step: "06", title: "Local Reasoning", detail: "Gemma · FastAPI orchestration" },
-            { step: "07", title: "Solution Draft", detail: "Six-part Markdown proposal" },
+            { step: "03", title: "Client Brief", detail: "New industry and requirements" },
+            { step: "04", title: "Retrieve Evidence", detail: "Top-k passages · file + page" },
+            { step: "05", title: "Reason Locally", detail: "Gemma · FastAPI orchestration" },
+            {
+              step: "06",
+              title: "Draft Solution",
+              detail: "Diagnosis → architecture → plan → risks → sources",
+            },
           ],
           evidence: [
             { value: "15", label: "CASE PDFS" },
@@ -415,21 +424,29 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
           body:
             "Verba 从快速验证的销售助手原型演进为本地优先的 RAG 工作台：把历史方案 PDF 转化为可复用证据，为新需求检索相关段落，并生成带文件名和页码来源的结构化方案。",
           diagramLabel: "Verba 方案匹配系统架构",
-          knowledgeLane: "知识处理链路",
-          requestLane: "需求生成链路",
+          knowledgeLane: "01 / 一次性构建",
+          requestLane: "02 / 每次新需求运行",
+          retrievalBridge: "知识库为证据检索提供依据",
           evidenceLabel: "原型验证",
           boundary:
             "原型边界——当前为本地单用户工作流；生成的引用仍需人工复核，尚未实现自动真实性验证。",
           knowledgeNodes: [
-            { step: "01", title: "案例知识库", detail: "15 份历史方案 PDF" },
-            { step: "02", title: "解析与索引", detail: "PyMuPDF · 语义分块" },
-            { step: "03", title: "向量记忆", detail: "BGE-small-zh · ChromaDB" },
+            { step: "01", title: "历史方案 PDF", detail: "15 份可复用案例文件" },
+            {
+              step: "02",
+              title: "构建本地知识库",
+              detail: "解析 → 分块 → BGE 向量化 → ChromaDB",
+            },
           ],
           requestNodes: [
-            { step: "04", title: "客户需求", detail: "新需求 · Top-K 召回" },
-            { step: "05", title: "证据检索", detail: "余弦搜索 · 文件与页码" },
-            { step: "06", title: "本地推理", detail: "Gemma · FastAPI 编排" },
-            { step: "07", title: "方案初稿", detail: "六模块 Markdown 报告" },
+            { step: "03", title: "客户需求", detail: "新的行业场景与业务要求" },
+            { step: "04", title: "检索证据", detail: "Top-K 段落 · 文件名与页码" },
+            { step: "05", title: "本地推理", detail: "Gemma · FastAPI 编排" },
+            {
+              step: "06",
+              title: "生成方案初稿",
+              detail: "诊断 → 架构 → 实施 → 风险 → 来源",
+            },
           ],
           evidence: [
             { value: "15", label: "案例 PDF" },

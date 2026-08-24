@@ -804,18 +804,20 @@ a {
 
 .demo-video-frame {
   overflow: hidden;
+  aspect-ratio: 1600 / 1018;
   border: 1px solid #d4d6da;
   border-radius: 18px;
-  background: #0d0e11;
+  background: #f4f5f7;
   box-shadow: 0 24px 70px rgb(24 28 37 / 10%);
 }
 
 .demo-video-frame video {
   display: block;
   width: 100%;
-  aspect-ratio: 992 / 640;
+  height: 100%;
   background: #f4f5f7;
   object-fit: cover;
+  object-position: center top;
 }
 
 .output-carousel {
@@ -1041,8 +1043,8 @@ a {
 }
 
 .verba-flow-knowledge {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  width: min(100%, 1080px);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  width: 100%;
 }
 
 .verba-flow-request {
@@ -1058,6 +1060,13 @@ a {
   border-radius: 13px;
   background: rgb(255 255 255 / 94%);
   box-shadow: 0 16px 42px rgb(25 43 83 / 7%);
+}
+
+.verba-flow-knowledge li:nth-child(2),
+.verba-flow-request li:nth-child(2) {
+  border-color: rgb(20 91 255 / 42%);
+  background: #f7f9ff;
+  box-shadow: 0 18px 46px rgb(20 91 255 / 10%);
 }
 
 .verba-flow-nodes li::before {
@@ -1105,14 +1114,24 @@ a {
 }
 
 .verba-flow-bridge {
-  position: relative;
-  width: 2px;
-  height: 48px;
-  margin: 16px 0 16px clamp(90px, 10vw, 160px);
-  background: linear-gradient(var(--blue), rgb(20 91 255 / 20%));
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(22px, 2.2vw, 36px);
+  width: 100%;
+  height: 68px;
+  margin: 10px 0;
 }
 
-.verba-flow-bridge::after {
+.verba-flow-bridge > span {
+  position: relative;
+  grid-column: 2;
+  justify-self: center;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(var(--blue), rgb(20 91 255 / 22%));
+}
+
+.verba-flow-bridge > span::after {
   position: absolute;
   right: -4px;
   bottom: -2px;
@@ -1122,6 +1141,19 @@ a {
   background: var(--blue);
   box-shadow: 0 0 0 7px rgb(20 91 255 / 10%);
   content: "";
+}
+
+.verba-flow-bridge em {
+  grid-row: 1;
+  grid-column: 2 / 4;
+  align-self: center;
+  margin-left: calc(50% + 18px);
+  color: #626874;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 7px;
+  font-style: normal;
+  line-height: 1.45;
+  letter-spacing: 0.09em;
 }
 
 .verba-evidence-strip {
@@ -2466,8 +2498,31 @@ a {
   }
 
   .verba-flow-bridge {
-    height: 42px;
-    margin: 18px auto;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    margin: 22px 0;
+    padding: 12px 14px;
+    border: 1px solid rgb(20 91 255 / 18%);
+    background: rgb(20 91 255 / 5%);
+  }
+
+  .verba-flow-bridge > span {
+    flex: 0 0 auto;
+    width: 18px;
+    height: 2px;
+  }
+
+  .verba-flow-bridge > span::after {
+    top: -4px;
+    right: -2px;
+    bottom: auto;
+  }
+
+  .verba-flow-bridge em {
+    margin: 0;
   }
 
   .verba-evidence-strip {

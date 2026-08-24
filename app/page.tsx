@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { AdReportMedia, VerbaVisualPlaceholder } from "./experience-media";
+import { AdReportMedia, VerbaSystemVisual } from "./experience-media";
 import { type Language, portfolioContent } from "./portfolio-content";
 
 const workAssets = [
@@ -259,7 +259,7 @@ export default function Home() {
               {experience.media === "ad-report" ? (
                 <AdReportMedia copy={t.experience.media} />
               ) : (
-                <VerbaVisualPlaceholder copy={t.experience.media} />
+                <VerbaSystemVisual copy={t.experience.media} />
               )}
             </section>
           ))}

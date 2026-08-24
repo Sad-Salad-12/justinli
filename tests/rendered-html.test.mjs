@@ -53,7 +53,11 @@ test("server-renders the streamlined English portfolio", async () => {
   assert.match(html, /playsinline=""/i);
   assert.match(html, /controls=""/i);
   assert.match(html, /Generated advertising report slides/);
-  assert.match(html, /Visual documentation coming next/);
+  assert.match(html, /From scattered case files to a source-aware solution draft/);
+  assert.match(html, /Verba solution-matching system architecture/);
+  assert.match(html, /15 historical solution PDFs/);
+  assert.match(html, /111/);
+  assert.doesNotMatch(html, /Visual documentation coming next|verba-visual-placeholder/);
   assert.match(html, /src="\/justin-shanghai-portrait\.jpg"/);
   assert.match(html, /href="\/works\/solution-blueprint-sample\.pdf"/);
   assert.doesNotMatch(html, /01 — POSITIONING|BUILT FOR AMBIGUITY|Built in ambiguity/);
@@ -96,7 +100,10 @@ test("keeps bilingual content and hosted assets wired correctly", async () => {
   assert.match(content, /产品实时演示/);
   assert.match(content, /生成成果/);
   assert.match(content, /拖动或点击箭头/);
-  assert.match(content, /VERBA 产品视觉/);
+  assert.match(content, /VERBA \/ 方案智能/);
+  assert.match(content, /本地优先的 RAG 工作台/);
+  assert.match(content, /15 份历史方案 PDF/);
+  assert.match(content, /生成的引用仍需人工复核/);
   assert.doesNotMatch(content, /Built in ambiguity|BUILT FOR AMBIGUITY/);
   assert.match(media, /autoplay|autoPlay/);
   assert.match(media, /muted/);
@@ -106,6 +113,9 @@ test("keeps bilingual content and hosted assets wired correctly", async () => {
   assert.match(media, /role="dialog"/);
   assert.match(media, /aria-modal="true"/);
   assert.match(media, /event\.key === "Escape"/);
+  assert.match(media, /VerbaSystemVisual/);
+  assert.match(media, /verba-flow-nodes/);
+  assert.match(media, /verba-evidence-strip/);
   assert.doesNotMatch(media, /\.gif/);
   assert.match(layout, /justin\.zl5626\.chatgpt\.site/);
   assert.match(layout, /next\/headers|generateMetadata/);
@@ -113,10 +123,10 @@ test("keeps bilingual content and hosted assets wired correctly", async () => {
   assert.doesNotMatch(nextConfig, /output:\s*"export"|basePath/);
 });
 
-test("packages the MP4 demo and all five report outputs without the GIF", async () => {
+test("packages the MP4 demo and all eight report outputs without the GIF", async () => {
   const mediaDirectory = new URL("../public/experience/ad-report/", import.meta.url);
   const video = new URL("report-agent-demo.mp4", mediaDirectory);
-  const slides = ["01", "02", "03", "07", "08"].map(
+  const slides = ["01", "02", "03", "04", "05", "06", "07", "08"].map(
     (number) => new URL(`slide-${number}.jpg`, mediaDirectory),
   );
 
@@ -129,15 +139,15 @@ test("packages the MP4 demo and all five report outputs without the GIF", async 
 });
 
 test("wraps carousel navigation and only changes slides after a real drag", () => {
-  assert.equal(wrapSlideIndex(-1, 5), 4);
-  assert.equal(wrapSlideIndex(5, 5), 0);
-  assert.equal(getDraggedSlideIndex(0, -60, 5), 1);
-  assert.equal(getDraggedSlideIndex(0, 60, 5), 4);
-  assert.equal(getDraggedSlideIndex(2, 20, 5), 2);
-  assert.equal(getSlideStackPosition(0, 0, 5), "active");
-  assert.equal(getSlideStackPosition(1, 0, 5), "next");
-  assert.equal(getSlideStackPosition(2, 0, 5), "after");
-  assert.equal(getSlideStackPosition(3, 0, 5), "hidden");
+  assert.equal(wrapSlideIndex(-1, 8), 7);
+  assert.equal(wrapSlideIndex(8, 8), 0);
+  assert.equal(getDraggedSlideIndex(0, -60, 8), 1);
+  assert.equal(getDraggedSlideIndex(0, 60, 8), 7);
+  assert.equal(getDraggedSlideIndex(2, 20, 8), 2);
+  assert.equal(getSlideStackPosition(0, 0, 8), "active");
+  assert.equal(getSlideStackPosition(1, 0, 8), "next");
+  assert.equal(getSlideStackPosition(2, 0, 8), "after");
+  assert.equal(getSlideStackPosition(3, 0, 8), "hidden");
 });
 
 test("keeps retained sections white and the final contact section dark", async () => {
@@ -172,4 +182,7 @@ test("keeps the demo dominant on desktop and stacks media on phones", async () =
   assert.match(css, /@media \(max-width:\s*700px\)[\s\S]*?\.ad-report-media\s*\{[^}]*grid-template-columns:\s*1fr/s);
   assert.match(css, /@media \(max-width:\s*700px\)[\s\S]*?\.output-lightbox-dialog\s*\{[^}]*width:\s*92vw/s);
   assert.match(css, /body\.modal-open\s*\{[^}]*overflow:\s*hidden/s);
+  assert.match(css, /\.verba-flow-knowledge\s*\{[^}]*grid-template-columns:\s*repeat\(3/s);
+  assert.match(css, /\.verba-flow-request\s*\{[^}]*grid-template-columns:\s*repeat\(4/s);
+  assert.match(css, /@media \(max-width:\s*700px\)[\s\S]*?\.verba-flow-knowledge,[\s\S]*?grid-template-columns:\s*1fr/s);
 });

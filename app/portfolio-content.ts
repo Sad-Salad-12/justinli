@@ -14,7 +14,7 @@ export type LocalizedExperience = {
   eyebrow: string;
   title: string;
   meta?: string;
-  media: "ad-report" | "verba-placeholder";
+  media: "ad-report" | "verba-system";
   bullets: string[];
   metrics: Array<{
     value: string;
@@ -33,9 +33,30 @@ export type LocalizedExperienceMedia = {
   openFullscreen: string;
   closeFullscreen: string;
   fullscreenLabel: string;
-  pendingLabel: string;
-  pendingHeadline: string;
-  pendingBody: string;
+  verba: {
+    label: string;
+    headline: string;
+    body: string;
+    diagramLabel: string;
+    knowledgeLane: string;
+    requestLane: string;
+    evidenceLabel: string;
+    boundary: string;
+    knowledgeNodes: Array<{
+      step: string;
+      title: string;
+      detail: string;
+    }>;
+    requestNodes: Array<{
+      step: string;
+      title: string;
+      detail: string;
+    }>;
+    evidence: Array<{
+      value: string;
+      label: string;
+    }>;
+  };
   slides: Array<{
     title: string;
     alt: string;
@@ -178,10 +199,35 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
         openFullscreen: "Inspect full-size output",
         closeFullscreen: "Close detailed view",
         fullscreenLabel: "Detailed advertising report output",
-        pendingLabel: "VERBA PRODUCT VISUALS",
-        pendingHeadline: "Visual documentation coming next.",
-        pendingBody:
-          "This space is reserved for real product screens and workflow evidence — no invented interface in the meantime.",
+        verba: {
+          label: "VERBA / SOLUTION INTELLIGENCE",
+          headline: "From scattered case files to a source-aware solution draft.",
+          body:
+            "Verba evolved from a rapid sales-agent MVP into a local-first RAG workspace. It turns historical solution PDFs into reusable evidence, retrieves relevant passages for a new brief, and drafts a structured proposal with source and page references.",
+          diagramLabel: "Verba solution-matching system architecture",
+          knowledgeLane: "KNOWLEDGE PIPELINE",
+          requestLane: "REQUEST PIPELINE",
+          evidenceLabel: "PROTOTYPE EVIDENCE",
+          boundary:
+            "Prototype boundary — local, single-user workflow. Generated citations remain human-reviewed rather than automatically verified.",
+          knowledgeNodes: [
+            { step: "01", title: "Case Library", detail: "15 historical solution PDFs" },
+            { step: "02", title: "Parse & Index", detail: "PyMuPDF · semantic chunks" },
+            { step: "03", title: "Vector Memory", detail: "BGE-small-zh · ChromaDB" },
+          ],
+          requestNodes: [
+            { step: "04", title: "Client Brief", detail: "New requirements · top-k" },
+            { step: "05", title: "Evidence Retrieval", detail: "Cosine search · source + page" },
+            { step: "06", title: "Local Reasoning", detail: "Gemma · FastAPI orchestration" },
+            { step: "07", title: "Solution Draft", detail: "Six-part Markdown proposal" },
+          ],
+          evidence: [
+            { value: "15", label: "CASE PDFS" },
+            { value: "111", label: "INDEXED CHUNKS" },
+            { value: "11/11", label: "CORE TESTS" },
+            { value: "LOCAL", label: "DEFAULT INFERENCE" },
+          ],
+        },
         slides: [
           {
             title: "Brand A Advertising Performance",
@@ -192,8 +238,20 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
             alt: "Paid media overall performance dashboard with daily and product-level charts",
           },
           {
-            title: "Paid Media Creative Analysis",
-            alt: "Creative analysis slide with campaign metrics and a pinned product creative",
+            title: "Creative Analysis · Product Alpha",
+            alt: "Product Alpha creative analysis slide with campaign metrics and a pinned robotic lawn mower creative",
+          },
+          {
+            title: "Creative Analysis · Product Beta",
+            alt: "Product Beta creative analysis slide with campaign metrics and a pinned robot vacuum creative",
+          },
+          {
+            title: "Creative Analysis · Product Gamma",
+            alt: "Product Gamma creative analysis slide with campaign metrics and a pinned window-cleaning robot creative",
+          },
+          {
+            title: "Paid Media Traffic Analysis",
+            alt: "Paid media traffic analysis slide comparing campaigns, clicks, landing-page views, and costs",
           },
           {
             title: "Paid Media Audience Analysis",
@@ -225,7 +283,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
           number: "02",
           eyebrow: "AI SALES ENABLEMENT",
           title: "Verba — Internal AI Sales Agent",
-          media: "verba-placeholder",
+          media: "verba-system",
           bullets: [
             "Designed and launched Verba using Coze and a local database, enabling sales team members to retrieve prior industry solutions and generate tailored outreach messages. More than 300 agent runs and feedback from 30+ users informed ongoing iteration.",
           ],
@@ -351,9 +409,35 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
         openFullscreen: "放大查看成果",
         closeFullscreen: "关闭细节查看",
         fullscreenLabel: "广告报告成果细节查看",
-        pendingLabel: "VERBA 产品视觉",
-        pendingHeadline: "真实产品素材将在下一版补充。",
-        pendingBody: "这里将用于展示真实界面与工作流证据；在素材就绪前，不使用虚构产品截图。",
+        verba: {
+          label: "VERBA / 方案智能",
+          headline: "把分散的案例文件，转化为有来源依据的方案初稿。",
+          body:
+            "Verba 从快速验证的销售助手原型演进为本地优先的 RAG 工作台：把历史方案 PDF 转化为可复用证据，为新需求检索相关段落，并生成带文件名和页码来源的结构化方案。",
+          diagramLabel: "Verba 方案匹配系统架构",
+          knowledgeLane: "知识处理链路",
+          requestLane: "需求生成链路",
+          evidenceLabel: "原型验证",
+          boundary:
+            "原型边界——当前为本地单用户工作流；生成的引用仍需人工复核，尚未实现自动真实性验证。",
+          knowledgeNodes: [
+            { step: "01", title: "案例知识库", detail: "15 份历史方案 PDF" },
+            { step: "02", title: "解析与索引", detail: "PyMuPDF · 语义分块" },
+            { step: "03", title: "向量记忆", detail: "BGE-small-zh · ChromaDB" },
+          ],
+          requestNodes: [
+            { step: "04", title: "客户需求", detail: "新需求 · Top-K 召回" },
+            { step: "05", title: "证据检索", detail: "余弦搜索 · 文件与页码" },
+            { step: "06", title: "本地推理", detail: "Gemma · FastAPI 编排" },
+            { step: "07", title: "方案初稿", detail: "六模块 Markdown 报告" },
+          ],
+          evidence: [
+            { value: "15", label: "案例 PDF" },
+            { value: "111", label: "已索引切片" },
+            { value: "11/11", label: "核心测试" },
+            { value: "本地", label: "默认推理方式" },
+          ],
+        },
         slides: [
           {
             title: "品牌 A 广告表现",
@@ -364,8 +448,20 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
             alt: "包含每日及产品维度图表的付费媒体整体表现页面",
           },
           {
-            title: "付费媒体创意分析",
-            alt: "包含活动指标与重点产品创意的付费媒体创意分析页面",
+            title: "创意分析 · 产品 Alpha",
+            alt: "包含活动指标与重点割草机器人素材的产品 Alpha 创意分析页面",
+          },
+          {
+            title: "创意分析 · 产品 Beta",
+            alt: "包含活动指标与重点扫地机器人素材的产品 Beta 创意分析页面",
+          },
+          {
+            title: "创意分析 · 产品 Gamma",
+            alt: "包含活动指标与重点擦窗机器人素材的产品 Gamma 创意分析页面",
+          },
+          {
+            title: "付费媒体流量分析",
+            alt: "对比广告活动、点击、落地页浏览与成本的付费媒体流量分析页面",
           },
           {
             title: "付费媒体受众分析",
@@ -397,7 +493,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
           number: "02",
           eyebrow: "人工智能销售赋能",
           title: "Verba — 内部人工智能销售助手",
-          media: "verba-placeholder",
+          media: "verba-system",
           bullets: [
             "使用 Coze 与本地数据库设计并上线内部人工智能销售助手 Verba，帮助销售团队检索既往行业方案并生成定制化外联信息；累计运行 300 多次，并收集 30 多位用户的反馈用于持续迭代。",
           ],

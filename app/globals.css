@@ -782,7 +782,10 @@ a {
 
 .media-block-heading span,
 .carousel-caption span,
-.verba-visual-placeholder > span,
+.verba-system-header span,
+.verba-lane-label,
+.verba-evidence-strip > span,
+.verba-flow-nodes li > span,
 .output-lightbox figcaption span {
   color: var(--blue);
   font-family: "SFMono-Regular", Consolas, monospace;
@@ -962,67 +965,219 @@ a {
   transform: translateY(-2px);
 }
 
-.verba-visual-placeholder {
+.verba-system-visual {
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(160px, 0.55fr) minmax(320px, 1.45fr) auto;
-  gap: clamp(30px, 5vw, 90px);
-  align-items: end;
-  min-height: clamp(330px, 38vw, 560px);
-  padding: clamp(34px, 5vw, 72px);
   overflow: hidden;
   border: 1px solid #d9dade;
-  background: #f5f6f8;
+  background: var(--white);
   isolation: isolate;
 }
 
-.placeholder-grid {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  background-image:
-    linear-gradient(to right, rgb(11 12 15 / 5%) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(11 12 15 / 5%) 1px, transparent 1px);
-  background-size: clamp(90px, 10vw, 160px) clamp(90px, 10vw, 160px);
-  mask-image: linear-gradient(135deg, transparent 4%, black 58%, transparent 100%);
+.verba-system-header {
+  display: grid;
+  grid-template-columns: minmax(360px, 1.25fr) minmax(260px, 0.75fr);
+  gap: clamp(36px, 6vw, 100px);
+  align-items: end;
+  padding: clamp(36px, 5vw, 72px);
+  border-bottom: 1px solid var(--line);
 }
 
-.verba-visual-placeholder > span {
-  align-self: start;
-  color: #686b73;
-}
-
-.verba-visual-placeholder > div:not(.placeholder-grid) {
-  max-width: 720px;
-}
-
-.verba-visual-placeholder strong {
+.verba-system-header span {
   display: block;
-  font-size: clamp(35px, 5vw, 76px);
+  margin-bottom: 22px;
+}
+
+.verba-system-header h4 {
+  max-width: 980px;
+  margin: 0;
+  font-size: clamp(37px, 4.7vw, 76px);
   font-weight: 640;
   line-height: 0.98;
   letter-spacing: -0.058em;
 }
 
-.verba-visual-placeholder p {
-  max-width: 600px;
-  margin: 26px 0 0;
+.verba-system-header > p {
+  max-width: 610px;
+  margin: 0;
   color: var(--muted);
   font-size: 14px;
-  line-height: 1.75;
+  line-height: 1.78;
 }
 
-.verba-visual-placeholder > i {
+.verba-architecture {
+  position: relative;
+  padding: clamp(34px, 4.5vw, 66px);
+  overflow: hidden;
+  background: #fafbfe;
+  isolation: isolate;
+}
+
+.verba-grid {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgb(20 91 255 / 5%) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(20 91 255 / 5%) 1px, transparent 1px);
+  background-size: clamp(72px, 7vw, 118px) clamp(72px, 7vw, 118px);
+  mask-image: linear-gradient(125deg, black 0%, black 72%, transparent 100%);
+}
+
+.verba-lane {
+  position: relative;
+}
+
+.verba-lane-label {
+  margin: 0 0 14px;
+  color: #747983;
+}
+
+.verba-flow-nodes {
+  display: grid;
+  gap: clamp(22px, 2.2vw, 36px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.verba-flow-knowledge {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: min(100%, 1080px);
+}
+
+.verba-flow-request {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.verba-flow-nodes li {
+  position: relative;
+  min-width: 0;
+  min-height: 148px;
+  padding: 22px;
+  border: 1px solid #d5d9e2;
+  border-radius: 13px;
+  background: rgb(255 255 255 / 94%);
+  box-shadow: 0 16px 42px rgb(25 43 83 / 7%);
+}
+
+.verba-flow-nodes li::before {
+  position: absolute;
+  top: 0;
+  left: 22px;
+  width: 38px;
+  height: 2px;
+  background: var(--blue);
+  content: "";
+}
+
+.verba-flow-nodes li:not(:last-child)::after {
+  position: absolute;
+  top: 50%;
+  right: calc(clamp(22px, 2.2vw, 36px) * -1);
   display: grid;
   place-items: center;
-  width: clamp(74px, 8vw, 118px);
-  aspect-ratio: 1;
+  width: clamp(22px, 2.2vw, 36px);
   color: var(--blue);
-  border: 1px solid #aebde3;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 14px;
+  content: "→";
+  transform: translateY(-50%);
+}
+
+.verba-flow-nodes li > span {
+  display: block;
+  margin-bottom: 24px;
+}
+
+.verba-flow-nodes strong {
+  display: block;
+  font-size: clamp(16px, 1.45vw, 21px);
+  font-weight: 620;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+}
+
+.verba-flow-nodes li > p {
+  margin: 9px 0 0;
+  color: #6f747e;
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.verba-flow-bridge {
+  position: relative;
+  width: 2px;
+  height: 48px;
+  margin: 16px 0 16px clamp(90px, 10vw, 160px);
+  background: linear-gradient(var(--blue), rgb(20 91 255 / 20%));
+}
+
+.verba-flow-bridge::after {
+  position: absolute;
+  right: -4px;
+  bottom: -2px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  font-size: clamp(34px, 5vw, 70px);
-  font-style: normal;
-  font-weight: 260;
+  background: var(--blue);
+  box-shadow: 0 0 0 7px rgb(20 91 255 / 10%);
+  content: "";
+}
+
+.verba-evidence-strip {
+  display: grid;
+  grid-template-columns: minmax(130px, 0.28fr) minmax(0, 1.72fr);
+  gap: clamp(28px, 4vw, 64px);
+  align-items: center;
+  padding: 28px clamp(34px, 4.5vw, 66px);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.verba-evidence-strip > span {
+  color: #737780;
+}
+
+.verba-evidence-strip dl {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+}
+
+.verba-evidence-strip dl > div {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 7px;
+  min-width: 0;
+  padding: 0 clamp(14px, 2vw, 30px);
+  border-left: 1px solid var(--line);
+}
+
+.verba-evidence-strip dt {
+  color: #7a7e87;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 7px;
+  line-height: 1.4;
+  letter-spacing: 0.09em;
+}
+
+.verba-evidence-strip dd {
+  margin: 0;
+  color: var(--blue);
+  font-size: clamp(22px, 2vw, 34px);
+  font-weight: 630;
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.verba-system-visual > figcaption {
+  padding: 18px clamp(34px, 4.5vw, 66px) 20px;
+  color: #777b84;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 8px;
+  line-height: 1.65;
+  letter-spacing: 0.055em;
 }
 
 .output-lightbox {
@@ -1974,8 +2129,18 @@ a {
     text-align: left;
   }
 
-  .verba-visual-placeholder {
-    grid-template-columns: minmax(130px, 0.4fr) minmax(300px, 1.4fr) auto;
+  .verba-system-header {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  .verba-system-header > p {
+    max-width: 720px;
+  }
+
+  .verba-evidence-strip {
+    grid-template-columns: 1fr;
+    gap: 18px;
   }
 
   .output-lightbox-dialog {
@@ -2251,33 +2416,81 @@ a {
     height: 46px;
   }
 
-  .verba-visual-placeholder {
-    grid-template-columns: 1fr;
-    gap: 44px;
-    min-height: 480px;
-    padding: 30px;
+  .verba-system-header {
+    gap: 22px;
+    padding: 28px 24px 30px;
   }
 
-  .verba-visual-placeholder > div:not(.placeholder-grid) {
-    align-self: end;
-    padding-right: 10px;
+  .verba-system-header span {
+    margin-bottom: 16px;
   }
 
-  .verba-visual-placeholder strong {
-    font-size: clamp(38px, 11.5vw, 58px);
+  .verba-system-header h4 {
+    font-size: clamp(34px, 10vw, 48px);
+    line-height: 1.02;
   }
 
-  .verba-visual-placeholder p {
-    margin-top: 20px;
+  .verba-system-header > p {
     font-size: 13px;
+    line-height: 1.7;
   }
 
-  .verba-visual-placeholder > i {
-    position: absolute;
-    top: 26px;
-    right: 26px;
-    width: 70px;
-    font-size: 39px;
+  .verba-architecture {
+    padding: 30px 24px 34px;
+  }
+
+  .verba-flow-knowledge,
+  .verba-flow-request {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    width: 100%;
+  }
+
+  .verba-flow-nodes li {
+    min-height: 0;
+    padding: 20px;
+  }
+
+  .verba-flow-nodes li > span {
+    margin-bottom: 18px;
+  }
+
+  .verba-flow-nodes li:not(:last-child)::after {
+    top: auto;
+    right: auto;
+    bottom: -27px;
+    left: 50%;
+    width: 20px;
+    content: "↓";
+    transform: translateX(-50%);
+  }
+
+  .verba-flow-bridge {
+    height: 42px;
+    margin: 18px auto;
+  }
+
+  .verba-evidence-strip {
+    padding: 24px;
+  }
+
+  .verba-evidence-strip dl {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px 0;
+  }
+
+  .verba-evidence-strip dl > div {
+    padding: 0 12px 0 0;
+    border-left: 0;
+  }
+
+  .verba-evidence-strip dl > div:nth-child(even) {
+    padding-left: 16px;
+    border-left: 1px solid var(--line);
+  }
+
+  .verba-system-visual > figcaption {
+    padding: 17px 24px 19px;
   }
 
   .output-lightbox {

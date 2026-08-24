@@ -20,6 +20,9 @@ const slideAssets = [
   "/experience/ad-report/slide-01.jpg",
   "/experience/ad-report/slide-02.jpg",
   "/experience/ad-report/slide-03.jpg",
+  "/experience/ad-report/slide-04.jpg",
+  "/experience/ad-report/slide-05.jpg",
+  "/experience/ad-report/slide-06.jpg",
   "/experience/ad-report/slide-07.jpg",
   "/experience/ad-report/slide-08.jpg",
 ] as const;
@@ -331,16 +334,69 @@ export function AdReportMedia({ copy }: AdReportMediaProps) {
   );
 }
 
-export function VerbaVisualPlaceholder({ copy }: AdReportMediaProps) {
+export function VerbaSystemVisual({ copy }: AdReportMediaProps) {
+  const verba = copy.verba;
+
   return (
-    <div className="verba-visual-placeholder" aria-label={copy.pendingLabel} data-reveal>
-      <div className="placeholder-grid" aria-hidden="true" />
-      <span>{copy.pendingLabel}</span>
-      <div>
-        <strong>{copy.pendingHeadline}</strong>
-        <p>{copy.pendingBody}</p>
+    <figure className="verba-system-visual" aria-label={verba.diagramLabel} data-reveal>
+      <header className="verba-system-header">
+        <div>
+          <span>{verba.label}</span>
+          <h4>{verba.headline}</h4>
+        </div>
+        <p>{verba.body}</p>
+      </header>
+
+      <div className="verba-architecture">
+        <div className="verba-grid" aria-hidden="true" />
+        <section className="verba-lane" aria-labelledby="verba-knowledge-lane">
+          <p id="verba-knowledge-lane" className="verba-lane-label">
+            {verba.knowledgeLane}
+          </p>
+          <ol className="verba-flow-nodes verba-flow-knowledge">
+            {verba.knowledgeNodes.map((node) => (
+              <li key={node.step}>
+                <span>{node.step}</span>
+                <strong>{node.title}</strong>
+                <p>{node.detail}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <div className="verba-flow-bridge" aria-hidden="true">
+          <span />
+        </div>
+
+        <section className="verba-lane" aria-labelledby="verba-request-lane">
+          <p id="verba-request-lane" className="verba-lane-label">
+            {verba.requestLane}
+          </p>
+          <ol className="verba-flow-nodes verba-flow-request">
+            {verba.requestNodes.map((node) => (
+              <li key={node.step}>
+                <span>{node.step}</span>
+                <strong>{node.title}</strong>
+                <p>{node.detail}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
       </div>
-      <i aria-hidden="true">+</i>
-    </div>
+
+      <div className="verba-evidence-strip">
+        <span>{verba.evidenceLabel}</span>
+        <dl>
+          {verba.evidence.map((item) => (
+            <div key={item.label}>
+              <dt>{item.label}</dt>
+              <dd>{item.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+
+      <figcaption>{verba.boundary}</figcaption>
+    </figure>
   );
 }

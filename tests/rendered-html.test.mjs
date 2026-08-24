@@ -142,6 +142,8 @@ test("keeps bilingual content and hosted assets wired correctly", async () => {
   assert.match(media, /verba-cycle-band/);
   assert.match(media, /verba-cycle-heads/);
   assert.match(media, /verba-cycle-core/);
+  assert.match(content, /retrieve the five most relevant passages from 111 locally indexed chunks/i);
+  assert.match(content, /从 111 个本地索引切片中召回最相关的五段内容/);
   assert.doesNotMatch(media, /\["↘", "↓", "↙", "↖", "↑", "↗"\]/);
   assert.doesNotMatch(media, /verba-prepare-track|verba-run-track|verba-evidence-feed/);
   assert.match(media, /verba-evidence-strip/);
@@ -218,13 +220,14 @@ test("keeps the demo dominant on desktop and stacks media on phones", async () =
   assert.match(css, /body\.modal-open\s*\{[^}]*overflow:\s*hidden/s);
   assert.match(css, /\.demo-video-frame\s*\{[^}]*aspect-ratio:\s*1600\s*\/\s*1018/s);
   assert.match(css, /\.demo-video-frame video\s*\{[^}]*object-position:\s*center top/s);
-  assert.match(css, /\.verba-cycle-canvas\s*\{[^}]*aspect-ratio:\s*1\.34/s);
+  assert.match(css, /\.verba-cycle-canvas\s*\{[^}]*display:\s*grid/s);
+  assert.match(css, /\.verba-cycle-canvas\s*\{[^}]*grid-template-columns:\s*minmax\(230px,\s*0\.64fr\)\s*minmax\(0,\s*1\.36fr\)/s);
   assert.match(css, /\.verba-cycle-band\s*\{[^}]*conic-gradient/s);
   assert.match(css, /\.verba-cycle-band\s*\{[^}]*radial-gradient/s);
-  assert.match(css, /\.verba-arrow-loop\s*\{[^}]*width:\s*min\(38%,\s*450px\)/s);
+  assert.match(css, /\.verba-arrow-loop\s*\{[^}]*width:\s*min\(100%,\s*285px\)/s);
   assert.match(css, /\.verba-cycle-core\s*\{[^}]*border-radius:\s*50%/s);
   assert.match(css, /\.verba-cycle-heads i\s*\{[^}]*clip-path:\s*polygon/s);
   assert.doesNotMatch(css, /cycle-segment-focus|transparent 52deg 60deg/);
-  assert.match(css, /@media \(max-width:\s*700px\)[\s\S]*?\.verba-arrow-loop\s*\{[^}]*display:\s*none/s);
-  assert.match(css, /@media \(max-width:\s*700px\)[\s\S]*?\.verba-cycle-nodes\s*\{[^}]*display:\s*grid/s);
+  assert.match(css, /@media \(max-width:\s*700px\)[\s\S]*?\.verba-arrow-loop\s*\{[^}]*display:\s*block/s);
+  assert.match(css, /@media \(max-width:\s*700px\)[\s\S]*?\.verba-cycle-nodes\s*\{[^}]*grid-template-columns:\s*repeat\(2,/s);
 });

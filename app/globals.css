@@ -977,21 +977,21 @@ a {
 .verba-system-header {
   display: grid;
   grid-template-columns: minmax(360px, 1.25fr) minmax(260px, 0.75fr);
-  gap: clamp(36px, 6vw, 100px);
+  gap: clamp(30px, 4vw, 68px);
   align-items: end;
-  padding: clamp(36px, 5vw, 72px);
+  padding: clamp(30px, 3.8vw, 52px);
   border-bottom: 1px solid var(--line);
 }
 
 .verba-system-header span {
   display: block;
-  margin-bottom: 22px;
+  margin-bottom: 15px;
 }
 
 .verba-system-header h4 {
   max-width: 980px;
   margin: 0;
-  font-size: clamp(37px, 4.7vw, 76px);
+  font-size: clamp(32px, 3.4vw, 52px);
   font-weight: 640;
   line-height: 0.98;
   letter-spacing: -0.058em;
@@ -1001,13 +1001,13 @@ a {
   max-width: 610px;
   margin: 0;
   color: var(--muted);
-  font-size: 14px;
-  line-height: 1.78;
+  font-size: 13px;
+  line-height: 1.68;
 }
 
 .verba-cycle-map {
   position: relative;
-  padding: clamp(34px, 4.5vw, 66px);
+  padding: clamp(24px, 3vw, 38px);
   overflow: hidden;
   background: #fafbfe;
   isolation: isolate;
@@ -1034,19 +1034,20 @@ a {
 
 .verba-cycle-canvas {
   position: relative;
+  display: grid;
+  grid-template-columns: minmax(230px, 0.64fr) minmax(0, 1.36fr);
+  gap: clamp(30px, 3.6vw, 50px);
+  align-items: center;
   width: min(100%, 1220px);
-  aspect-ratio: 1.34;
-  margin: 8px auto 0;
+  margin: 18px auto 0;
 }
 
 .verba-arrow-loop {
-  position: absolute;
+  position: relative;
   z-index: 1;
-  top: 50%;
-  left: 50%;
-  width: min(38%, 450px);
+  width: min(100%, 285px);
   aspect-ratio: 1;
-  transform: translate(-50%, -50%);
+  margin: 0 auto;
 }
 
 .verba-cycle-band {
@@ -1083,44 +1084,44 @@ a {
 }
 
 .verba-cycle-heads i:nth-child(1) {
-  --head-angle: 60deg;
-  top: 29.5%;
-  left: 85.5%;
+  --head-angle: 52deg;
+  top: 24.7%;
+  left: 82.3%;
   background: #0b2f78;
 }
 
 .verba-cycle-heads i:nth-child(2) {
-  --head-angle: 120deg;
-  top: 70.5%;
-  left: 85.5%;
+  --head-angle: 112deg;
+  top: 65.4%;
+  left: 88.1%;
   background: #145bff;
 }
 
 .verba-cycle-heads i:nth-child(3) {
-  --head-angle: 180deg;
-  top: 91%;
-  left: 50%;
+  --head-angle: 172deg;
+  top: 90.6%;
+  left: 55.7%;
   background: #4a7fff;
 }
 
 .verba-cycle-heads i:nth-child(4) {
-  --head-angle: 240deg;
-  top: 70.5%;
-  left: 14.5%;
+  --head-angle: 232deg;
+  top: 75.2%;
+  left: 17.7%;
   background: #9ab6f5;
 }
 
 .verba-cycle-heads i:nth-child(5) {
-  --head-angle: 300deg;
-  top: 29.5%;
-  left: 14.5%;
+  --head-angle: 292deg;
+  top: 34.7%;
+  left: 11.9%;
   background: #5873bd;
 }
 
 .verba-cycle-heads i:nth-child(6) {
-  --head-angle: 360deg;
-  top: 9%;
-  left: 50%;
+  --head-angle: 352deg;
+  top: 9.4%;
+  left: 44.3%;
   background: #244c9e;
 }
 
@@ -1131,55 +1132,32 @@ a {
   list-style: none;
 }
 
-.verba-cycle-nodes > li {
-  position: absolute;
-  z-index: 2;
-  width: clamp(176px, 20%, 238px);
-  min-height: 100px;
-  padding: 13px 0 0;
+.verba-cycle-nodes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px clamp(22px, 2.6vw, 36px);
+}
+
+.verba-cycle-nodes > li,
+.verba-cycle-nodes > li:nth-child(1),
+.verba-cycle-nodes > li:nth-child(2),
+.verba-cycle-nodes > li:nth-child(3),
+.verba-cycle-nodes > li:nth-child(4),
+.verba-cycle-nodes > li:nth-child(5),
+.verba-cycle-nodes > li:nth-child(6) {
+  position: static;
+  width: auto;
+  min-height: 92px;
+  padding: 10px 0 0;
   border-top: 1px solid rgb(20 91 255 / 36%);
   background: transparent;
-}
-
-.verba-cycle-nodes > li:nth-child(1) {
-  top: 0;
-  left: 50%;
-  text-align: center;
-  transform: translateX(-50%);
-}
-
-.verba-cycle-nodes > li:nth-child(2) {
-  top: 19%;
-  right: 0;
-}
-
-.verba-cycle-nodes > li:nth-child(3) {
-  right: 0;
-  bottom: 19%;
-}
-
-.verba-cycle-nodes > li:nth-child(4) {
-  bottom: 0;
-  left: 50%;
-  text-align: center;
-  transform: translateX(-50%);
-}
-
-.verba-cycle-nodes > li:nth-child(5) {
-  bottom: 19%;
-  left: 0;
-  text-align: right;
-}
-
-.verba-cycle-nodes > li:nth-child(6) {
-  top: 19%;
-  left: 0;
-  text-align: right;
+  text-align: left;
+  transform: none;
 }
 
 .verba-cycle-nodes > li > span {
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 7px;
   color: var(--blue);
   font-family: "SFMono-Regular", Consolas, monospace;
   font-size: 8px;
@@ -1188,16 +1166,16 @@ a {
 
 .verba-cycle-nodes strong {
   display: block;
-  font-size: clamp(16px, 1.35vw, 21px);
+  font-size: clamp(15px, 1.1vw, 18px);
   font-weight: 630;
   line-height: 1.05;
   letter-spacing: -0.04em;
 }
 
 .verba-cycle-nodes p {
-  margin: 7px 0 0;
+  margin: 6px 0 0;
   color: #6d727c;
-  font-size: 9px;
+  font-size: 9.5px;
   line-height: 1.55;
 }
 
@@ -1209,9 +1187,9 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: clamp(180px, 18%, 235px);
+  width: 52%;
   aspect-ratio: 1;
-  padding: clamp(24px, 2.2vw, 34px);
+  padding: clamp(16px, 1.7vw, 22px);
   color: var(--white);
   border-radius: 50%;
   background: #0b2f78;
@@ -1230,8 +1208,8 @@ a {
 
 .verba-cycle-core > strong {
   display: block;
-  margin-top: 10px;
-  font-size: clamp(22px, 2.15vw, 32px);
+  margin-top: 7px;
+  font-size: clamp(18px, 1.7vw, 23px);
   font-weight: 620;
   line-height: 0.98;
   letter-spacing: -0.05em;
@@ -1240,11 +1218,11 @@ a {
 .verba-cycle-core ul {
   display: grid;
   gap: 4px;
-  margin-top: 16px;
+  margin-top: 10px;
 }
 
 .verba-cycle-core li {
-  padding-top: 4px;
+  padding-top: 3px;
   border-top: 1px solid rgb(255 255 255 / 20%);
   color: rgb(255 255 255 / 80%);
   font-family: "SFMono-Regular", Consolas, monospace;
@@ -1257,7 +1235,7 @@ a {
   grid-template-columns: minmax(130px, 0.28fr) minmax(0, 1.72fr);
   gap: clamp(28px, 4vw, 64px);
   align-items: center;
-  padding: 28px clamp(34px, 4.5vw, 66px);
+  padding: 20px clamp(28px, 3.6vw, 48px);
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
@@ -2169,21 +2147,26 @@ a {
   }
 
   .verba-cycle-canvas {
-    aspect-ratio: 1.2;
-    min-height: 720px;
+    grid-template-columns: minmax(230px, 0.68fr) minmax(0, 1.32fr);
+    gap: 32px;
+    min-height: 0;
   }
 
   .verba-cycle-nodes > li {
-    width: clamp(155px, 23%, 210px);
-    padding: 15px;
+    width: auto;
+    padding: 12px 0 0;
   }
 
   .verba-arrow-loop {
-    width: min(40%, 400px);
+    width: min(100%, 250px);
   }
 
   .verba-cycle-core {
-    width: clamp(170px, 18%, 220px);
+    width: 52%;
+  }
+
+  .verba-cycle-core ul {
+    display: none;
   }
 
 
@@ -2488,31 +2471,30 @@ a {
   }
 
   .verba-cycle-canvas {
-    display: flex;
-    flex-direction: column;
-    gap: 36px;
-    aspect-ratio: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
     min-height: 0;
-    margin-top: 30px;
+    margin-top: 24px;
   }
 
   .verba-arrow-loop {
-    display: none;
+    display: block;
+    width: min(62vw, 220px);
   }
 
   .verba-cycle-core {
-    position: static;
-    order: 1;
-    width: min(70vw, 270px);
-    margin: 0 auto;
-    padding: 34px;
-    transform: none;
+    position: absolute;
+    width: 52%;
+    margin: 0;
+    padding: 14px;
+    transform: translate(-50%, -50%);
   }
 
   .verba-cycle-nodes {
     display: grid;
-    order: 2;
-    gap: 34px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 18px;
   }
 
   .verba-cycle-nodes > li,
@@ -2522,27 +2504,16 @@ a {
   .verba-cycle-nodes > li:nth-child(4),
   .verba-cycle-nodes > li:nth-child(5),
   .verba-cycle-nodes > li:nth-child(6) {
-    position: relative;
-    inset: auto;
-    width: 100%;
-    min-height: 0;
-    padding: 20px;
+    position: static;
+    width: auto;
+    min-height: 100px;
+    padding: 12px 0 0;
     text-align: left;
     transform: none;
   }
 
   .verba-cycle-nodes > li:not(:last-child)::after {
-    position: absolute;
-    right: auto;
-    bottom: -29px;
-    left: 50%;
-    width: 20px;
-    color: var(--blue);
-    font-family: "SFMono-Regular", Consolas, monospace;
-    font-size: 14px;
-    text-align: center;
-    content: "↓";
-    transform: translateX(-50%);
+    content: none;
   }
 
 

@@ -206,32 +206,32 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
             {
               step: "01",
               title: "Client Brief",
-              detail: "Business goals, requirements, and constraints",
+              detail: "Capture the business goal, target users, constraints, and the decisions the proposal needs to support.",
             },
             {
               step: "02",
               title: "Retrieve Evidence",
-              detail: "Top-5 semantic matches from the local store",
+              detail: "Embed the brief and retrieve the five most relevant passages from 111 locally indexed chunks.",
             },
             {
               step: "03",
               title: "Ground Context",
-              detail: "Passage text · source file · page · similarity",
+              detail: "Assemble passage text with its source file, page number, and similarity score so evidence stays traceable.",
             },
             {
               step: "04",
               title: "Draft Locally",
-              detail: "FastAPI orchestration · Gemma",
+              detail: "FastAPI orchestrates retrieval and sends the grounded prompt to a locally hosted Gemma model.",
             },
             {
               step: "05",
               title: "Structured Solution",
-              detail: "Six-part Markdown proposal with sources",
+              detail: "Return a six-part Markdown draft covering diagnosis, fit, architecture, rollout, risks, and sources.",
             },
             {
               step: "06",
               title: "Human Review & Refine",
-              detail: "Verify citations and sharpen the next pass",
+              detail: "A solution lead checks claims and citations, then refines the brief or evidence for the next pass.",
             },
           ],
           evidence: [
@@ -413,32 +413,32 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
             {
               step: "01",
               title: "客户需求",
-              detail: "业务目标、具体要求与约束",
+              detail: "明确业务目标、目标用户、关键约束，以及这份方案需要支持的核心决策。",
             },
             {
               step: "02",
               title: "检索证据",
-              detail: "从本地证据库召回 Top-5 语义匹配",
+              detail: "对需求进行向量化，并从 111 个本地索引切片中召回最相关的五段内容。",
             },
             {
               step: "03",
               title: "组织上下文",
-              detail: "段落正文 · 来源文件 · 页码 · 相似度",
+              detail: "组合段落正文、来源文件、页码和相似度，让每条用于生成的证据都可以追溯。",
             },
             {
               step: "04",
               title: "本地生成",
-              detail: "FastAPI 编排 · Gemma",
+              detail: "由 FastAPI 编排检索流程，并把有证据支撑的提示词交给本地 Gemma 模型。",
             },
             {
               step: "05",
               title: "结构化方案",
-              detail: "带来源的六部分 Markdown 初稿",
+              detail: "输出六部分 Markdown 初稿，覆盖问题诊断、方案匹配、架构、落地阶段、风险与来源。",
             },
             {
               step: "06",
               title: "人工复核与完善",
-              detail: "核验引用，并完善下一轮输入",
+              detail: "由方案负责人核验结论与引用，再调整需求或证据，进入下一轮完善。",
             },
           ],
           evidence: [

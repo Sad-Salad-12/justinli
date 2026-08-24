@@ -378,7 +378,14 @@ export function VerbaSystemVisual({ copy }: AdReportMediaProps) {
         <div className="verba-grid" aria-hidden="true" />
         <p className="verba-cycle-label">{verba.cycleLabel}</p>
         <div className="verba-cycle-canvas">
-          <span className="verba-cycle-ring" aria-hidden="true" />
+          <div className="verba-arrow-loop" aria-hidden="true">
+            <span className="verba-cycle-band" />
+            <span className="verba-cycle-heads">
+              {verba.cycleNodes.map((node) => (
+                <i key={node.step} />
+              ))}
+            </span>
+          </div>
           <ol className="verba-cycle-nodes">
             {verba.cycleNodes.map((node) => (
               <li key={node.step}>
@@ -388,11 +395,6 @@ export function VerbaSystemVisual({ copy }: AdReportMediaProps) {
               </li>
             ))}
           </ol>
-          <ul className="verba-cycle-arrows" aria-hidden="true">
-            {["↘", "↓", "↙", "↖", "↑", "↗"].map((arrow, index) => (
-              <li key={`${arrow}-${index}`}>{arrow}</li>
-            ))}
-          </ul>
           <div className="verba-cycle-core">
             <span>{verba.core.label}</span>
             <strong>{verba.core.title}</strong>

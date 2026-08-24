@@ -138,8 +138,11 @@ test("keeps bilingual content and hosted assets wired correctly", async () => {
   assert.match(media, /VerbaSystemVisual/);
   assert.match(media, /verba-cycle-canvas/);
   assert.match(media, /verba-cycle-nodes/);
-  assert.match(media, /verba-cycle-arrows/);
+  assert.match(media, /verba-arrow-loop/);
+  assert.match(media, /verba-cycle-band/);
+  assert.match(media, /verba-cycle-heads/);
   assert.match(media, /verba-cycle-core/);
+  assert.doesNotMatch(media, /\["↘", "↓", "↙", "↖", "↑", "↗"\]/);
   assert.doesNotMatch(media, /verba-prepare-track|verba-run-track|verba-evidence-feed/);
   assert.match(media, /verba-evidence-strip/);
   assert.doesNotMatch(media, /\.gif/);
@@ -216,9 +219,11 @@ test("keeps the demo dominant on desktop and stacks media on phones", async () =
   assert.match(css, /\.demo-video-frame\s*\{[^}]*aspect-ratio:\s*1600\s*\/\s*1018/s);
   assert.match(css, /\.demo-video-frame video\s*\{[^}]*object-position:\s*center top/s);
   assert.match(css, /\.verba-cycle-canvas\s*\{[^}]*aspect-ratio:\s*1\.34/s);
-  assert.match(css, /\.verba-cycle-ring\s*\{[^}]*border-radius:\s*50%/s);
+  assert.match(css, /\.verba-cycle-band\s*\{[^}]*conic-gradient/s);
+  assert.match(css, /\.verba-cycle-band\s*\{[^}]*radial-gradient/s);
   assert.match(css, /\.verba-cycle-core\s*\{[^}]*border-radius:\s*50%/s);
-  assert.match(css, /\.verba-cycle-arrows li\s*\{[^}]*animation:\s*cycle-arrow-pulse/s);
-  assert.match(css, /@media \(max-width:\s*700px\)[\s\S]*?\.verba-cycle-arrows\s*\{[^}]*display:\s*none/s);
+  assert.match(css, /\.verba-cycle-heads i\s*\{[^}]*clip-path:\s*polygon/s);
+  assert.match(css, /\.verba-cycle-heads i\s*\{[^}]*animation:\s*cycle-segment-focus/s);
+  assert.match(css, /@media \(max-width:\s*700px\)[\s\S]*?\.verba-arrow-loop\s*\{[^}]*display:\s*none/s);
   assert.match(css, /@media \(max-width:\s*700px\)[\s\S]*?\.verba-cycle-nodes\s*\{[^}]*display:\s*grid/s);
 });

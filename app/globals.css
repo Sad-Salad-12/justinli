@@ -1039,18 +1039,105 @@ a {
   margin: 8px auto 0;
 }
 
-.verba-cycle-ring {
+.verba-arrow-loop {
   position: absolute;
-  inset: 14% 18%;
-  border: 1px solid rgb(20 91 255 / 20%);
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  width: min(50%, 590px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+}
+
+.verba-cycle-band {
+  position: absolute;
+  inset: 0;
   border-radius: 50%;
-  box-shadow:
-    0 0 0 22px rgb(20 91 255 / 2.5%),
-    inset 0 0 90px rgb(20 91 255 / 3%);
+  background: conic-gradient(
+    #145bff 0deg 52deg,
+    transparent 52deg 60deg,
+    #2a6aff 60deg 112deg,
+    transparent 112deg 120deg,
+    #4179f5 120deg 172deg,
+    transparent 172deg 180deg,
+    #5b8af0 180deg 232deg,
+    transparent 232deg 240deg,
+    #3f74de 240deg 292deg,
+    transparent 292deg 300deg,
+    #285fc9 300deg 352deg,
+    transparent 352deg 360deg
+  );
+  filter: drop-shadow(0 18px 30px rgb(20 91 255 / 14%));
+  mask: radial-gradient(circle, transparent 0 57%, #000 58% 94%, transparent 95%);
+  -webkit-mask: radial-gradient(circle, transparent 0 57%, #000 58% 94%, transparent 95%);
+}
+
+.verba-cycle-heads {
+  position: absolute;
+  inset: 0;
+}
+
+.verba-cycle-heads i {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  width: 14%;
+  height: 18%;
+  clip-path: polygon(0 4%, 100% 50%, 0 96%, 18% 50%);
+  transform: translate(-50%, -50%) rotate(var(--head-angle));
+  transform-origin: center;
+  animation: cycle-segment-focus 7.2s ease-in-out infinite;
+}
+
+.verba-cycle-heads i:nth-child(1) {
+  --head-angle: 52deg;
+  top: 24%;
+  left: 83%;
+  background: #145bff;
+  animation-delay: 0s;
+}
+
+.verba-cycle-heads i:nth-child(2) {
+  --head-angle: 112deg;
+  top: 66%;
+  left: 89%;
+  background: #2a6aff;
+  animation-delay: 1.2s;
+}
+
+.verba-cycle-heads i:nth-child(3) {
+  --head-angle: 172deg;
+  top: 90%;
+  left: 56%;
+  background: #4179f5;
+  animation-delay: 2.4s;
+}
+
+.verba-cycle-heads i:nth-child(4) {
+  --head-angle: 232deg;
+  top: 76%;
+  left: 17%;
+  background: #5b8af0;
+  animation-delay: 3.6s;
+}
+
+.verba-cycle-heads i:nth-child(5) {
+  --head-angle: 292deg;
+  top: 34%;
+  left: 11%;
+  background: #3f74de;
+  animation-delay: 4.8s;
+}
+
+.verba-cycle-heads i:nth-child(6) {
+  --head-angle: 352deg;
+  top: 10%;
+  left: 44%;
+  background: #285fc9;
+  animation-delay: 6s;
 }
 
 .verba-cycle-nodes,
-.verba-cycle-arrows,
 .verba-cycle-core ul {
   margin: 0;
   padding: 0;
@@ -1060,53 +1147,52 @@ a {
 .verba-cycle-nodes > li {
   position: absolute;
   z-index: 2;
-  width: clamp(170px, 21%, 252px);
-  min-height: 122px;
-  padding: 17px 18px 18px;
-  border-top: 2px solid var(--blue);
-  background: rgb(250 251 254 / 94%);
-  backdrop-filter: blur(10px);
+  width: clamp(176px, 20%, 238px);
+  min-height: 100px;
+  padding: 13px 0 0;
+  border-top: 1px solid rgb(20 91 255 / 36%);
+  background: transparent;
 }
 
 .verba-cycle-nodes > li:nth-child(1) {
-  top: 1%;
+  top: 0;
   left: 50%;
   text-align: center;
   transform: translateX(-50%);
 }
 
 .verba-cycle-nodes > li:nth-child(2) {
-  top: 21%;
+  top: 19%;
   right: 0;
 }
 
 .verba-cycle-nodes > li:nth-child(3) {
   right: 0;
-  bottom: 21%;
+  bottom: 19%;
 }
 
 .verba-cycle-nodes > li:nth-child(4) {
-  bottom: 1%;
+  bottom: 0;
   left: 50%;
   text-align: center;
   transform: translateX(-50%);
 }
 
 .verba-cycle-nodes > li:nth-child(5) {
-  bottom: 21%;
+  bottom: 19%;
   left: 0;
   text-align: right;
 }
 
 .verba-cycle-nodes > li:nth-child(6) {
-  top: 21%;
+  top: 19%;
   left: 0;
   text-align: right;
 }
 
 .verba-cycle-nodes > li > span {
   display: block;
-  margin-bottom: 19px;
+  margin-bottom: 10px;
   color: var(--blue);
   font-family: "SFMono-Regular", Consolas, monospace;
   font-size: 8px;
@@ -1115,69 +1201,17 @@ a {
 
 .verba-cycle-nodes strong {
   display: block;
-  font-size: clamp(17px, 1.55vw, 23px);
+  font-size: clamp(16px, 1.35vw, 21px);
   font-weight: 630;
   line-height: 1.05;
   letter-spacing: -0.04em;
 }
 
 .verba-cycle-nodes p {
-  margin: 9px 0 0;
+  margin: 7px 0 0;
   color: #6d727c;
   font-size: 9px;
   line-height: 1.55;
-}
-
-.verba-cycle-arrows li {
-  position: absolute;
-  z-index: 3;
-  display: grid;
-  place-items: center;
-  width: 58px;
-  height: 58px;
-  color: var(--blue);
-  background: #fafbfe;
-  font-family: Arial, sans-serif;
-  font-size: 46px;
-  font-weight: 300;
-  line-height: 1;
-  animation: cycle-arrow-pulse 3.6s ease-in-out infinite;
-}
-
-.verba-cycle-arrows li:nth-child(1) {
-  top: 10%;
-  right: 26%;
-  animation-delay: 0s;
-}
-
-.verba-cycle-arrows li:nth-child(2) {
-  top: 43%;
-  right: 8.5%;
-  animation-delay: 0.6s;
-}
-
-.verba-cycle-arrows li:nth-child(3) {
-  right: 26%;
-  bottom: 10%;
-  animation-delay: 1.2s;
-}
-
-.verba-cycle-arrows li:nth-child(4) {
-  bottom: 10%;
-  left: 26%;
-  animation-delay: 1.8s;
-}
-
-.verba-cycle-arrows li:nth-child(5) {
-  top: 43%;
-  left: 8.5%;
-  animation-delay: 2.4s;
-}
-
-.verba-cycle-arrows li:nth-child(6) {
-  top: 10%;
-  left: 26%;
-  animation-delay: 3s;
 }
 
 .verba-cycle-core {
@@ -1188,7 +1222,7 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: clamp(240px, 30%, 350px);
+  width: clamp(230px, 24%, 310px);
   aspect-ratio: 1;
   padding: clamp(30px, 3.2vw, 48px);
   color: var(--white);
@@ -1231,16 +1265,14 @@ a {
   letter-spacing: 0.06em;
 }
 
-@keyframes cycle-arrow-pulse {
+@keyframes cycle-segment-focus {
   0%,
-  16%,
+  13%,
   100% {
-    opacity: 0.42;
-    transform: scale(0.92);
+    filter: brightness(1);
   }
-  8% {
-    opacity: 1;
-    transform: scale(1.08);
+  6% {
+    filter: brightness(1.22) drop-shadow(0 5px 8px rgb(20 91 255 / 22%));
   }
 }
 
@@ -2171,14 +2203,12 @@ a {
     padding: 15px;
   }
 
-  .verba-cycle-arrows li {
-    width: 44px;
-    height: 44px;
-    font-size: 36px;
+  .verba-arrow-loop {
+    width: min(50%, 540px);
   }
 
   .verba-cycle-core {
-    width: clamp(220px, 31%, 290px);
+    width: clamp(210px, 25%, 270px);
   }
 
 
@@ -2491,8 +2521,7 @@ a {
     margin-top: 30px;
   }
 
-  .verba-cycle-ring,
-  .verba-cycle-arrows {
+  .verba-arrow-loop {
     display: none;
   }
 

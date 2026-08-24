@@ -2,35 +2,20 @@ import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
-async function render() {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
-  const { default: worker } = await import(workerUrl.href);
-
-  return worker.fetch(
-    new Request("http://localhost/", {
-      headers: { accept: "text/html" },
-    }),
-    {
-      ASSETS: {
-        fetch: async () => new Response("Not found", { status: 404 }),
-      },
-    },
-    {
-      waitUntil() {},
-      passThroughOnException() {},
-    },
-  );
+async function renderedHtml() {
+  return readFile(new URL("../out/index.html", import.meta.url), "utf8");
 }
 
-test("server-renders English as the default portfolio language", async () => {
-  const response = await render();
-  assert.equal(response.status, 200);
-  assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
-
-  const html = await response.text();
+test("static export renders English as the default portfolio language", async () => {
+  const html = await renderedHtml();
   assert.match(html, /<html lang="en"/i);
   assert.match(html, /<title>Justin Li — Solutions Architect &amp; FDE<\/title>/i);
+  assert.ok(
+    html.includes(
+      '<link rel="canonical" href="https://sad-salad-12.github.io/justinli/"/>',
+    ),
+    "canonical link must preserve the /justinli/ GitHub Pages path",
+  );
   assert.match(html, /JUSTIN LI\./);
   assert.match(html, /Solution Architect/);
   assert.match(html, /Product Management/);
@@ -52,16 +37,22 @@ test("server-renders English as the default portfolio language", async () => {
   assert.match(html, /href="tel:\+16462284995"/);
   assert.match(html, /\(646\) 228-4995/);
   assert.match(html, /NEW YORK, NY/);
+  assert.match(html, /\/justinli\/_next\//);
+  assert.match(html, /\/justinli\/justin-shanghai-portrait\.jpg/);
+  assert.match(html, /\/justinli\/works\/solution-blueprint-sample\.pdf/);
   assert.doesNotMatch(html, /YOUR EMAIL HERE|Zeting Li/);
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|react-loading-skeleton/);
 });
 
 test("keeps bilingual content and PDF work samples wired correctly", async () => {
-  const [page, content, layout, packageJson] = await Promise.all([
+  const [page, content, layout, packageJson, nextConfig, workflow, html] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/portfolio-content.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
+    readFile(new URL("../next.config.ts", import.meta.url), "utf8"),
+    readFile(new URL("../.github/workflows/pages.yml", import.meta.url), "utf8"),
+    renderedHtml(),
   ]);
 
   const pdfs = [
@@ -73,6 +64,11 @@ test("keeps bilingual content and PDF work samples wired correctly", async () =>
   for (const filename of pdfs) {
     assert.match(page, new RegExp(filename.replaceAll(".", "\\.")));
     await access(new URL(`../public/works/${filename}`, import.meta.url));
+    await access(new URL(`../out/works/${filename}`, import.meta.url));
+    assert.match(
+      html,
+      new RegExp(`/justinli/works/${filename.replaceAll(".", "\\.")}`),
+    );
   }
 
   assert.match(page, /type="application\/pdf"/);
@@ -94,11 +90,26 @@ test("keeps bilingual content and PDF work samples wired correctly", async () =>
   assert.match(content, /justinli@stern\.nyu\.edu/);
   assert.match(page, /mailto:\$\{t\.identity\.email\}/);
   assert.match(page, /tel:\$\{t\.identity\.phoneHref\}/);
+  assert.match(page, /NEXT_PUBLIC_BASE_PATH/);
+  assert.match(page, /withBasePath\("\/justin-shanghai-portrait\.jpg"\)/);
   assert.match(layout, /lang="en"/);
   assert.match(layout, /Justin Li — Solutions Architect & FDE/);
-  assert.match(layout, /justin\.zl5626\.chatgpt\.site/);
-  assert.doesNotMatch(layout, /justin-solutions-fde\.zl5626\.chatgpt\.site/);
+  assert.match(layout, /https:\/\/sad-salad-12\.github\.io\/justinli\//);
+  assert.doesNotMatch(layout, /next\/headers|generateMetadata|chatgpt\.site/);
+  assert.match(nextConfig, /output:\s*"export"/);
+  assert.match(nextConfig, /basePath/);
+  assert.match(nextConfig, /\/justinli/);
+  assert.match(nextConfig, /unoptimized:\s*true/);
+  assert.match(packageJson, /"build":\s*"next build(?: --webpack)?"/);
+  assert.doesNotMatch(packageJson, /"build":\s*[^\n]*vinext/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
+  assert.match(workflow, /actions\/configure-pages@v5/);
+  assert.match(workflow, /actions\/upload-pages-artifact@v4/);
+  assert.match(workflow, /actions\/deploy-pages@v4/);
+  assert.match(workflow, /NEXT_PUBLIC_BASE_PATH:\s*\/justinli/);
+  await access(new URL("../out/.nojekyll", import.meta.url));
+  await access(new URL("../out/justin-shanghai-portrait.jpg", import.meta.url));
+  await access(new URL("../out/og.png", import.meta.url));
 });
 
 test("keeps the retained main sections white except the final contact section", async () => {
@@ -113,8 +124,7 @@ test("keeps the retained main sections white except the final contact section", 
 });
 
 test("omits the former capability and approach sections", async () => {
-  const response = await render();
-  const html = await response.text();
+  const html = await renderedHtml();
 
   assert.doesNotMatch(html, /id="capabilities"|id="approach"/);
   assert.doesNotMatch(html, />Capabilities<|>Approach</);

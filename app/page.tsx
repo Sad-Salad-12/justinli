@@ -4,20 +4,23 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { type Language, portfolioContent } from "./portfolio-content";
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/justinli";
+const withBasePath = (path: string) => `${basePath}${path}`;
+
 const workAssets = [
   {
     index: "01",
-    pdf: "/works/solution-blueprint-sample.pdf",
+    pdf: withBasePath("/works/solution-blueprint-sample.pdf"),
     color: "blue",
   },
   {
     index: "02",
-    pdf: "/works/field-discovery-sample.pdf",
+    pdf: withBasePath("/works/field-discovery-sample.pdf"),
     color: "ink",
   },
   {
     index: "03",
-    pdf: "/works/production-readiness-sample.pdf",
+    pdf: withBasePath("/works/production-readiness-sample.pdf"),
     color: "silver",
   },
 ] as const;
@@ -195,7 +198,7 @@ export default function Home() {
           <span className="portrait-orbit" aria-hidden="true" />
           <span className="portrait-frame">
             <Image
-              src="/justin-shanghai-portrait.jpg"
+              src={withBasePath("/justin-shanghai-portrait.jpg")}
               alt={t.a11y.portraitAlt}
               width={1080}
               height={1619}

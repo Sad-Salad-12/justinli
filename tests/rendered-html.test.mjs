@@ -191,6 +191,14 @@ test("keeps retained sections white and the final contact section dark", async (
   const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
 
   assert.match(css, /\.experience\s*\{[^}]*background:\s*var\(--white\)/s);
+  assert.match(
+    css,
+    /\.experience\s*\{[^}]*padding-top:\s*clamp\(64px,\s*6\.5vw,\s*96px\)/s,
+  );
+  assert.match(
+    css,
+    /\.section-head\s*\{[^}]*margin-bottom:\s*clamp\(36px,\s*3\.8vw,\s*60px\)/s,
+  );
   assert.match(css, /\.work\s*\{[^}]*background:\s*var\(--white\)/s);
   assert.match(css, /\.contact\s*\{[^}]*background:\s*var\(--ink\)/s);
   assert.match(css, /\.experience-head h2 span\s*\{[^}]*color:\s*var\(--blue\)/s);

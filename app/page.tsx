@@ -194,16 +194,7 @@ export default function Home() {
               unoptimized
             />
           </span>
-          <figcaption>{t.hero.portraitCaption}</figcaption>
         </figure>
-
-        <div className="hero-index hero-enter hero-enter-5">
-          <span>{t.identity.location}</span>
-          <a className="hero-index-email" href={`mailto:${t.identity.email}`}>
-            {t.identity.email}
-          </a>
-          <span>{t.hero.scroll}</span>
-        </div>
       </section>
 
       <section className="experience" id="experience" aria-labelledby="experience-title">
@@ -214,7 +205,6 @@ export default function Home() {
             <br />
             <span>{t.experience.headlineAccent}</span>
           </h2>
-          <p>{t.experience.intro}</p>
         </div>
         <div className="experience-list">
           {t.experience.items.map((experience) => (
@@ -259,11 +249,6 @@ export default function Home() {
         <div className="section-head work-head" data-reveal>
           <p className="section-label">{t.work.label}</p>
           <h2 id="work-title">{t.work.headline}</h2>
-          <p>{t.work.intro}</p>
-          <div className="library-note">
-            <span>{t.work.libraryLabel}</span>
-            {t.work.libraryNote}
-          </div>
         </div>
 
         <div className="work-list">

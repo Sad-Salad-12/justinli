@@ -42,7 +42,7 @@ test("server-renders the streamlined English portfolio", async () => {
   assert.match(html, /Built to deliver\./);
   assert.match(html, /02 — SELECTED WORK/);
   assert.match(html, /03 — LET&#x27;S TALK/);
-  assert.match(html, /SCROLL — 01 \/ 03/);
+  assert.doesNotMatch(html, /SCROLL — 01 \/ 03|JUSTIN LI \/ PORTRAIT/);
   assert.match(html, /AI Advertisement Report Automation/);
   assert.match(html, /Verba — Internal AI Sales Agent/);
   assert.equal((html.match(/class="experience-project"/g) ?? []).length, 2);
@@ -66,7 +66,10 @@ test("server-renders the streamlined English portfolio", async () => {
   assert.match(html, /src="\/justin-shanghai-portrait\.jpg"/);
   assert.match(html, /R&amp;D Project Dashboards \(Lark Base\)/);
   assert.match(html, /src="\/works\/rd-project-dashboard-lark-base\.png"/);
-  assert.match(html, /REAL PROJECT SNAPSHOT/);
+  assert.doesNotMatch(
+    html,
+    /REAL PROJECT SNAPSHOT|Select the dashboard to inspect|It should reveal how you think|Selected work turning operational pain points/,
+  );
   assert.equal((html.match(/class="work-row"/g) ?? []).length, 1);
   assert.doesNotMatch(
     html,
@@ -118,6 +121,10 @@ test("keeps bilingual content and hosted assets wired correctly", async () => {
   assert.match(content, /系统会展示来源供人工核验/);
   assert.match(content, /R&D Project Dashboards \(Lark Base\)/);
   assert.match(content, /研发项目仪表盘（飞书多维表格）/);
+  assert.doesNotMatch(
+    content,
+    /JUSTIN LI \/ PORTRAIT|SCROLL — 01 \/ 03|REAL PROJECT SNAPSHOT|Select the dashboard to inspect|It should reveal how you think|Selected work turning operational pain points|李泽霆 \/ 个人照片|向下浏览 — 01 \/ 03|真实项目快照|点击仪表盘即可查看完整大图|它应该让人看见你如何思考|把业务中的重复问题转化为可验证的人工智能产品/,
+  );
   assert.doesNotMatch(
     content,
     /Enterprise Knowledge System|Field Discovery & Validation|Production Readiness/,
@@ -192,16 +199,17 @@ test("keeps retained sections white and the final contact section dark", async (
   assert.doesNotMatch(css, /\.document-cover|\.pdf-modal/);
 });
 
-test("keeps the compact portrait and omits retired sections", async () => {
+test("keeps the enlarged portrait and omits retired sections", async () => {
   const [html, css] = await Promise.all([
     render().then((response) => response.text()),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
   ]);
 
   assert.doesNotMatch(html, /id="positioning-title"|id="capabilities"|id="approach"/);
-  assert.match(css, /\.hero-portrait\s*\{[^}]*width:\s*clamp\(280px,\s*24vw,\s*390px\)/s);
+  assert.match(css, /\.hero-portrait\s*\{[^}]*width:\s*clamp\(310px,\s*26vw,\s*430px\)/s);
   assert.match(css, /\.portrait-frame\s*\{[^}]*border-radius:\s*clamp\(/s);
   assert.match(css, /\.portrait-orbit\s*\{[^}]*width:\s*142%/s);
+  assert.doesNotMatch(css, /\.hero-index|\.hero-portrait figcaption|\.library-note/);
 });
 
 test("keeps the demo dominant on desktop and stacks media on phones", async () => {

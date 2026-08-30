@@ -125,18 +125,32 @@ export function AdReportMedia({ copy }: AdReportMediaProps) {
     if (!shouldLoadVideo) return;
 
     const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const video = videoRef.current;
+    if (!video) return;
+
+    let isVisible = false;
     const syncPlayback = () => {
-      if (!videoRef.current) return;
-      if (motionPreference.matches) {
-        videoRef.current.pause();
+      if (motionPreference.matches || !isVisible) {
+        video.pause();
         return;
       }
-      void videoRef.current.play().catch(() => undefined);
+      void video.play().catch(() => undefined);
     };
 
-    syncPlayback();
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting && entry.intersectionRatio >= 0.24;
+        syncPlayback();
+      },
+      { threshold: [0, 0.24, 0.6] },
+    );
+
+    visibilityObserver.observe(video);
     motionPreference.addEventListener("change", syncPlayback);
-    return () => motionPreference.removeEventListener("change", syncPlayback);
+    return () => {
+      visibilityObserver.disconnect();
+      motionPreference.removeEventListener("change", syncPlayback);
+    };
   }, [shouldLoadVideo]);
 
   useEffect(() => {

@@ -220,6 +220,26 @@ test("keeps the enlarged portrait and omits retired sections", async () => {
   assert.doesNotMatch(css, /\.hero-index|\.hero-portrait figcaption|\.library-note/);
 });
 
+test("adds restrained scroll motion with a reduced-motion fallback", async () => {
+  const [html, page, media, css] = await Promise.all([
+    render().then((response) => response.text()),
+    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/experience-media.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+  ]);
+
+  assert.match(html, /class="scroll-progress"/);
+  assert.match(page, /--scroll-progress/);
+  assert.match(page, /requestAnimationFrame/);
+  assert.match(page, /rootMargin:\s*"0px 0px -10% 0px"/);
+  assert.match(css, /\.site-header\.is-scrolled/);
+  assert.match(css, /\.motion-ready \.experience-row\[data-reveal\]/);
+  assert.match(css, /\.verba-cycle-nodes > li:nth-child\(6\)/);
+  assert.match(css, /@media \(prefers-reduced-motion:\s*reduce\)/);
+  assert.match(media, /intersectionRatio >= 0\.24/);
+  assert.match(media, /visibilityObserver\.disconnect\(\)/);
+});
+
 test("keeps the demo dominant on desktop and stacks media on phones", async () => {
   const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
 

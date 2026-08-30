@@ -51,6 +51,76 @@ export default function Home() {
   }, [language, preferenceReady, t.meta.description, t.meta.title]);
 
   useEffect(() => {
+    const root = document.documentElement;
+    const header = document.querySelector<HTMLElement>(".site-header");
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let animationFrame = 0;
+
+    const updateScrollEffects = () => {
+      animationFrame = 0;
+      const scrollTop = Math.max(window.scrollY, 0);
+      const scrollRange = Math.max(root.scrollHeight - window.innerHeight, 1);
+      const progress = Math.min(scrollTop / scrollRange, 1);
+      const heroProgress = Math.min(scrollTop / Math.max(window.innerHeight * 0.9, 1), 1);
+      const allowDepth = !motionPreference.matches && window.innerWidth > 700;
+
+      root.style.setProperty("--scroll-progress", progress.toFixed(4));
+      root.style.setProperty(
+        "--hero-grid-shift",
+        `${allowDepth ? heroProgress * 18 : 0}px`,
+      );
+      root.style.setProperty(
+        "--hero-portrait-shift",
+        `${allowDepth ? heroProgress * 14 : 0}px`,
+      );
+      root.style.setProperty(
+        "--hero-portrait-scale",
+        allowDepth ? (1 - heroProgress * 0.008).toFixed(4) : "1",
+      );
+      root.style.setProperty(
+        "--hero-grid-opacity",
+        allowDepth ? (0.44 - heroProgress * 0.13).toFixed(3) : "0.44",
+      );
+      header?.classList.toggle("is-scrolled", scrollTop > 24);
+    };
+
+    const queueScrollEffects = () => {
+      if (animationFrame !== 0) return;
+      animationFrame = window.requestAnimationFrame(updateScrollEffects);
+    };
+
+    updateScrollEffects();
+    window.addEventListener("scroll", queueScrollEffects, { passive: true });
+    window.addEventListener("resize", queueScrollEffects);
+    motionPreference.addEventListener("change", queueScrollEffects);
+
+    return () => {
+      if (animationFrame !== 0) window.cancelAnimationFrame(animationFrame);
+      window.removeEventListener("scroll", queueScrollEffects);
+      window.removeEventListener("resize", queueScrollEffects);
+      motionPreference.removeEventListener("change", queueScrollEffects);
+      root.style.removeProperty("--scroll-progress");
+      root.style.removeProperty("--hero-grid-shift");
+      root.style.removeProperty("--hero-portrait-shift");
+      root.style.removeProperty("--hero-portrait-scale");
+      root.style.removeProperty("--hero-grid-opacity");
+    };
+  }, []);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const revealElements = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-reveal]"),
+    );
+
+    root.classList.add("motion-ready");
+
+    if (motionPreference.matches || !("IntersectionObserver" in window)) {
+      revealElements.forEach((element) => element.classList.add("is-visible"));
+      return () => root.classList.remove("motion-ready");
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -60,14 +130,17 @@ export default function Home() {
           }
         });
       },
-      { threshold: 0.14 },
+      { threshold: 0.08, rootMargin: "0px 0px -10% 0px" },
     );
 
-    document.querySelectorAll<HTMLElement>("[data-reveal]").forEach((element) => {
+    revealElements.forEach((element) => {
       observer.observe(element);
     });
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      root.classList.remove("motion-ready");
+    };
   }, []);
 
   useEffect(() => {
@@ -149,6 +222,9 @@ export default function Home() {
           </a>
         </div>
       </header>
+      <div className="scroll-progress" aria-hidden="true">
+        <span />
+      </div>
 
       <section className="hero" id="top" aria-labelledby="hero-title">
         <div className="hero-grid" aria-hidden="true" />

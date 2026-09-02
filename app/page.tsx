@@ -81,6 +81,22 @@ export default function Home() {
         "--hero-grid-opacity",
         allowDepth ? (0.44 - heroProgress * 0.13).toFixed(3) : "0.44",
       );
+      root.style.setProperty(
+        "--v2-name-shift",
+        `${allowDepth ? heroProgress * -42 : 0}px`,
+      );
+      root.style.setProperty(
+        "--v2-copy-shift",
+        `${allowDepth ? heroProgress * -18 : 0}px`,
+      );
+      root.style.setProperty(
+        "--v2-portrait-shift",
+        `${allowDepth ? heroProgress * 34 : 0}px`,
+      );
+      root.style.setProperty(
+        "--v2-hero-fade",
+        allowDepth ? (1 - heroProgress * 0.34).toFixed(3) : "1",
+      );
       header?.classList.toggle("is-scrolled", scrollTop > 24);
     };
 
@@ -104,6 +120,10 @@ export default function Home() {
       root.style.removeProperty("--hero-portrait-shift");
       root.style.removeProperty("--hero-portrait-scale");
       root.style.removeProperty("--hero-grid-opacity");
+      root.style.removeProperty("--v2-name-shift");
+      root.style.removeProperty("--v2-copy-shift");
+      root.style.removeProperty("--v2-portrait-shift");
+      root.style.removeProperty("--v2-hero-fade");
     };
   }, []);
 
@@ -274,7 +294,7 @@ export default function Home() {
       </section>
 
       <section className="experience" id="experience" aria-labelledby="experience-title">
-        <div className="section-head experience-head" data-reveal>
+        <div className="section-head experience-head" data-reveal="title">
           <p className="section-label">{t.experience.label}</p>
           <h2 id="experience-title">
             {t.experience.headline}
@@ -289,7 +309,7 @@ export default function Home() {
               key={experience.number}
               aria-labelledby={`experience-project-${experience.number}`}
             >
-              <div className="experience-row" data-reveal>
+              <div className="experience-row" data-reveal="project">
                 <span className="experience-number">{experience.number}</span>
                 <div className="experience-identity">
                   <p>{experience.eyebrow}</p>
@@ -322,14 +342,14 @@ export default function Home() {
       </section>
 
       <section className="work" id="work" aria-labelledby="work-title">
-        <div className="section-head work-head" data-reveal>
+        <div className="section-head work-head" data-reveal="title">
           <p className="section-label">{t.work.label}</p>
           <h2 id="work-title">{t.work.headline}</h2>
         </div>
 
         <div className="work-list">
           {works.map((work, index) => (
-            <article className="work-row" key={work.index} data-reveal>
+            <article className="work-row" key={work.index} data-reveal="media">
               <button
                 className="work-image-preview"
                 onClick={(event) => openWork(index, event.currentTarget)}
@@ -381,10 +401,10 @@ export default function Home() {
           <i />
           <i />
         </div>
-        <p className="section-label" data-reveal>
+        <p className="section-label" data-reveal="copy">
           {t.contact.label}
         </p>
-        <div className="contact-main" data-reveal>
+        <div className="contact-main" data-reveal="title">
           <h2 id="contact-title">
             {t.contact.headline}
             <br />

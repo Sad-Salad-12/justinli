@@ -207,7 +207,7 @@ export function AdReportMedia({ copy }: AdReportMediaProps) {
 
   return (
     <>
-      <div className="ad-report-media" data-reveal>
+      <div className="ad-report-media" data-reveal="media">
         <figure className="demo-video-block">
         <div className="media-block-heading">
           <span>{copy.demoLabel}</span>
@@ -379,7 +379,11 @@ export function VerbaSystemVisual({ copy }: AdReportMediaProps) {
   const verba = copy.verba;
 
   return (
-    <figure className="verba-system-visual" aria-label={verba.diagramLabel} data-reveal>
+    <figure
+      className="verba-system-visual"
+      aria-label={verba.diagramLabel}
+      data-reveal="media"
+    >
       <header className="verba-system-header">
         <div>
           <span>{verba.label}</span>

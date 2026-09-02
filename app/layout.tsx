@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import "./globals.css";
+import "./variant-v2.css";
 
 const defaultTitle = "Justin Li — Solutions Architect & FDE";
 const defaultDescription =

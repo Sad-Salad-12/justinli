@@ -261,3 +261,30 @@ test("keeps the demo dominant on desktop and stacks media on phones", async () =
   assert.match(css, /\.experience-project:last-child\s*\{[^}]*padding-bottom:\s*clamp\(28px,\s*3vw,\s*44px\)/s);
   assert.match(css, /\.work\s*\{[^}]*padding-top:\s*clamp\(52px,\s*6vw,\s*84px\)/s);
 });
+
+test("keeps the design-reference variant isolated and motion-accessible", async () => {
+  const [layout, page, media, variant] = await Promise.all([
+    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/experience-media.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/variant-v2.css", import.meta.url), "utf8"),
+  ]);
+
+  assert.match(layout, /import\s+"\.\/variant-v2\.css"/);
+  assert.match(variant, /--v2-sans:/);
+  assert.match(variant, /--v2-serif:/);
+  assert.match(variant, /\.site-header\s*\{[^}]*border-radius:\s*14px/s);
+  assert.match(variant, /@keyframes v2-name-in/);
+  assert.match(variant, /@keyframes v2-portrait-in/);
+  assert.match(variant, /data-reveal="title"/);
+  assert.match(variant, /data-reveal="project"/);
+  assert.match(variant, /data-reveal="media"/);
+  assert.match(variant, /@media \(prefers-reduced-motion:\s*reduce\)/);
+  assert.match(page, /--v2-name-shift/);
+  assert.match(page, /--v2-hero-fade/);
+  assert.match(page, /data-reveal="title"/);
+  assert.match(page, /data-reveal="project"/);
+  assert.match(page, /data-reveal="media"/);
+  assert.match(media, /data-reveal="media"/);
+  assert.doesNotMatch(variant, /#[0-9a-f]{3,8}\b/i);
+});

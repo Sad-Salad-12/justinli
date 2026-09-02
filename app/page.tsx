@@ -128,42 +128,6 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const root = document.documentElement;
-    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const revealElements = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-reveal]"),
-    );
-
-    root.classList.add("motion-ready");
-
-    if (motionPreference.matches || !("IntersectionObserver" in window)) {
-      revealElements.forEach((element) => element.classList.add("is-visible"));
-      return () => root.classList.remove("motion-ready");
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.08, rootMargin: "0px 0px -10% 0px" },
-    );
-
-    revealElements.forEach((element) => {
-      observer.observe(element);
-    });
-
-    return () => {
-      observer.disconnect();
-      root.classList.remove("motion-ready");
-    };
-  }, []);
-
-  useEffect(() => {
     if (activeWorkIndex === null) return;
 
     const handleModalKeys = (event: KeyboardEvent) => {

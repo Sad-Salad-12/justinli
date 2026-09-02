@@ -220,7 +220,7 @@ test("keeps the enlarged portrait and omits retired sections", async () => {
   assert.doesNotMatch(css, /\.hero-index|\.hero-portrait figcaption|\.library-note/);
 });
 
-test("adds restrained scroll motion with a reduced-motion fallback", async () => {
+test("keeps scroll feedback while rendering section content immediately", async () => {
   const [html, page, media, css] = await Promise.all([
     render().then((response) => response.text()),
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
@@ -231,7 +231,8 @@ test("adds restrained scroll motion with a reduced-motion fallback", async () =>
   assert.match(html, /class="scroll-progress"/);
   assert.match(page, /--scroll-progress/);
   assert.match(page, /requestAnimationFrame/);
-  assert.match(page, /rootMargin:\s*"0px 0px -10% 0px"/);
+  assert.doesNotMatch(page, /root\.classList\.add\("motion-ready"\)/);
+  assert.doesNotMatch(page, /document\.querySelectorAll<HTMLElement>\("\[data-reveal\]"\)/);
   assert.match(css, /\.site-header\.is-scrolled/);
   assert.match(css, /\.motion-ready \.experience-row\[data-reveal\]/);
   assert.match(css, /\.verba-cycle-nodes > li:nth-child\(6\)/);
@@ -276,9 +277,11 @@ test("keeps the design-reference variant isolated and motion-accessible", async 
   assert.match(variant, /\.site-header\s*\{[^}]*border-radius:\s*14px/s);
   assert.match(variant, /@keyframes v2-name-in/);
   assert.match(variant, /@keyframes v2-portrait-in/);
-  assert.match(variant, /data-reveal="title"/);
-  assert.match(variant, /data-reveal="project"/);
-  assert.match(variant, /data-reveal="media"/);
+  assert.doesNotMatch(variant, /Scroll appearance logic/);
+  assert.match(variant, /Scrolling content stays immediately readable/);
+  assert.match(variant, /\.carousel-caption\s*\{[^}]*display:\s*contents/s);
+  assert.match(variant, /\.carousel-caption strong\s*\{[^}]*grid-column:\s*1\s*\/\s*-1/s);
+  assert.match(variant, /\.carousel-arrows\s*\{[^}]*grid-row:\s*1/s);
   assert.match(variant, /@media \(prefers-reduced-motion:\s*reduce\)/);
   assert.match(page, /--v2-name-shift/);
   assert.match(page, /--v2-hero-fade/);

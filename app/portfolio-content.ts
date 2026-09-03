@@ -35,7 +35,6 @@ export type LocalizedExperienceMedia = {
   verba: {
     label: string;
     headline: string;
-    body: string;
     diagramLabel: string;
     cycleLabel: string;
     evidenceLabel: string;
@@ -181,8 +180,6 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
         verba: {
           label: "VERBA / LOCAL-FIRST RAG",
           headline: "How Verba turns a new brief into a source-linked solution draft.",
-          body:
-            "A new brief moves through local evidence retrieval and structured drafting. Human review verifies sources and can refine the next pass.",
           diagramLabel: "Verba source-linked solution workflow",
           cycleLabel: "SOURCE-LINKED WORKFLOW",
           evidenceLabel: "PROTOTYPE EVIDENCE",
@@ -382,8 +379,6 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
         verba: {
           label: "VERBA / 本地优先 RAG",
           headline: "Verba 如何把新需求转化为有来源依据的方案初稿。",
-          body:
-            "每个新需求都会经过本地证据检索与结构化生成；人工复核来源后，还可以继续完善下一轮输入。",
           diagramLabel: "Verba 有来源依据的方案流程",
           cycleLabel: "有来源依据的方案流程",
           evidenceLabel: "原型验证",

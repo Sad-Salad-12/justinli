@@ -240,6 +240,28 @@ export function AdReportMedia({ copy }: AdReportMediaProps) {
           <p>{copy.interactionHint}</p>
         </div>
 
+        <div className="carousel-controls">
+          <span className="carousel-count" aria-live="polite">
+            {String(activeSlide + 1).padStart(2, "0")} / {String(slideTotal).padStart(2, "0")}
+          </span>
+          <div className="carousel-arrows">
+            <button
+              type="button"
+              onClick={() => moveToSlide(activeSlide - 1)}
+              aria-label={copy.previousSlide}
+            >
+              ←
+            </button>
+            <button
+              type="button"
+              onClick={() => moveToSlide(activeSlide + 1)}
+              aria-label={copy.nextSlide}
+            >
+              →
+            </button>
+          </div>
+        </div>
+
         <div className="output-stack">
           {slideAssets.map((src, index) => {
             const position = getSlideStackPosition(index, activeSlide, slideTotal);
@@ -287,30 +309,9 @@ export function AdReportMedia({ copy }: AdReportMediaProps) {
           })}
         </div>
 
-        <div className="carousel-controls">
-          <div className="carousel-caption" aria-live="polite">
-            <span>
-              {String(activeSlide + 1).padStart(2, "0")} / {String(slideTotal).padStart(2, "0")}
-            </span>
-            <strong>{copy.slides[activeSlide].title}</strong>
-          </div>
-          <div className="carousel-arrows">
-            <button
-              type="button"
-              onClick={() => moveToSlide(activeSlide - 1)}
-              aria-label={copy.previousSlide}
-            >
-              ←
-            </button>
-            <button
-              type="button"
-              onClick={() => moveToSlide(activeSlide + 1)}
-              aria-label={copy.nextSlide}
-            >
-              →
-            </button>
-          </div>
-        </div>
+        <p className="carousel-active-title" aria-live="polite">
+          {copy.slides[activeSlide].title}
+        </p>
         </section>
       </div>
 
@@ -389,7 +390,6 @@ export function VerbaSystemVisual({ copy }: AdReportMediaProps) {
           <span>{verba.label}</span>
           <h4>{verba.headline}</h4>
         </div>
-        <p>{verba.body}</p>
       </header>
 
       <div className="verba-cycle-map">

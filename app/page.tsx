@@ -376,10 +376,6 @@ export default function Home() {
           </h2>
           <p>{t.contact.body}</p>
           <address className="contact-details">
-            <div className="contact-identity">
-              <strong>{t.identity.name}</strong>
-              <span>{t.identity.location}</span>
-            </div>
             <div className="contact-channels">
               <a className="contact-email" href={`mailto:${t.identity.email}`}>
                 <span>{t.contact.emailLabel}</span>

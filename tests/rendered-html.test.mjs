@@ -57,6 +57,10 @@ test("server-renders the streamlined English portfolio", async () => {
   assert.match(html, /Generated advertising report slides/);
   assert.match(html, /How Verba turns a new brief into a source-linked solution draft/);
   assert.match(html, /Verba source-linked solution workflow/);
+  assert.doesNotMatch(
+    html,
+    /A new brief moves through local evidence retrieval and structured drafting/,
+  );
   assert.match(html, /CASE PDFS/);
   assert.match(html, /SOURCE-LINKED WORKFLOW/);
   assert.match(html, /Structured Solution/);
@@ -65,6 +69,7 @@ test("server-renders the streamlined English portfolio", async () => {
   assert.doesNotMatch(html, /Visual documentation coming next|verba-visual-placeholder/);
   assert.match(html, /src="\/justin-shanghai-portrait\.jpg"/);
   assert.match(html, /R&amp;D Project Dashboards \(Lark Base\)/);
+  assert.doesNotMatch(html, /class="contact-identity"/);
   assert.match(html, /src="\/works\/rd-project-dashboard-lark-base\.png"/);
   assert.doesNotMatch(
     html,
@@ -114,7 +119,7 @@ test("keeps bilingual content and hosted assets wired correctly", async () => {
   assert.match(content, /生成成果/);
   assert.match(content, /拖动或点击箭头/);
   assert.match(content, /VERBA \/ 本地优先 RAG/);
-  assert.match(content, /每个新需求都会经过本地证据检索/);
+  assert.doesNotMatch(content, /每个新需求都会经过本地证据检索/);
   assert.match(content, /15 份案例 PDF/);
   assert.match(content, /有来源依据的方案流程/);
   assert.match(content, /人工复核与完善/);
@@ -279,9 +284,11 @@ test("keeps the design-reference variant isolated and motion-accessible", async 
   assert.match(variant, /@keyframes v2-portrait-in/);
   assert.doesNotMatch(variant, /Scroll appearance logic/);
   assert.match(variant, /Scrolling content stays immediately readable/);
-  assert.match(variant, /\.carousel-caption\s*\{[^}]*display:\s*contents/s);
-  assert.match(variant, /\.carousel-caption strong\s*\{[^}]*grid-column:\s*1\s*\/\s*-1/s);
-  assert.match(variant, /\.carousel-arrows\s*\{[^}]*grid-row:\s*1/s);
+  assert.match(variant, /\.carousel-controls\s*\{[^}]*display:\s*flex/s);
+  assert.match(variant, /\.carousel-controls\s*\{[^}]*border-bottom:\s*1px solid var\(--line\)/s);
+  assert.match(variant, /\.carousel-active-title\s*\{/);
+  assert.match(media, /className="carousel-controls"[\s\S]*?className="output-stack"/);
+  assert.doesNotMatch(media, /className="carousel-caption"/);
   assert.match(variant, /@media \(prefers-reduced-motion:\s*reduce\)/);
   assert.match(page, /--v2-name-shift/);
   assert.match(page, /--v2-hero-fade/);

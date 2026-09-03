@@ -128,18 +128,32 @@ export function AdReportMedia({ copy }: AdReportMediaProps) {
     if (!shouldLoadVideo) return;
 
     const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const video = videoRef.current;
+    if (!video) return;
+
+    let isVisible = false;
     const syncPlayback = () => {
-      if (!videoRef.current) return;
-      if (motionPreference.matches) {
-        videoRef.current.pause();
+      if (motionPreference.matches || !isVisible) {
+        video.pause();
         return;
       }
-      void videoRef.current.play().catch(() => undefined);
+      void video.play().catch(() => undefined);
     };
 
-    syncPlayback();
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting && entry.intersectionRatio >= 0.24;
+        syncPlayback();
+      },
+      { threshold: [0, 0.24, 0.6] },
+    );
+
+    visibilityObserver.observe(video);
     motionPreference.addEventListener("change", syncPlayback);
-    return () => motionPreference.removeEventListener("change", syncPlayback);
+    return () => {
+      visibilityObserver.disconnect();
+      motionPreference.removeEventListener("change", syncPlayback);
+    };
   }, [shouldLoadVideo]);
 
   useEffect(() => {
@@ -196,7 +210,7 @@ export function AdReportMedia({ copy }: AdReportMediaProps) {
 
   return (
     <>
-      <div className="ad-report-media" data-reveal>
+      <div className="ad-report-media" data-reveal="media">
         <figure className="demo-video-block">
         <div className="media-block-heading">
           <span>{copy.demoLabel}</span>
@@ -227,6 +241,28 @@ export function AdReportMedia({ copy }: AdReportMediaProps) {
         <div className="media-block-heading carousel-heading">
           <span>{copy.outputsLabel}</span>
           <p>{copy.interactionHint}</p>
+        </div>
+
+        <div className="carousel-controls">
+          <span className="carousel-count" aria-live="polite">
+            {String(activeSlide + 1).padStart(2, "0")} / {String(slideTotal).padStart(2, "0")}
+          </span>
+          <div className="carousel-arrows">
+            <button
+              type="button"
+              onClick={() => moveToSlide(activeSlide - 1)}
+              aria-label={copy.previousSlide}
+            >
+              ←
+            </button>
+            <button
+              type="button"
+              onClick={() => moveToSlide(activeSlide + 1)}
+              aria-label={copy.nextSlide}
+            >
+              →
+            </button>
+          </div>
         </div>
 
         <div className="output-stack">
@@ -276,30 +312,9 @@ export function AdReportMedia({ copy }: AdReportMediaProps) {
           })}
         </div>
 
-        <div className="carousel-controls">
-          <div className="carousel-caption" aria-live="polite">
-            <span>
-              {String(activeSlide + 1).padStart(2, "0")} / {String(slideTotal).padStart(2, "0")}
-            </span>
-            <strong>{copy.slides[activeSlide].title}</strong>
-          </div>
-          <div className="carousel-arrows">
-            <button
-              type="button"
-              onClick={() => moveToSlide(activeSlide - 1)}
-              aria-label={copy.previousSlide}
-            >
-              ←
-            </button>
-            <button
-              type="button"
-              onClick={() => moveToSlide(activeSlide + 1)}
-              aria-label={copy.nextSlide}
-            >
-              →
-            </button>
-          </div>
-        </div>
+        <p className="carousel-active-title" aria-live="polite">
+          {copy.slides[activeSlide].title}
+        </p>
         </section>
       </div>
 
@@ -368,13 +383,16 @@ export function VerbaSystemVisual({ copy }: AdReportMediaProps) {
   const verba = copy.verba;
 
   return (
-    <figure className="verba-system-visual" aria-label={verba.diagramLabel} data-reveal>
+    <figure
+      className="verba-system-visual"
+      aria-label={verba.diagramLabel}
+      data-reveal="media"
+    >
       <header className="verba-system-header">
         <div>
           <span>{verba.label}</span>
           <h4>{verba.headline}</h4>
         </div>
-        <p>{verba.body}</p>
       </header>
 
       <div className="verba-cycle-map">

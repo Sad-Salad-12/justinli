@@ -35,7 +35,6 @@ export type LocalizedExperienceMedia = {
   verba: {
     label: string;
     headline: string;
-    body: string;
     diagramLabel: string;
     cycleLabel: string;
     evidenceLabel: string;
@@ -97,23 +96,17 @@ type PortfolioContent = {
     bodyLineTwo: string;
     primaryAction: string;
     secondaryAction: string;
-    portraitCaption: string;
-    scroll: string;
   };
   experience: {
     label: string;
     headline: string;
     headlineAccent: string;
-    intro: string;
     media: LocalizedExperienceMedia;
     items: LocalizedExperience[];
   };
   work: {
     label: string;
     headline: string;
-    intro: string;
-    libraryLabel: string;
-    libraryNote: string;
     previewAction: string;
     items: LocalizedWork[];
   };
@@ -168,14 +161,11 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       bodyLineTwo: "finding the real problem, proving the path, and shipping to production.",
       primaryAction: "View experience",
       secondaryAction: "Start a conversation",
-      portraitCaption: "JUSTIN LI / PORTRAIT",
-      scroll: "SCROLL — 01 / 03",
     },
     experience: {
       label: "01 — WORK EXPERIENCE",
       headline: "Business-aware.",
       headlineAccent: "Built to deliver.",
-      intro: "Selected work turning operational pain points into testable AI products and real user outcomes.",
       media: {
         demoLabel: "LIVE PRODUCT DEMO",
         demoCaption: "From a validated input folder to an editable weekly report.",
@@ -190,8 +180,6 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
         verba: {
           label: "VERBA / LOCAL-FIRST RAG",
           headline: "How Verba turns a new brief into a source-linked solution draft.",
-          body:
-            "A new brief moves through local evidence retrieval and structured drafting. Human review verifies sources and can refine the next pass.",
           diagramLabel: "Verba source-linked solution workflow",
           cycleLabel: "SOURCE-LINKED WORKFLOW",
           evidenceLabel: "PROTOTYPE EVIDENCE",
@@ -310,9 +298,6 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
     work: {
       label: "02 — SELECTED WORK",
       headline: "Work is more than a file.",
-      intro: "It should reveal how you think, the trade-offs you make, and how you move the work forward.",
-      libraryLabel: "REAL PROJECT SNAPSHOT",
-      libraryNote: "Select the dashboard to inspect the full-size view.",
       previewAction: "View full image",
       items: [
         {
@@ -375,14 +360,11 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       bodyLineTwo: "设计可验证的路径，并把方案送进生产。",
       primaryAction: "查看经历",
       secondaryAction: "聊聊机会",
-      portraitCaption: "李泽霆 / 个人照片",
-      scroll: "向下浏览 — 01 / 03",
     },
     experience: {
       label: "01 — 工作经历",
       headline: "懂业务。",
       headlineAccent: "为交付而生。",
-      intro: "把业务中的重复问题转化为可验证的人工智能产品，并用真实使用反馈推动迭代。",
       media: {
         demoLabel: "产品实时演示",
         demoCaption: "从完成校验的输入文件夹，到可编辑的每周报告。",
@@ -397,8 +379,6 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
         verba: {
           label: "VERBA / 本地优先 RAG",
           headline: "Verba 如何把新需求转化为有来源依据的方案初稿。",
-          body:
-            "每个新需求都会经过本地证据检索与结构化生成；人工复核来源后，还可以继续完善下一轮输入。",
           diagramLabel: "Verba 有来源依据的方案流程",
           cycleLabel: "有来源依据的方案流程",
           evidenceLabel: "原型验证",
@@ -517,9 +497,6 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
     work: {
       label: "02 — 精选作品",
       headline: "作品，不只是一份文件。",
-      intro: "它应该让人看见你如何思考、如何取舍，以及如何推动事情发生。",
-      libraryLabel: "真实项目快照",
-      libraryNote: "点击仪表盘即可查看完整大图。",
       previewAction: "查看完整图片",
       items: [
         {

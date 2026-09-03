@@ -54,23 +54,80 @@ export default function Home() {
   }, [language, preferenceReady, t.meta.description, t.meta.title]);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.14 },
-    );
+    const root = document.documentElement;
+    const header = document.querySelector<HTMLElement>(".site-header");
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let animationFrame = 0;
 
-    document.querySelectorAll<HTMLElement>("[data-reveal]").forEach((element) => {
-      observer.observe(element);
-    });
+    const updateScrollEffects = () => {
+      animationFrame = 0;
+      const scrollTop = Math.max(window.scrollY, 0);
+      const scrollRange = Math.max(root.scrollHeight - window.innerHeight, 1);
+      const progress = Math.min(scrollTop / scrollRange, 1);
+      const heroProgress = Math.min(scrollTop / Math.max(window.innerHeight * 0.9, 1), 1);
+      const allowDepth = !motionPreference.matches && window.innerWidth > 700;
 
-    return () => observer.disconnect();
+      root.style.setProperty("--scroll-progress", progress.toFixed(4));
+      root.style.setProperty(
+        "--hero-grid-shift",
+        `${allowDepth ? heroProgress * 18 : 0}px`,
+      );
+      root.style.setProperty(
+        "--hero-portrait-shift",
+        `${allowDepth ? heroProgress * 14 : 0}px`,
+      );
+      root.style.setProperty(
+        "--hero-portrait-scale",
+        allowDepth ? (1 - heroProgress * 0.008).toFixed(4) : "1",
+      );
+      root.style.setProperty(
+        "--hero-grid-opacity",
+        allowDepth ? (0.44 - heroProgress * 0.13).toFixed(3) : "0.44",
+      );
+      root.style.setProperty(
+        "--v2-name-shift",
+        `${allowDepth ? heroProgress * -42 : 0}px`,
+      );
+      root.style.setProperty(
+        "--v2-copy-shift",
+        `${allowDepth ? heroProgress * -18 : 0}px`,
+      );
+      root.style.setProperty(
+        "--v2-portrait-shift",
+        `${allowDepth ? heroProgress * 34 : 0}px`,
+      );
+      root.style.setProperty(
+        "--v2-hero-fade",
+        allowDepth ? (1 - heroProgress * 0.34).toFixed(3) : "1",
+      );
+      header?.classList.toggle("is-scrolled", scrollTop > 24);
+    };
+
+    const queueScrollEffects = () => {
+      if (animationFrame !== 0) return;
+      animationFrame = window.requestAnimationFrame(updateScrollEffects);
+    };
+
+    updateScrollEffects();
+    window.addEventListener("scroll", queueScrollEffects, { passive: true });
+    window.addEventListener("resize", queueScrollEffects);
+    motionPreference.addEventListener("change", queueScrollEffects);
+
+    return () => {
+      if (animationFrame !== 0) window.cancelAnimationFrame(animationFrame);
+      window.removeEventListener("scroll", queueScrollEffects);
+      window.removeEventListener("resize", queueScrollEffects);
+      motionPreference.removeEventListener("change", queueScrollEffects);
+      root.style.removeProperty("--scroll-progress");
+      root.style.removeProperty("--hero-grid-shift");
+      root.style.removeProperty("--hero-portrait-shift");
+      root.style.removeProperty("--hero-portrait-scale");
+      root.style.removeProperty("--hero-grid-opacity");
+      root.style.removeProperty("--v2-name-shift");
+      root.style.removeProperty("--v2-copy-shift");
+      root.style.removeProperty("--v2-portrait-shift");
+      root.style.removeProperty("--v2-hero-fade");
+    };
   }, []);
 
   useEffect(() => {
@@ -152,6 +209,9 @@ export default function Home() {
           </a>
         </div>
       </header>
+      <div className="scroll-progress" aria-hidden="true">
+        <span />
+      </div>
 
       <section className="hero" id="top" aria-labelledby="hero-title">
         <div className="hero-grid" aria-hidden="true" />
@@ -197,27 +257,17 @@ export default function Home() {
               unoptimized
             />
           </span>
-          <figcaption>{t.hero.portraitCaption}</figcaption>
         </figure>
-
-        <div className="hero-index hero-enter hero-enter-5">
-          <span>{t.identity.location}</span>
-          <a className="hero-index-email" href={`mailto:${t.identity.email}`}>
-            {t.identity.email}
-          </a>
-          <span>{t.hero.scroll}</span>
-        </div>
       </section>
 
       <section className="experience" id="experience" aria-labelledby="experience-title">
-        <div className="section-head experience-head" data-reveal>
+        <div className="section-head experience-head" data-reveal="title">
           <p className="section-label">{t.experience.label}</p>
           <h2 id="experience-title">
             {t.experience.headline}
             <br />
             <span>{t.experience.headlineAccent}</span>
           </h2>
-          <p>{t.experience.intro}</p>
         </div>
         <div className="experience-list">
           {t.experience.items.map((experience) => (
@@ -226,7 +276,7 @@ export default function Home() {
               key={experience.number}
               aria-labelledby={`experience-project-${experience.number}`}
             >
-              <div className="experience-row" data-reveal>
+              <div className="experience-row" data-reveal="project">
                 <span className="experience-number">{experience.number}</span>
                 <div className="experience-identity">
                   <p>{experience.eyebrow}</p>
@@ -259,19 +309,14 @@ export default function Home() {
       </section>
 
       <section className="work" id="work" aria-labelledby="work-title">
-        <div className="section-head work-head" data-reveal>
+        <div className="section-head work-head" data-reveal="title">
           <p className="section-label">{t.work.label}</p>
           <h2 id="work-title">{t.work.headline}</h2>
-          <p>{t.work.intro}</p>
-          <div className="library-note">
-            <span>{t.work.libraryLabel}</span>
-            {t.work.libraryNote}
-          </div>
         </div>
 
         <div className="work-list">
           {works.map((work, index) => (
-            <article className="work-row" key={work.index} data-reveal>
+            <article className="work-row" key={work.index} data-reveal="media">
               <button
                 className="work-image-preview"
                 onClick={(event) => openWork(index, event.currentTarget)}
@@ -323,10 +368,10 @@ export default function Home() {
           <i />
           <i />
         </div>
-        <p className="section-label" data-reveal>
+        <p className="section-label" data-reveal="copy">
           {t.contact.label}
         </p>
-        <div className="contact-main" data-reveal>
+        <div className="contact-main" data-reveal="title">
           <h2 id="contact-title">
             {t.contact.headline}
             <br />
@@ -334,10 +379,6 @@ export default function Home() {
           </h2>
           <p>{t.contact.body}</p>
           <address className="contact-details">
-            <div className="contact-identity">
-              <strong>{t.identity.name}</strong>
-              <span>{t.identity.location}</span>
-            </div>
             <div className="contact-channels">
               <a className="contact-email" href={`mailto:${t.identity.email}`}>
                 <span>{t.contact.emailLabel}</span>

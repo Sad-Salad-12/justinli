@@ -279,6 +279,12 @@ test("keeps the design-reference variant isolated and motion-accessible", async 
   assert.match(layout, /import\s+"\.\/variant-v2\.css"/);
   assert.match(variant, /--v2-sans:/);
   assert.match(variant, /--v2-serif:/);
+  assert.match(variant, /--v2-name-scale-x:\s*0\.84/);
+  assert.match(
+    variant,
+    /\.hero-name,[\s\S]*?font-size:\s*clamp\(128px,\s*15\.62vw,\s*289px\)/,
+  );
+  assert.match(variant, /scaleX\(var\(--v2-name-scale-x\)\)/);
   assert.match(variant, /\.site-header\s*\{[^}]*border-radius:\s*14px/s);
   assert.match(variant, /@keyframes v2-name-in/);
   assert.match(variant, /@keyframes v2-portrait-in/);

@@ -14,6 +14,7 @@
   --v2-copy-shift: 0px;
   --v2-portrait-shift: 0px;
   --v2-hero-fade: 1;
+  --v2-name-scale-x: 0.84;
 }
 
 body {
@@ -168,13 +169,15 @@ main {
   width: fit-content;
   margin: clamp(76px, 9vh, 116px) 0 0 -0.055em;
   font-family: var(--v2-sans);
-  font-size: clamp(100px, 12.2vw, 226px);
+  font-size: clamp(128px, 15.62vw, 289px);
   font-weight: 300;
   line-height: 0.78;
   letter-spacing: -0.08em;
   white-space: nowrap;
   opacity: var(--v2-hero-fade);
-  transform: translate3d(0, var(--v2-name-shift), 0);
+  transform: translate3d(0, var(--v2-name-shift), 0)
+    scaleX(var(--v2-name-scale-x));
+  transform-origin: left center;
   will-change: opacity, transform;
 }
 
@@ -299,7 +302,8 @@ main {
 
 .hero-name.hero-enter {
   opacity: var(--v2-hero-fade);
-  transform: translate3d(0, var(--v2-name-shift), 0);
+  transform: translate3d(0, var(--v2-name-shift), 0)
+    scaleX(var(--v2-name-scale-x));
   animation-name: v2-name-in;
   animation-duration: 980ms;
 }
@@ -733,12 +737,12 @@ main {
   from {
     opacity: 0;
     clip-path: inset(0 0 100% 0);
-    transform: translate3d(0, 32px, 0);
+    transform: translate3d(0, 32px, 0) scaleX(var(--v2-name-scale-x));
   }
   to {
     opacity: 1;
     clip-path: inset(0 0 0 0);
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0) scaleX(var(--v2-name-scale-x));
   }
 }
 
@@ -758,7 +762,7 @@ main {
 @media (max-width: 1100px) {
   .hero-name,
   [data-language="en"] .hero-name {
-    font-size: clamp(88px, 14vw, 156px);
+    font-size: clamp(113px, 17.92vw, 200px);
   }
 
   .hero-statement,
@@ -794,7 +798,7 @@ main {
 
   .hero-name,
   [data-language="en"] .hero-name {
-    font-size: clamp(82px, 16vw, 142px);
+    font-size: clamp(105px, 20.48vw, 182px);
   }
 
   .hero-statement,
@@ -895,7 +899,7 @@ main {
   .hero-name,
   [data-language="en"] .hero-name {
     margin-top: 38px;
-    font-size: clamp(64px, 18vw, 88px);
+    font-size: clamp(82px, 23.04vw, 113px);
     line-height: 0.84;
   }
 
@@ -1050,7 +1054,11 @@ main {
     animation: none;
   }
 
-  .hero-name,
+  .hero-name {
+    opacity: 1;
+    transform: scaleX(var(--v2-name-scale-x));
+  }
+
   .hero-statement,
   .portrait-frame {
     opacity: 1;

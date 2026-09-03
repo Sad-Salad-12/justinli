@@ -15,9 +15,6 @@
   --v2-portrait-shift: 0px;
   --v2-hero-fade: 1;
   --v2-name-scale-x: 0.84;
-  --v2-text-lg: 25px;
-  --v2-text-md: 15px;
-  --v2-text-sm: 10px;
 }
 
 body {
@@ -1071,9 +1068,10 @@ main {
 }
 
 /*
- * Type system contract
- * Two families only: editorial serif for display titles, sans for everything else.
- * Non-title copy resolves to exactly three sizes across the page.
+ * Two-family hierarchy
+ * Editorial serif carries display titles; sans handles every functional and
+ * reading role. Size follows context so compact controls and long copy do not
+ * compete with the page's primary statements.
  */
 
 .brand span,
@@ -1121,62 +1119,4 @@ main {
 .contact-main h2,
 .contact-email strong {
   font-family: var(--v2-serif);
-}
-
-.brand,
-.nav-links a,
-.header-contact,
-.primary-link,
-.text-link,
-.experience-bullets,
-.media-block-heading p,
-.verba-cycle-nodes p,
-.work-main > p,
-.work-preview-action,
-.contact-main > p,
-.contact-phone strong,
-.output-lightbox figcaption,
-.work-image-toolbar strong,
-.work-image-toolbar > button {
-  font-size: var(--v2-text-md);
-}
-
-.hero-statement > p,
-.contact-email strong {
-  font-size: var(--v2-text-lg);
-}
-
-.brand span,
-.language-switch button,
-.hero-disciplines,
-.section-label,
-.experience-number,
-.experience-identity > p:first-child,
-.experience-meta,
-.experience-metrics span,
-.media-block-heading span,
-.carousel-caption span,
-.carousel-count,
-.carousel-heading p,
-.verba-system-header span,
-.verba-lane-label,
-.verba-cycle-label,
-.verba-cycle-nodes > li > span,
-.verba-evidence-strip > span,
-.verba-evidence-strip dt,
-.verba-system-visual > figcaption,
-.output-lightbox figcaption span,
-.capability-number,
-.capability-title p,
-.capability-tags li,
-.work-image-index,
-.work-image-action,
-.work-meta,
-.work-features li,
-.approach-steps span,
-.contact-email span,
-.contact-phone span,
-.contact footer,
-.work-image-toolbar > div span {
-  font-size: var(--v2-text-sm);
 }

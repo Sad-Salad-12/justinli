@@ -279,14 +279,14 @@ test("keeps the design-reference variant isolated and motion-accessible", async 
   assert.match(layout, /import\s+"\.\/variant-v2\.css"/);
   assert.match(variant, /--v2-sans:/);
   assert.match(variant, /--v2-serif:/);
-  assert.match(variant, /--v2-text-lg:\s*25px/);
-  assert.match(variant, /--v2-text-md:\s*15px/);
-  assert.match(variant, /--v2-text-sm:\s*10px/);
   assert.doesNotMatch(variant, /SFMono|Roboto Mono|monospace/);
-  assert.match(variant, /Type system contract/);
-  assert.match(variant, /\.hero-statement > p,[\s\S]*?font-size:\s*var\(--v2-text-lg\)/);
-  assert.match(variant, /\.experience-bullets,[\s\S]*?font-size:\s*var\(--v2-text-md\)/);
-  assert.match(variant, /\.section-label,[\s\S]*?font-size:\s*var\(--v2-text-sm\)/);
+  assert.match(variant, /Two-family hierarchy/);
+  assert.match(
+    variant,
+    /\.hero-statement > p\s*\{[^}]*font-size:\s*clamp\(13px,\s*1\.05vw,\s*16px\)/s,
+  );
+  assert.match(variant, /\.primary-link,[\s\S]*?font-size:\s*10px/);
+  assert.match(variant, /\.experience-bullets\s*\{[^}]*font-size:\s*14px/s);
   assert.match(variant, /--v2-name-scale-x:\s*0\.84/);
   assert.match(
     variant,

@@ -13,7 +13,7 @@ export type LocalizedExperience = {
   eyebrow: string;
   title: string;
   meta?: string;
-  media: "ad-report" | "verba-system";
+  media: "ad-report" | "verba-demo";
   bullets: string[];
   metrics: Array<{
     value: string;
@@ -33,26 +33,7 @@ export type LocalizedExperienceMedia = {
   closeFullscreen: string;
   fullscreenLabel: string;
   verba: {
-    label: string;
-    headline: string;
-    diagramLabel: string;
-    cycleLabel: string;
-    evidenceLabel: string;
-    boundary: string;
-    core: {
-      label: string;
-      title: string;
-      details: string[];
-    };
-    cycleNodes: Array<{
-      step: string;
-      title: string;
-      detail: string;
-    }>;
-    evidence: Array<{
-      value: string;
-      label: string;
-    }>;
+    title: string;
   };
   slides: Array<{
     title: string;
@@ -178,56 +159,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
         closeFullscreen: "Close detailed view",
         fullscreenLabel: "Detailed advertising report output",
         verba: {
-          label: "VERBA / LOCAL-FIRST RAG",
-          headline: "How Verba turns a new brief into a source-linked solution draft.",
-          diagramLabel: "Verba source-linked solution workflow",
-          cycleLabel: "SOURCE-LINKED WORKFLOW",
-          evidenceLabel: "PROTOTYPE EVIDENCE",
-          boundary:
-            "Local single-user prototype. Sources are surfaced for human review; citation accuracy is not automatically verified.",
-          core: {
-            label: "LOCAL EVIDENCE CORE",
-            title: "15 case PDFs",
-            details: ["111 indexed chunks", "BGE embeddings", "ChromaDB"],
-          },
-          cycleNodes: [
-            {
-              step: "01",
-              title: "Client Brief",
-              detail: "Capture the business goal, target users, constraints, and the decisions the proposal needs to support.",
-            },
-            {
-              step: "02",
-              title: "Retrieve Evidence",
-              detail: "Embed the brief and retrieve the five most relevant passages from 111 locally indexed chunks.",
-            },
-            {
-              step: "03",
-              title: "Ground Context",
-              detail: "Assemble passage text with its source file, page number, and similarity score so evidence stays traceable.",
-            },
-            {
-              step: "04",
-              title: "Draft Locally",
-              detail: "FastAPI orchestrates retrieval and sends the grounded prompt to a locally hosted Gemma model.",
-            },
-            {
-              step: "05",
-              title: "Structured Solution",
-              detail: "Return a six-part Markdown draft covering diagnosis, fit, architecture, rollout, risks, and sources.",
-            },
-            {
-              step: "06",
-              title: "Human Review & Refine",
-              detail: "A solution lead checks claims and citations, then refines the brief or evidence for the next pass.",
-            },
-          ],
-          evidence: [
-            { value: "15", label: "CASE PDFS" },
-            { value: "111", label: "INDEXED CHUNKS" },
-            { value: "11/11", label: "CORE TESTS" },
-            { value: "LOCAL", label: "DEFAULT INFERENCE" },
-          ],
+          title: "Verba — Interactive solution and presentation demo",
         },
         slides: [
           {
@@ -282,15 +214,17 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
         },
         {
           number: "02",
-          eyebrow: "AI SALES ENABLEMENT",
-          title: "Verba — Internal AI Sales Agent",
-          media: "verba-system",
+          eyebrow: "AI SOLUTION DESIGN",
+          title: "Verba — From brief to presentation",
+          meta: "",
+          media: "verba-demo",
           bullets: [
-            "Designed and launched Verba using Coze and a local database, enabling sales team members to retrieve prior industry solutions and generate tailored outreach messages. More than 300 agent runs and feedback from 30+ users informed ongoing iteration.",
+            "Turn a brief into a source-linked solution and a three-slide presentation preview. Explore bilingual examples, open citations, and inspect each slide in detail.",
+            "The latest live AI flow writes its own argument and solution sections, then selects slide layouts and visual relationships to suit the brief.",
           ],
           metrics: [
             { value: "300+", label: "AGENT RUNS" },
-            { value: "30+", label: "USERS IN FEEDBACK LOOP" },
+            { value: "30+", label: "USERS PROVIDED FEEDBACK" },
           ],
         },
       ],
@@ -377,56 +311,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
         closeFullscreen: "关闭细节查看",
         fullscreenLabel: "广告报告成果细节查看",
         verba: {
-          label: "VERBA / 本地优先 RAG",
-          headline: "Verba 如何把新需求转化为有来源依据的方案初稿。",
-          diagramLabel: "Verba 有来源依据的方案流程",
-          cycleLabel: "有来源依据的方案流程",
-          evidenceLabel: "原型验证",
-          boundary:
-            "当前为本地单用户原型；系统会展示来源供人工核验，但尚未自动验证引用准确性。",
-          core: {
-            label: "本地证据核心",
-            title: "15 份案例 PDF",
-            details: ["111 个索引切片", "BGE 向量", "ChromaDB"],
-          },
-          cycleNodes: [
-            {
-              step: "01",
-              title: "客户需求",
-              detail: "明确业务目标、目标用户、关键约束，以及这份方案需要支持的核心决策。",
-            },
-            {
-              step: "02",
-              title: "检索证据",
-              detail: "对需求进行向量化，并从 111 个本地索引切片中召回最相关的五段内容。",
-            },
-            {
-              step: "03",
-              title: "组织上下文",
-              detail: "组合段落正文、来源文件、页码和相似度，让每条用于生成的证据都可以追溯。",
-            },
-            {
-              step: "04",
-              title: "本地生成",
-              detail: "由 FastAPI 编排检索流程，并把有证据支撑的提示词交给本地 Gemma 模型。",
-            },
-            {
-              step: "05",
-              title: "结构化方案",
-              detail: "输出六部分 Markdown 初稿，覆盖问题诊断、方案匹配、架构、落地阶段、风险与来源。",
-            },
-            {
-              step: "06",
-              title: "人工复核与完善",
-              detail: "由方案负责人核验结论与引用，再调整需求或证据，进入下一轮完善。",
-            },
-          ],
-          evidence: [
-            { value: "15", label: "案例 PDF" },
-            { value: "111", label: "已索引切片" },
-            { value: "11/11", label: "核心测试" },
-            { value: "本地", label: "默认推理方式" },
-          ],
+          title: "Verba — 方案与演示互动试玩",
         },
         slides: [
           {
@@ -481,15 +366,17 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
         },
         {
           number: "02",
-          eyebrow: "人工智能销售赋能",
-          title: "Verba — 内部人工智能销售助手",
-          media: "verba-system",
+          eyebrow: "人工智能方案设计",
+          title: "Verba — 从需求到方案演示",
+          meta: "",
+          media: "verba-demo",
           bullets: [
-            "使用 Coze 与本地数据库设计并上线内部人工智能销售助手 Verba，帮助销售团队检索既往行业方案并生成定制化外联信息；累计运行 300 多次，并收集 30 多位用户的反馈用于持续迭代。",
+            "将需求转化为有来源依据的方案和三页演示预览。支持中英文样例、引用溯源、逐页浏览与放大查看。",
+            "新版实时 AI 自行组织核心论点和方案栏目，并根据需求选择幻灯片版式与视觉关系。",
           ],
           metrics: [
-            { value: "300+", label: "运行次数" },
-            { value: "30+", label: "反馈用户" },
+            { value: "300+", label: "智能体运行次数" },
+            { value: "30+", label: "用户反馈" },
           ],
         },
       ],

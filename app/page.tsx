@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { AdReportMedia, VerbaSystemVisual } from "./experience-media";
+import { AdReportMedia } from "./experience-media";
+import { VerbaDemo } from "./verba-demo";
 import { type Language, portfolioContent } from "./portfolio-content";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/justinli";
@@ -62,12 +63,9 @@ export default function Home() {
     const updateScrollEffects = () => {
       animationFrame = 0;
       const scrollTop = Math.max(window.scrollY, 0);
-      const scrollRange = Math.max(root.scrollHeight - window.innerHeight, 1);
-      const progress = Math.min(scrollTop / scrollRange, 1);
       const heroProgress = Math.min(scrollTop / Math.max(window.innerHeight * 0.9, 1), 1);
       const allowDepth = !motionPreference.matches && window.innerWidth > 700;
 
-      root.style.setProperty("--scroll-progress", progress.toFixed(4));
       root.style.setProperty(
         "--hero-grid-shift",
         `${allowDepth ? heroProgress * 18 : 0}px`,
@@ -118,7 +116,6 @@ export default function Home() {
       window.removeEventListener("scroll", queueScrollEffects);
       window.removeEventListener("resize", queueScrollEffects);
       motionPreference.removeEventListener("change", queueScrollEffects);
-      root.style.removeProperty("--scroll-progress");
       root.style.removeProperty("--hero-grid-shift");
       root.style.removeProperty("--hero-portrait-shift");
       root.style.removeProperty("--hero-portrait-scale");
@@ -209,9 +206,6 @@ export default function Home() {
           </a>
         </div>
       </header>
-      <div className="scroll-progress" aria-hidden="true">
-        <span />
-      </div>
 
       <section className="hero" id="top" aria-labelledby="hero-title">
         <div className="hero-grid" aria-hidden="true" />
@@ -252,7 +246,7 @@ export default function Home() {
               alt={t.a11y.portraitAlt}
               width={1080}
               height={1619}
-              sizes="(max-width: 700px) 54vw, (max-width: 980px) 32vw, 24vw"
+              sizes="(max-width: 700px) 68vw, (max-width: 980px) 34vw, 24vw"
               priority
               unoptimized
             />
@@ -301,7 +295,7 @@ export default function Home() {
               {experience.media === "ad-report" ? (
                 <AdReportMedia copy={t.experience.media} />
               ) : (
-                <VerbaSystemVisual copy={t.experience.media} />
+                <VerbaDemo copy={t.experience.media} language={language} />
               )}
             </section>
           ))}

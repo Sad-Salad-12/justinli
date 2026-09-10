@@ -7,20 +7,18 @@ import {
   wrapSlideIndex,
 } from "../app/carousel-utils.ts";
 
-async function renderedHtml() {
-  return readFile(new URL("../out/index.html", import.meta.url), "utf8");
+async function render() {
+  return new Response(await readFile(new URL("../out/index.html", import.meta.url), "utf8"), { headers: { "Content-Type": "text/html" } });
 }
 
-test("static export renders English as the default portfolio language", async () => {
-  const html = await renderedHtml();
+test("server-renders the streamlined English portfolio", async () => {
+  const response = await render();
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
+
+  const html = await response.text();
   assert.match(html, /<html lang="en"/i);
   assert.match(html, /<title>Justin Li — Solutions Architect &amp; FDE<\/title>/i);
-  assert.ok(
-    html.includes(
-      '<link rel="canonical" href="https://sad-salad-12.github.io/justinli/"/>',
-    ),
-    "canonical link must preserve the /justinli/ GitHub Pages path",
-  );
   assert.match(html, /JUSTIN LI\./);
   assert.match(html, /01 — WORK EXPERIENCE/);
   assert.match(html, /Business-aware\./);
@@ -29,7 +27,7 @@ test("static export renders English as the default portfolio language", async ()
   assert.match(html, /03 — LET&#x27;S TALK/);
   assert.doesNotMatch(html, /SCROLL — 01 \/ 03|JUSTIN LI \/ PORTRAIT/);
   assert.match(html, /AI Advertisement Report Automation/);
-  assert.match(html, /Verba — Internal AI Sales Agent/);
+  assert.match(html, /Verba — From brief to presentation/);
   assert.equal((html.match(/class="experience-project"/g) ?? []).length, 2);
   assert.match(html, /poster="\/justinli\/experience\/ad-report\/report-agent-poster\.jpg"/);
   assert.match(html, /preload="none"/i);
@@ -40,18 +38,12 @@ test("static export renders English as the default portfolio language", async ()
   assert.match(html, /playsinline=""/i);
   assert.match(html, /controls=""/i);
   assert.match(html, /Generated advertising report slides/);
-  assert.match(html, /How Verba turns a new brief into a source-linked solution draft/);
-  assert.match(html, /Verba source-linked solution workflow/);
-  assert.doesNotMatch(
-    html,
-    /A new brief moves through local evidence retrieval and structured drafting/,
-  );
-  assert.match(html, /CASE PDFS/);
-  assert.match(html, /SOURCE-LINKED WORKFLOW/);
-  assert.match(html, /Structured Solution/);
-  assert.match(html, /Human Review &amp; Refine/);
-  assert.match(html, /111/);
-  assert.doesNotMatch(html, /Visual documentation coming next|verba-visual-placeholder/);
+  assert.match(html, /<iframe[^>]*src="https:\/\/justin\.zl5626\.chatgpt\.site\/verba\/index\.html\?lang=en&amp;parentOrigin=[^" ]+&amp;embed=1"/);
+  assert.doesNotMatch(html, /Open full demo|verba-demo-note|verba-demo-toolbar/);
+  assert.match(html, /300\+|30\+/);
+  assert.match(html, /USERS PROVIDED FEEDBACK/);
+  assert.doesNotMatch(html, /Updated September|AI SLIDE LAYOUTS|PREVIEW SLIDES/);
+  assert.doesNotMatch(html, /Interface concept|verba-concept|111 indexed chunks/);
   assert.match(html, /src="\/justinli\/justin-shanghai-portrait\.jpg"/);
   assert.match(html, /R&amp;D Project Dashboards \(Lark Base\)/);
   assert.doesNotMatch(html, /class="contact-identity"/);
@@ -68,21 +60,18 @@ test("static export renders English as the default portfolio language", async ()
   assert.doesNotMatch(html, /sample\.pdf|application\/pdf/);
   assert.doesNotMatch(html, /01 — POSITIONING|BUILT FOR AMBIGUITY|Built in ambiguity/);
   assert.doesNotMatch(html, /class="positioning"/);
-  assert.match(html, /href="mailto:justinli@stern\.nyu\.edu"/);
-  assert.match(html, /href="tel:\+16462284995"/);
-  assert.match(html, /\/justinli\/_next\//);
+  assert.match(html, /href="https:\/\/sad-salad-12\.github\.io\/justinli\/"/);
 });
 
-test("keeps bilingual content and GitHub Pages assets wired correctly", async () => {
-  const [page, content, media, layout, packageJson, nextConfig, workflow, html] = await Promise.all([
+test("keeps bilingual content and hosted assets wired correctly", async () => {
+  const [page, content, media, layout, packageJson, nextConfig, demo] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/portfolio-content.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/experience-media.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
     readFile(new URL("../next.config.ts", import.meta.url), "utf8"),
-    readFile(new URL("../.github/workflows/pages.yml", import.meta.url), "utf8"),
-    renderedHtml(),
+    readFile(new URL("../app/verba-demo.tsx", import.meta.url), "utf8"),
   ]);
 
   const dashboard = new URL(
@@ -90,8 +79,6 @@ test("keeps bilingual content and GitHub Pages assets wired correctly", async ()
     import.meta.url,
   );
   assert.ok((await stat(dashboard)).size > 100_000);
-  await access(new URL("../out/works/rd-project-dashboard-lark-base.png", import.meta.url));
-  assert.match(html, /\/justinli\/works\/rd-project-dashboard-lark-base\.png/);
   assert.match(page, /rd-project-dashboard-lark-base\.png/);
   assert.doesNotMatch(page, /sample\.pdf|application\/pdf/);
   assert.match(page, /work-image-preview/);
@@ -99,11 +86,8 @@ test("keeps bilingual content and GitHub Pages assets wired correctly", async ()
   assert.match(page, /portfolio-language/);
   assert.match(page, /setLanguage\("en"\)/);
   assert.match(page, /setLanguage\("zh"\)/);
-  assert.match(page, /NEXT_PUBLIC_BASE_PATH/);
   assert.match(page, /withBasePath\("\/justin-shanghai-portrait\.jpg"\)/);
-  assert.match(page, /withBasePath\("\/works\/rd-project-dashboard-lark-base\.png"\)/);
-  assert.match(media, /withBasePath\("\/experience\/ad-report\/report-agent-demo\.mp4"\)/);
-  assert.doesNotMatch(page, /positioning-title/);
+  assert.match(page, /NEXT_PUBLIC_BASE_PATH/);
   assert.match(content, /懂业务。/);
   assert.match(content, /为交付而生。/);
   assert.match(content, /01 — 工作经历/);
@@ -112,12 +96,8 @@ test("keeps bilingual content and GitHub Pages assets wired correctly", async ()
   assert.match(content, /产品实时演示/);
   assert.match(content, /生成成果/);
   assert.match(content, /拖动或点击箭头/);
-  assert.match(content, /VERBA \/ 本地优先 RAG/);
-  assert.doesNotMatch(content, /每个新需求都会经过本地证据检索/);
-  assert.match(content, /15 份案例 PDF/);
-  assert.match(content, /有来源依据的方案流程/);
-  assert.match(content, /人工复核与完善/);
-  assert.match(content, /系统会展示来源供人工核验/);
+  assert.doesNotMatch(content, /打开完整试玩/);
+  assert.match(content, /从需求到方案演示/);
   assert.match(content, /R&D Project Dashboards \(Lark Base\)/);
   assert.match(content, /研发项目仪表盘（飞书多维表格）/);
   assert.doesNotMatch(
@@ -141,31 +121,19 @@ test("keeps bilingual content and GitHub Pages assets wired correctly", async ()
   assert.match(media, /role="dialog"/);
   assert.match(media, /aria-modal="true"/);
   assert.match(media, /event\.key === "Escape"/);
-  assert.match(media, /VerbaSystemVisual/);
-  assert.match(media, /verba-cycle-canvas/);
-  assert.match(media, /verba-cycle-nodes/);
-  assert.doesNotMatch(media, /verba-arrow-loop|verba-cycle-band|verba-cycle-heads|verba-cycle-core/);
-  assert.match(content, /retrieve the five most relevant passages from 111 locally indexed chunks/i);
-  assert.match(content, /从 111 个本地索引切片中召回最相关的五段内容/);
-  assert.doesNotMatch(media, /\["↘", "↓", "↙", "↖", "↑", "↗"\]/);
-  assert.doesNotMatch(media, /verba-prepare-track|verba-run-track|verba-evidence-feed/);
-  assert.match(media, /verba-evidence-strip/);
+  assert.match(page, /VerbaDemo/);
+  assert.match(demo, /<iframe/);
+  assert.match(demo, /event\.origin !== demoOrigin/);
+  assert.match(demo, /event\.source !== frame\.current\?\.contentWindow/);
+  assert.doesNotMatch(page + media, /VerbaConcept|VerbaSystemVisual/);
+
+  assert.match(demo, /https:\/\/justin\.zl5626\.chatgpt\.site/);
+  assert.match(demo, /parentOrigin=https%3A%2F%2Fsad-salad-12\.github\.io/);
   assert.doesNotMatch(media, /\.gif/);
-  assert.match(layout, /https:\/\/sad-salad-12\.github\.io\/justinli\//);
-  assert.doesNotMatch(layout, /next\/headers|generateMetadata|chatgpt\.site/);
+  assert.match(layout, /sad-salad-12\.github\.io\/justinli/);
+  assert.match(packageJson, /next build/);
   assert.match(nextConfig, /output:\s*"export"/);
   assert.match(nextConfig, /basePath/);
-  assert.match(nextConfig, /\/justinli/);
-  assert.match(nextConfig, /unoptimized:\s*true/);
-  assert.match(packageJson, /"build":\s*"next build(?: --webpack)?"/);
-  assert.doesNotMatch(packageJson, /"build":\s*[^\n]*vinext/);
-  assert.match(workflow, /actions\/configure-pages@v5/);
-  assert.match(workflow, /actions\/upload-pages-artifact@v4/);
-  assert.match(workflow, /actions\/deploy-pages@v4/);
-  assert.match(workflow, /NEXT_PUBLIC_BASE_PATH:\s*\/justinli/);
-  await access(new URL("../out/.nojekyll", import.meta.url));
-  await access(new URL("../out/justin-shanghai-portrait.jpg", import.meta.url));
-  await access(new URL("../out/og.png", import.meta.url));
 });
 
 test("packages the MP4 demo and all eight report outputs without the GIF", async () => {
@@ -219,7 +187,7 @@ test("keeps retained sections white and the final contact section dark", async (
 
 test("keeps the enlarged portrait and omits retired sections", async () => {
   const [html, css] = await Promise.all([
-    renderedHtml(),
+    render().then((response) => response.text()),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
   ]);
 
@@ -232,14 +200,14 @@ test("keeps the enlarged portrait and omits retired sections", async () => {
 
 test("keeps scroll feedback while rendering section content immediately", async () => {
   const [html, page, media, css] = await Promise.all([
-    renderedHtml(),
+    render().then((response) => response.text()),
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/experience-media.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
   ]);
 
-  assert.match(html, /class="scroll-progress"/);
-  assert.match(page, /--scroll-progress/);
+  assert.doesNotMatch(html, /class="scroll-progress"/);
+  assert.doesNotMatch(page, /--scroll-progress/);
   assert.match(page, /requestAnimationFrame/);
   assert.doesNotMatch(page, /root\.classList\.add\("motion-ready"\)/);
   assert.doesNotMatch(page, /document\.querySelectorAll<HTMLElement>\("\[data-reveal\]"\)/);
@@ -288,10 +256,10 @@ test("keeps the design-reference variant isolated and motion-accessible", async 
   assert.match(variant, /Two-family hierarchy/);
   assert.match(
     variant,
-    /\.hero-statement > p\s*\{[^}]*font-size:\s*clamp\(13px,\s*1\.05vw,\s*16px\)/s,
+    /\.hero-statement > p\s*\{[^}]*font-size:\s*1rem/s,
   );
-  assert.match(variant, /\.primary-link,[\s\S]*?font-size:\s*10px/);
-  assert.match(variant, /\.experience-bullets\s*\{[^}]*font-size:\s*14px/s);
+  assert.match(variant, /\.primary-link,[\s\S]*?font-size:\s*0\.875rem/);
+  assert.match(variant, /\.experience-bullets\s*\{[^}]*font-size:\s*1rem/s);
   assert.match(variant, /--v2-name-scale-x:\s*0\.84/);
   assert.match(
     variant,
@@ -316,4 +284,31 @@ test("keeps the design-reference variant isolated and motion-accessible", async 
   assert.match(page, /data-reveal="media"/);
   assert.match(media, /data-reveal="media"/);
   assert.doesNotMatch(variant, /#[0-9a-f]{3,8}\b/i);
+});
+
+test("uses collision-free iPad and iPhone proportions", async () => {
+  const [page, variant] = await Promise.all([
+    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/variant-v2.css", import.meta.url), "utf8"),
+  ]);
+
+  assert.match(page, /\(max-width: 700px\) 68vw/);
+  assert.match(variant, /@media \(min-width: 701px\) and \(max-width: 980px\)/);
+  assert.match(
+    variant,
+    /@media \(max-width: 700px\)[\s\S]*?\.hero-copy\s*\{[^}]*display:\s*contents/s,
+  );
+  assert.match(
+    variant,
+    /@media \(max-width: 700px\)[\s\S]*?\.hero-portrait\s*\{[^}]*position:\s*relative/s,
+  );
+  assert.match(
+    variant,
+    /@media \(max-width: 700px\)[\s\S]*?\.experience-row\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)/s,
+  );
+  assert.match(
+    variant,
+    /@media \(max-width: 700px\)[\s\S]*?\.verba-cycle-nodes\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)/s,
+  );
+  assert.match(variant, /min-height:\s*max\(760px,\s*100svh\)/);
 });

@@ -122,8 +122,8 @@ a {
 
 .brand span {
   color: var(--muted);
-  font-family: "SFMono-Regular", Consolas, monospace;
-  font-size: 10px;
+  font-family: var(--v2-sans);
+  font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.04em;
 }
@@ -208,7 +208,7 @@ a {
   border-radius: 999px;
   color: #666970;
   background: transparent;
-  font-size: 9px;
+  font-size: 0.75rem;
   font-weight: 640;
   letter-spacing: 0.01em;
   cursor: pointer;
@@ -280,8 +280,8 @@ a {
 .section-label {
   margin: 0;
   color: #4b4e55;
-  font-family: "SFMono-Regular", "Roboto Mono", Consolas, monospace;
-  font-size: 10px;
+  font-family: var(--v2-sans);
+  font-size: 0.75rem;
   line-height: 1.2;
   letter-spacing: 0.12em;
 }
@@ -763,8 +763,8 @@ a {
   gap: 10px;
   padding-bottom: 10px;
   color: #777b84;
-  font-family: "SFMono-Regular", Consolas, monospace;
-  font-size: 9px;
+  font-family: var(--v2-sans);
+  font-size: 0.75rem;
   letter-spacing: 0.12em;
 }
 
@@ -821,19 +821,19 @@ a {
 .experience-identity > p:first-child,
 .experience-meta,
 .experience-metrics span {
-  font-family: "SFMono-Regular", Consolas, monospace;
+  font-family: var(--v2-sans);
 }
 
 .experience-number {
   color: var(--blue);
-  font-size: 11px;
+  font-size: 0.75rem;
   letter-spacing: 0.08em;
 }
 
 .experience-identity > p:first-child {
   margin: 0 0 15px;
   color: #777b84;
-  font-size: 9px;
+  font-size: 0.75rem;
   letter-spacing: 0.12em;
 }
 
@@ -848,7 +848,7 @@ a {
 .experience-meta {
   margin: 22px 0 0;
   color: #777b84;
-  font-size: 9px;
+  font-size: 0.75rem;
   line-height: 1.65;
   letter-spacing: 0.06em;
 }
@@ -902,7 +902,7 @@ a {
   display: block;
   margin-top: 9px;
   color: #7b7e85;
-  font-size: 8px;
+  font-size: 0.75rem;
   line-height: 1.45;
   letter-spacing: 0.09em;
 }
@@ -937,8 +937,8 @@ a {
 .verba-evidence-strip > span,
 .output-lightbox figcaption span {
   color: var(--blue);
-  font-family: "SFMono-Regular", Consolas, monospace;
-  font-size: 8px;
+  font-family: var(--v2-sans);
+  font-size: 0.75rem;
   letter-spacing: 0.11em;
 }
 
@@ -946,7 +946,7 @@ a {
   max-width: 420px;
   margin: 0;
   color: #777b84;
-  font-size: 10px;
+  font-size: 0.75rem;
   line-height: 1.45;
   text-align: right;
 }
@@ -981,8 +981,8 @@ a {
 
 .carousel-heading p {
   max-width: none;
-  font-family: "SFMono-Regular", Consolas, monospace;
-  font-size: 7px;
+  font-family: var(--v2-sans);
+  font-size: 0.75rem;
   letter-spacing: 0.06em;
 }
 
@@ -1177,8 +1177,8 @@ a {
 .verba-cycle-label {
   margin: 0;
   color: var(--blue);
-  font-family: "SFMono-Regular", Consolas, monospace;
-  font-size: 8px;
+  font-family: var(--v2-sans);
+  font-size: 0.75rem;
   letter-spacing: 0.12em;
 }
 
@@ -1223,8 +1223,8 @@ a {
   display: block;
   margin-bottom: 7px;
   color: var(--blue);
-  font-family: "SFMono-Regular", Consolas, monospace;
-  font-size: 8px;
+  font-family: var(--v2-sans);
+  font-size: 0.75rem;
   letter-spacing: 0.1em;
 }
 
@@ -1239,7 +1239,7 @@ a {
 .verba-cycle-nodes p {
   margin: 6px 0 0;
   color: #6d727c;
-  font-size: 9.5px;
+  font-size: 0.75rem;
   line-height: 1.55;
 }
 
@@ -1275,8 +1275,8 @@ a {
 
 .verba-evidence-strip dt {
   color: #7a7e87;
-  font-family: "SFMono-Regular", Consolas, monospace;
-  font-size: 7px;
+  font-family: var(--v2-sans);
+  font-size: 0.75rem;
   line-height: 1.4;
   letter-spacing: 0.09em;
 }
@@ -1293,8 +1293,8 @@ a {
 .verba-system-visual > figcaption {
   padding: 18px clamp(34px, 4.5vw, 66px) 20px;
   color: #777b84;
-  font-family: "SFMono-Regular", Consolas, monospace;
-  font-size: 8px;
+  font-family: var(--v2-sans);
+  font-size: 0.75rem;
   line-height: 1.65;
   letter-spacing: 0.055em;
 }
@@ -1436,15 +1436,15 @@ a {
 
 .capability-number {
   color: var(--blue);
-  font-family: "SFMono-Regular", Consolas, monospace;
-  font-size: 11px;
+  font-family: var(--v2-sans);
+  font-size: 0.75rem;
 }
 
 .capability-title p {
   margin: 0 0 14px;
   color: #777b84;
-  font-family: "SFMono-Regular", Consolas, monospace;
-  font-size: 9px;
+  font-family: var(--v2-sans);
+  font-size: 0.75rem;
   letter-spacing: 0.12em;
 }
 
@@ -1474,8 +1474,8 @@ a {
 
 .capability-tags li {
   color: #92959e;
-  font-family: "SFMono-Regular", Consolas, monospace;
-  font-size: 9px;
+  font-family: var(--v2-sans);
+  font-size: 0.75rem;
   letter-spacing: 0.06em;
 }
 
@@ -1541,8 +1541,8 @@ a {
 .work-image-action {
   position: absolute;
   z-index: 2;
-  font-family: "SFMono-Regular", Consolas, monospace;
-  font-size: 8px;
+  font-family: var(--v2-sans);
+  font-size: 0.75rem;
   letter-spacing: 0.09em;
 }
 
@@ -1576,8 +1576,8 @@ a {
   display: flex;
   gap: 14px;
   color: #7b7e85;
-  font-family: "SFMono-Regular", Consolas, monospace;
-  font-size: 9px;
+  font-family: var(--v2-sans);
+  font-size: 0.75rem;
   letter-spacing: 0.09em;
 }
 
@@ -1614,8 +1614,8 @@ a {
   padding: 8px 10px;
   color: #646873;
   border: 1px solid #d5d7dc;
-  font-family: "SFMono-Regular", Consolas, monospace;
-  font-size: 8px;
+  font-family: var(--v2-sans);
+  font-size: 0.75rem;
   letter-spacing: 0.045em;
 }
 
@@ -1630,7 +1630,7 @@ a {
   color: var(--ink);
   background: transparent;
   cursor: pointer;
-  font-size: 11px;
+  font-size: 0.75rem;
   text-align: left;
   transition: color 180ms ease;
 }
@@ -1671,8 +1671,8 @@ a {
 
 .approach-steps span {
   color: var(--blue);
-  font-family: "SFMono-Regular", Consolas, monospace;
-  font-size: 9px;
+  font-family: var(--v2-sans);
+  font-size: 0.75rem;
 }
 
 .approach-steps h3 {
@@ -1759,8 +1759,8 @@ a {
 .contact-email span,
 .contact-phone span {
   color: #73767e;
-  font-family: "SFMono-Regular", Consolas, monospace;
-  font-size: 8px;
+  font-family: var(--v2-sans);
+  font-size: 0.75rem;
   letter-spacing: 0.1em;
 }
 
@@ -1819,8 +1819,8 @@ a {
   padding: 22px 0;
   border-top: 1px solid #34363d;
   color: #777a82;
-  font-family: "SFMono-Regular", Consolas, monospace;
-  font-size: 8px;
+  font-family: var(--v2-sans);
+  font-size: 0.75rem;
   letter-spacing: 0.08em;
 }
 
@@ -1916,8 +1916,8 @@ a {
 
 .work-image-toolbar > div span {
   color: var(--blue);
-  font-family: "SFMono-Regular", Consolas, monospace;
-  font-size: 8px;
+  font-family: var(--v2-sans);
+  font-size: 0.75rem;
   letter-spacing: 0.1em;
 }
 
@@ -1938,7 +1938,7 @@ a {
   color: var(--white);
   border: 1px solid var(--blue);
   background: var(--blue);
-  font-size: 11px;
+  font-size: 0.75rem;
   cursor: pointer;
 }
 
@@ -2206,7 +2206,7 @@ a {
   .hero-disciplines {
     gap: 6px 10px;
     max-width: 320px;
-    font-size: 9px;
+    font-size: 0.75rem;
     line-height: 1.55;
   }
 
@@ -2357,7 +2357,7 @@ a {
   }
 
   .media-block-heading p {
-    font-size: 9px;
+    font-size: 0.75rem;
   }
 
   .output-carousel {
@@ -2496,7 +2496,7 @@ a {
     gap: 5px;
     min-height: 62px;
     padding: 12px 14px;
-    font-size: 11px;
+    font-size: 0.75rem;
   }
 
   .lightbox-close {

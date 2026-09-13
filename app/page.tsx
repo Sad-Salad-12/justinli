@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { AdReportMedia } from "./experience-media";
+import { SelectedProjects } from "./selected-projects";
 import { VerbaDemo } from "./verba-demo";
 import { type Language, portfolioContent } from "./portfolio-content";
 
@@ -353,6 +354,7 @@ export default function Home() {
               </div>
             </article>
           ))}
+          <SelectedProjects language={language} basePath={basePath} />
         </div>
       </section>
 

@@ -25,3 +25,7 @@
 @media(prefers-reduced-motion:reduce){.legal-card{transition:none}.legal-feature{animation:none}}
 
 #work .work-main h3,#work .selected-project-copy h3{font-family:var(--v2-sans);font-size:clamp(28px,3vw,44px);font-weight:400;letter-spacing:-1.3px;line-height:1.15}
+
+/* Let whitespace connect the selected projects on one continuous white surface. */
+#work{background:#fff}
+#work .selected-project,#work .work-row,#work .work-list,#work .legal-feature,#work .legal-controls{border-top:0;border-bottom:0}

@@ -236,7 +236,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       items: [
         {
           type: "PRODUCT OPERATIONS · LARK BASE",
-          title: "R&D Project Dashboards (Lark Base)",
+          title: "R&D Project Dashboards",
           summary:
             "A Lark Base project overview that brings task status, priority, team ranking, and recurring work themes into one operational dashboard.",
           imageAlt:
@@ -388,7 +388,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       items: [
         {
           type: "产品运营 · 飞书多维表格",
-          title: "研发项目仪表盘（飞书多维表格）",
+          title: "研发项目仪表盘",
           summary: "通过一个项目总览集中呈现任务状态、优先级、团队排名与重复出现的工作主题。",
           imageAlt: "展示任务状态、优先级、团队排名与任务关键词图表的飞书多维表格研发项目仪表盘",
           features: ["任务状态与优先级", "团队排名", "任务关键词分布"],

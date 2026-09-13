@@ -12,7 +12,7 @@ const withBasePath = (path: string) => `${basePath}${path}`;
 
 const workAssets = [
   {
-    index: "01",
+    index: "02",
     image: withBasePath("/works/rd-project-dashboard-lark-base.png"),
   },
 ] as const;
@@ -310,6 +310,7 @@ export default function Home() {
         </div>
 
         <div className="work-list">
+          <SelectedProjects language={language} basePath={basePath}>
           {works.map((work, index) => (
             <article className="work-row" key={work.index} data-reveal="media">
               <button
@@ -334,10 +335,6 @@ export default function Home() {
               </button>
 
               <div className="work-main">
-                <div className="work-meta">
-                  <span>{work.index}</span>
-                  <span>{work.type}</span>
-                </div>
                 <h3>{work.title}</h3>
                 <p>{work.summary}</p>
                 <ul className="work-features">
@@ -345,16 +342,11 @@ export default function Home() {
                     <li key={feature}>{feature}</li>
                   ))}
                 </ul>
-                <button
-                  className="work-preview-action"
-                  onClick={(event) => openWork(index, event.currentTarget)}
-                >
-                  {t.work.previewAction} <span aria-hidden="true">↗</span>
-                </button>
+
               </div>
             </article>
           ))}
-          <SelectedProjects language={language} basePath={basePath} />
+          </SelectedProjects>
         </div>
       </section>
 

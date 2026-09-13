@@ -45,7 +45,7 @@ test("server-renders the streamlined English portfolio", async () => {
   assert.doesNotMatch(html, /Updated September|AI SLIDE LAYOUTS|PREVIEW SLIDES/);
   assert.doesNotMatch(html, /Interface concept|verba-concept|111 indexed chunks/);
   assert.match(html, /src="\/justinli\/justin-shanghai-portrait\.jpg"/);
-  assert.match(html, /R&amp;D Project Dashboards \(Lark Base\)/);
+  assert.match(html, /R&amp;D Project Dashboards/);
   assert.doesNotMatch(html, /class="contact-identity"/);
   assert.match(html, /src="\/justinli\/works\/rd-project-dashboard-lark-base\.png"/);
   assert.doesNotMatch(
@@ -98,8 +98,8 @@ test("keeps bilingual content and hosted assets wired correctly", async () => {
   assert.match(content, /拖动或点击箭头/);
   assert.doesNotMatch(content, /打开完整试玩/);
   assert.match(content, /从需求到方案演示/);
-  assert.match(content, /R&D Project Dashboards \(Lark Base\)/);
-  assert.match(content, /研发项目仪表盘（飞书多维表格）/);
+  assert.match(content, /R&D Project Dashboards/);
+  assert.match(content, /研发项目仪表盘/);
   assert.doesNotMatch(
     content,
     /JUSTIN LI \/ PORTRAIT|SCROLL — 01 \/ 03|REAL PROJECT SNAPSHOT|Select the dashboard to inspect|It should reveal how you think|Selected work turning operational pain points|李泽霆 \/ 个人照片|向下浏览 — 01 \/ 03|真实项目快照|点击仪表盘即可查看完整大图|它应该让人看见你如何思考|把业务中的重复问题转化为可验证的人工智能产品/,

@@ -1,0 +1,200 @@
+{
+  "version": 2,
+  "assets": [
+    {
+      "id": "feishu-lark-app-icon",
+      "file": "feishu-lark-app-icon.png",
+      "kind": "logo",
+      "tags": [
+        "brand"
+      ],
+      "source": "/Applications/Lark.app/Contents/Resources/app.icns",
+      "source_type": "installed-official-app",
+      "caption_zh": "飞书 / Lark 官方应用图标",
+      "caption_en": "Official Feishu / Lark application icon",
+      "sensitivity": "public-brand-asset"
+    },
+    {
+      "id": "official-meeting-magic-share",
+      "file": "official-meeting-magic-share.png",
+      "kind": "product-ui",
+      "tags": [
+        "meetings",
+        "collaboration",
+        "docs",
+        "people"
+      ],
+      "source": "https://www.larksuite.com/en_us/paid/collaboration",
+      "source_asset": "https://lf-package-sg.larksuitecdn.com/obj/lark-static-sgsaas/larksuite/framer-migrate/static/assets/html-snapshots/pool/e3/e3768bbbcf2f0466d148df54e49d9f13fd4c05303ab87c360e314a0964ffa106.png",
+      "caption_zh": "视频会议中的文档实时协作示意",
+      "caption_en": "Live document collaboration inside a meeting",
+      "sensitivity": "public-marketing-example"
+    },
+    {
+      "id": "official-chat-translation",
+      "file": "official-chat-translation.png",
+      "kind": "product-ui",
+      "tags": [
+        "messaging",
+        "collaboration",
+        "people"
+      ],
+      "source": "https://www.larksuite.com/en_us/paid/collaboration",
+      "source_asset": "https://lf-package-sg.larksuitecdn.com/obj/lark-static-sgsaas/larksuite/framer-migrate/static/assets/html-snapshots/pool/38/3887d982ce2cd4d24ee0009e23ccded3a567ede36fa365878d746c28afca0816.png",
+      "caption_zh": "跨语言即时沟通与翻译示意",
+      "caption_en": "Cross-language messaging and translation",
+      "sensitivity": "public-marketing-example"
+    },
+    {
+      "id": "official-doc-collaboration",
+      "file": "official-doc-collaboration.png",
+      "kind": "product-ui",
+      "tags": [
+        "docs",
+        "workflow",
+        "collaboration",
+        "analytics"
+      ],
+      "source": "https://www.larksuite.com/en_us/paid/collaboration",
+      "source_asset": "https://lf-package-sg.larksuitecdn.com/obj/lark-static-sgsaas/larksuite/framer-migrate/static/assets/html-snapshots/pool/0b/0bfc7f2aeb6fc52604bdd47c48777686a487fab7fa28f39f59201add89436cf8.png",
+      "caption_zh": "文档、数据与评论协同示意",
+      "caption_en": "Collaborative documents, data and comments",
+      "sensitivity": "public-marketing-example"
+    },
+    {
+      "file": "official-store-dashboard.png",
+      "caption_zh": "门店经营仪表盘",
+      "caption_en": "Store performance dashboard",
+      "tags": [
+        "retail",
+        "restaurant",
+        "catering",
+        "store",
+        "analytics",
+        "revenue",
+        "reporting",
+        "门店",
+        "餐饮",
+        "零售",
+        "经营",
+        "仪表盘"
+      ],
+      "source": "https://www.feishu.cn/content/article/7586968778689252541",
+      "source_asset": "https://p1-hera.feishucdn.com/tos-cn-i-jbbdkfciu3/d27d1c5fda1c405dbe3370fbe79277bf~tplv-jbbdkfciu3-image:0:0.image",
+      "id": "official-store-dashboard",
+      "kind": "product-ui",
+      "sensitivity": "public-marketing-example",
+      "retrieved_at": "2026-09-11"
+    },
+    {
+      "file": "official-store-tasks.png",
+      "caption_zh": "门店任务管理",
+      "caption_en": "Store task management",
+      "tags": [
+        "operations",
+        "tasks",
+        "inspection",
+        "execution",
+        "门店",
+        "任务",
+        "巡检",
+        "执行"
+      ],
+      "source": "https://www.feishu.cn/content/article/7586968778689252541",
+      "source_asset": "https://p1-hera.feishucdn.com/tos-cn-i-jbbdkfciu3/bf5242ded6844551aa11ec5638e754c1~tplv-jbbdkfciu3-image:0:0.image",
+      "id": "official-store-tasks",
+      "kind": "product-ui",
+      "sensitivity": "public-marketing-example",
+      "retrieved_at": "2026-09-11"
+    },
+    {
+      "file": "official-store-opening.png",
+      "caption_zh": "门店筹建进度看板",
+      "caption_en": "Store opening progress dashboard",
+      "tags": [
+        "store",
+        "opening",
+        "launch",
+        "construction",
+        "progress",
+        "门店",
+        "开业",
+        "筹建",
+        "进度"
+      ],
+      "source": "https://www.feishu.cn/content/article/7586968778689252541",
+      "source_asset": "https://p1-hera.feishucdn.com/tos-cn-i-jbbdkfciu3/1ffe988bc22a40e6bfef3547834906a0~tplv-jbbdkfciu3-image:0:0.image",
+      "id": "official-store-opening",
+      "kind": "product-ui",
+      "sensitivity": "public-marketing-example",
+      "retrieved_at": "2026-09-11"
+    },
+    {
+      "file": "official-customer-reviews.png",
+      "caption_zh": "顾客评价分析",
+      "caption_en": "Customer review analysis",
+      "tags": [
+        "restaurant",
+        "customer",
+        "feedback",
+        "review",
+        "service",
+        "satisfaction",
+        "餐饮",
+        "顾客",
+        "评价",
+        "反馈",
+        "满意度"
+      ],
+      "source": "https://www.feishu.cn/content/article/7586968778689252541",
+      "source_asset": "https://p1-hera.feishucdn.com/tos-cn-i-jbbdkfciu3/0aae07c01b67409caf10b345231ec42d~tplv-jbbdkfciu3-image:0:0.image",
+      "id": "official-customer-reviews",
+      "kind": "product-ui",
+      "sensitivity": "public-marketing-example",
+      "retrieved_at": "2026-09-11"
+    },
+    {
+      "file": "official-sales-workflow.png",
+      "caption_zh": "销售流程管理",
+      "caption_en": "Sales workflow management",
+      "tags": [
+        "sales",
+        "CRM",
+        "pipeline",
+        "approvals",
+        "销售",
+        "商机",
+        "流程",
+        "审批"
+      ],
+      "source": "https://www.feishu.cn/content/feishu-meego-sale-management",
+      "source_asset": "https://p1-hera.feishucdn.com/tos-cn-i-jbbdkfciu3/09f5f0ce8e9749dda52526e320f64c95.PNG~tplv-jbbdkfciu3-png:0:0.png",
+      "id": "official-sales-workflow",
+      "kind": "product-ui",
+      "sensitivity": "public-marketing-example",
+      "retrieved_at": "2026-09-11"
+    },
+    {
+      "file": "official-project-tracking.png",
+      "caption_zh": "销售项目进度视图",
+      "caption_en": "Sales project tracking",
+      "tags": [
+        "sales",
+        "project",
+        "progress",
+        "resources",
+        "销售",
+        "项目",
+        "进度",
+        "资源"
+      ],
+      "source": "https://www.feishu.cn/content/feishu-meego-sale-management",
+      "source_asset": "https://p1-hera.feishucdn.com/tos-cn-i-jbbdkfciu3/a84d8dd045b64592853e63ba2aca1628.png~tplv-jbbdkfciu3-png:0:0.png",
+      "id": "official-project-tracking",
+      "kind": "product-ui",
+      "sensitivity": "public-marketing-example",
+      "retrieved_at": "2026-09-11"
+    }
+  ],
+  "usage_note": "Use as public product and brand references only. Do not treat example names, copy or metrics shown inside screenshots as customer evidence. Validate external distribution rights before sending a generated deck outside the organization."
+}

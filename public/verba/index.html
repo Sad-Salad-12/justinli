@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Verba · Interactive demo</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="portfolio.css">
+  <script defer src="evidence.js"></script>
+  <script defer src="samples.js"></script>
+  <script defer src="app.js"></script>
+  <script defer src="portfolio.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="wordmark" href="#">verba<span class="brand-dot">.</span></a>
+    <button id="language" class="quiet" type="button">中文</button>
+  </header>
+  <main>
+    <div class="intro">
+      <h1 data-i18n="heading">Try a solution.</h1>
+    </div>
+    <div class="workspace">
+      <aside class="composer" aria-label="Brief">
+        <div class="mode-switch" role="group" aria-label="Experience mode">
+          <button id="sample-mode" type="button" aria-pressed="true" data-i18n="sampleMode">Sample experience</button>
+          <button id="live-mode" type="button" aria-pressed="false" data-i18n="liveMode">Live AI</button>
+        </div>
+        <select id="scenarios" class="scenarios" aria-label="Example briefs"></select>
+        <label for="brief" data-i18n="briefLabel">Your requirement</label>
+        <textarea id="brief" rows="7" maxlength="1000" spellcheck="false"></textarea>
+        <div class="input-meta"><span id="counter">0 / 1000</span></div>
+        <button id="generate" class="primary" type="button"></button>
+        <button id="reset-sample" class="text-button" type="button" data-i18n="reset">Restore selected example</button>
+        <p id="status" role="status" aria-live="polite"></p>
+      </aside>
+      <section class="results" aria-label="Results">
+        <div class="result-nav" role="tablist" aria-label="Result views">
+          <button id="slides-tab" role="tab" aria-selected="true" aria-controls="slides-panel" data-i18n="slidesTab">Slides</button>
+          <button id="proposal-tab" role="tab" aria-selected="false" aria-controls="proposal-panel" tabindex="-1" data-i18n="proposalTab">Solution</button>
+        </div>
+        <div id="result-context" class="help result-context"></div>
+        <section id="slides-panel" role="tabpanel" aria-labelledby="slides-tab">
+          <div class="slide-toolbar"><span id="slide-count"></span><button id="expand" class="quiet" type="button" data-i18n="expand">Enlarge ↗</button></div>
+          <div id="slide-stage" class="slide-stage"></div>
+          <div class="slide-navigation"><button id="previous" class="quiet" type="button" data-i18n="previous">← Previous</button><button id="next" class="quiet" type="button" data-i18n="next">Next →</button></div>
+        </section>
+        <section id="proposal-panel" role="tabpanel" aria-labelledby="proposal-tab" hidden><div id="report"></div></section>
+        <details id="evidence-panel" class="evidence"><summary><span data-i18n="evidenceTitle">Sources</span><small id="evidence-count"></small></summary><p class="help" data-i18n="evidenceHelp">Source excerpts are evidence, not guarantees of future results.</p><div id="sources"></div></details>
+        <p id="usage" class="help"></p>
+      </section>
+    </div>
+  </main>
+  <dialog id="slide-dialog" aria-labelledby="dialog-title"><div class="dialog-head"><strong id="dialog-title" data-i18n="slidesTab">Presentation preview</strong><button id="close-dialog" class="quiet" data-i18n="close" type="button">Close ×</button></div><p class="zoom-help help" data-i18n="pan">Swipe the canvas sideways to explore.</p><div class="zoom-viewport" tabindex="0" aria-label="Slide canvas"><div id="expanded-slide" class="slide-stage"></div></div><div class="dialog-nav"><button id="dialog-prev" class="quiet" data-i18n="previous" type="button">← Previous</button><button id="dialog-next" class="quiet" data-i18n="next" type="button">Next →</button></div></dialog>
+</body>
+</html>

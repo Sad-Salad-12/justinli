@@ -1,0 +1,15 @@
+:root { font-family: "Avenir Next", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+select { font: inherit; }
+.slide-main-illustrated { grid-template-columns: .8fr 1.2fr; }
+.slide-main-illustrated .slide-photo { height: 27cqw; }
+.solution-visual > a { display: block; }
+html[data-embed="true"] .topbar, html[data-embed="true"] .intro { display: none; }
+html[data-embed="true"] main { padding: 0 24px 28px; }
+html[data-embed="true"] .workspace { border-top: 0; }
+html[data-embed="true"] .composer { padding-top: 24px; }
+html[data-embed="true"] .results { padding-top: 24px; }
+html[data-embed="true"] dialog { position: fixed; top: 0; bottom: 0; margin: auto; }
+@media(max-width:700px) { html[data-embed="true"] main { padding: 0 16px 22px; } }
+
+html[data-embed="true"], html[data-embed="true"] body { height: auto; min-height: 0; overflow: hidden; }
+html[data-embed="true"] textarea { overflow: hidden; resize: none; }

@@ -13,7 +13,7 @@
 .legal-card button{height:42px;flex-shrink:0;border:0;border-top:1px solid #eef0f3;background:#fff;color:var(--blue);text-align:right;padding:0 18px;font:inherit;font-size:12px;cursor:pointer}
 .legal-feature{margin-top:28px;padding-top:22px;border-top:1px solid var(--line);animation:feature-in .25s ease}
 .legal-feature-brand{display:flex;align-items:center;gap:14px;font-size:15px;font-weight:600}
-.legal-feature-icon{width:40px;height:40px;flex-shrink:0;background-size:819.2px 460.16px;border-radius:8px;display:block}
+.legal-feature-icon{width:36px;height:40px;flex-shrink:0;background-size:1024px 575.2px;background-repeat:no-repeat;border-radius:4px;display:block}
 .legal-feature h4{font-size:20px;line-height:1.3;margin:18px 0 10px}
 .tableau-preview{padding:0;border:1px solid #dde1e7;background:#fff;cursor:zoom-in;text-align:right;color:var(--blue);font:inherit}
 .tableau-preview img{display:block;width:100%;height:auto}.tableau-preview span{display:block;padding:14px 18px;font-size:12px}
@@ -29,3 +29,5 @@
 /* Let whitespace connect the selected projects on one continuous white surface. */
 #work{background:#fff}
 #work .selected-project,#work .work-row,#work .work-list,#work .legal-feature,#work .legal-controls{border-top:0;border-bottom:0}
+
+#work .work-image-action,#work .work-features li,#work .legal-card button{border-top:0;border-bottom:0}

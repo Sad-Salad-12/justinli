@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "./variant-v2.css";
 import "./verba-demo.css";
+import "./spacing.css";
 
 const defaultTitle = "Justin Li — Solutions Architect & FDE";
 const defaultDescription =

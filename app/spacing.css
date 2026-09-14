@@ -1,0 +1,50 @@
+/* One spacing scale: sections, projects, then content within each project. */
+main[data-language] {
+  --section-space: clamp(72px, 7vw, 104px);
+  --project-space: clamp(64px, 6vw, 88px);
+  --heading-space: clamp(32px, 3.5vw, 48px);
+  --content-space: clamp(24px, 3vw, 40px);
+}
+main .experience, main #work { padding-top: var(--section-space); padding-bottom: var(--section-space); }
+main .section-head { margin-bottom: var(--heading-space); padding-bottom: 0; border-bottom: 0; }
+main .experience-list { display: grid; row-gap: var(--project-space); }
+main .experience-project, main .experience-project:last-child, main .experience-project + .experience-project { padding-top: 0; padding-bottom: 0; }
+main .experience-row { padding-top: 0; padding-bottom: var(--content-space); row-gap: 28px; }
+main .experience-bullets { gap: 16px; }
+main .experience-meta { margin-top: 16px; }
+main .experience-metrics { margin-top: 0; }
+main .experience-metrics div { min-height: 92px; padding-top: 20px; padding-bottom: 20px; }
+main .ad-report-media { gap: var(--content-space); }
+main .media-block-heading { margin-bottom: 16px; }
+main #work .work-list { display: grid; row-gap: var(--project-space); }
+main #work .selected-project, main #work .work-row { padding-top: 0; padding-bottom: 0; margin: 0; column-gap: clamp(32px, 4vw, 64px); row-gap: var(--content-space); }
+main #work .work-main h3, main #work .selected-project-copy h3 { margin: 0 0 20px; }
+main #work .work-features { margin-top: 24px; gap: 10px; }
+main #work .legal-feature { margin-top: 28px; padding-top: 0; }
+main #work .legal-feature h4 { margin-top: 20px; margin-bottom: 12px; }
+main #work .legal-controls { margin-bottom: 20px; padding-bottom: 0; }
+main #work .selected-project-note { margin-top: 20px; }
+main .hero-actions { margin-top: 28px; gap: 12px; }
+main .hero-statement > p { margin-top: 24px; }
+main .contact { min-height: 0; padding-top: var(--section-space); }
+main .contact-main { margin-top: 48px; padding-bottom: 64px; }
+main .contact-main > p { margin-top: 28px; }
+main .contact-details { margin-top: 32px; }
+@media (max-width: 800px) {
+  main[data-language] { --section-space: 64px; --project-space: 64px; --heading-space: 32px; --content-space: 28px; }
+  main .section-head { gap: 20px; }
+  main .experience-row { row-gap: 24px; }
+  main #work .legal-feature { min-height: 0; }
+  main #work .selected-project, main #work .work-row { row-gap: 32px; }
+  main .contact-main { margin-top: 36px; padding-bottom: 48px; }
+}
+@media (max-width: 700px) {
+  main .hero { padding-bottom: 40px; }
+  main .hero-name, main[data-language="en"] .hero-name { margin-top: 24px; }
+  main .hero-statement, main[data-language="en"] .hero-statement { margin-top: 32px; }
+  main .hero-statement > p { margin-top: 20px; }
+  main .hero-actions { margin-top: 24px; }
+  main .experience-number { margin-bottom: -12px; }
+  main .experience-metrics div { min-height: 88px; padding-top: 18px; padding-bottom: 18px; }
+  main .contact-main > p { margin-top: 24px; }
+}

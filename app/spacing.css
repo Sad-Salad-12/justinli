@@ -48,3 +48,27 @@ main .contact-details { margin-top: 32px; }
   main .experience-metrics div { min-height: 88px; padding-top: 18px; padding-bottom: 18px; }
   main .contact-main > p { margin-top: 24px; }
 }
+
+/* Separate portfolio sections with whitespace, without stacked rules. */
+main .hero,
+main .experience,
+main .experience-list,
+main .experience-project,
+main .experience-metrics,
+main .experience-metrics div,
+main .experience-metrics div + div,
+main .carousel-controls,
+main .verba-evidence-strip,
+main .contact-details,
+main .contact footer {
+  border: 0;
+}
+
+main .hero-grid::after {
+  display: none;
+}
+
+main .verba-demo {
+  border: 0;
+  border-radius: 0;
+}

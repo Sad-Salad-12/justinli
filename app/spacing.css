@@ -91,3 +91,19 @@ main .contact footer { position: static; width: var(--v2-content); margin: 0 aut
   main #work .legal-stack { margin-bottom: 16px; }
   main .experience-bullets { gap: 12px; }
 }
+
+/* Four section boundaries: compact transitions, generous project introductions. */
+main .experience { padding-top: 28px; }
+main #work { padding-top: 32px; }
+main .experience-head { margin-bottom: clamp(64px, 6vw, 88px); }
+main .experience-list { row-gap: clamp(112px, 10vw, 152px); }
+@media (min-width: 801px) {
+  main .hero { min-height: 0; padding-bottom: 24px; }
+  main .hero-copy { min-height: calc(clamp(780px, 100svh, 1040px) - 190px); }
+}
+@media (max-width: 800px) {
+  main .experience { padding-top: 24px; }
+  main #work { padding-top: 28px; }
+  main .experience-head { margin-bottom: 56px; }
+  main .experience-list { row-gap: 96px; }
+}

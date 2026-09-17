@@ -1,54 +1,55 @@
-/* One spacing scale: sections, projects, then content within each project. */
+/* A single multiplier expands the existing spacing rhythm at every breakpoint. */
 main[data-language] {
-  --section-space: clamp(64px, 6vw, 88px);
-  --project-space: clamp(72px, 7vw, 104px);
-  --heading-space: clamp(32px, 3vw, 44px);
-  --content-space: clamp(24px, 3vw, 40px);
+  --spacing-scale: 1.2;
+  --section-space: clamp(calc(64px * var(--spacing-scale)), calc(6vw * var(--spacing-scale)), calc(88px * var(--spacing-scale)));
+  --project-space: clamp(calc(72px * var(--spacing-scale)), calc(7vw * var(--spacing-scale)), calc(104px * var(--spacing-scale)));
+  --heading-space: clamp(calc(32px * var(--spacing-scale)), calc(3vw * var(--spacing-scale)), calc(44px * var(--spacing-scale)));
+  --content-space: clamp(calc(24px * var(--spacing-scale)), calc(3vw * var(--spacing-scale)), calc(40px * var(--spacing-scale)));
 }
 main .experience, main #work { padding-top: var(--section-space); padding-bottom: 0; }
 main #work { padding-bottom: var(--section-space); }
 main .section-head { margin-bottom: var(--heading-space); padding-bottom: 0; border-bottom: 0; }
 main .experience-list { display: grid; row-gap: var(--project-space); }
 main .experience-project, main .experience-project:last-child, main .experience-project + .experience-project { padding-top: 0; padding-bottom: 0; }
-main .experience-row { padding-top: 0; padding-bottom: var(--content-space); row-gap: 28px; }
-main .experience-bullets { gap: 16px; }
-main .experience-meta { margin-top: 16px; }
+main .experience-row { padding-top: 0; padding-bottom: var(--content-space); row-gap: calc(28px * var(--spacing-scale)); }
+main .experience-bullets { gap: calc(16px * var(--spacing-scale)); }
+main .experience-meta { margin-top: calc(16px * var(--spacing-scale)); }
 main .experience-metrics { margin-top: 0; }
-main .experience-metrics div { min-height: 92px; padding-top: 20px; padding-bottom: 20px; }
+main .experience-metrics div { min-height: 92px; padding-top: calc(20px * var(--spacing-scale)); padding-bottom: calc(20px * var(--spacing-scale)); }
 main .ad-report-media { gap: var(--content-space); }
-main .media-block-heading { margin-bottom: 16px; }
+main .media-block-heading { margin-bottom: calc(16px * var(--spacing-scale)); }
 main #work .work-list { display: grid; row-gap: var(--project-space); }
-main #work .selected-project, main #work .work-row { padding-top: 0; padding-bottom: 0; margin: 0; column-gap: clamp(32px, 4vw, 64px); row-gap: var(--content-space); }
-main #work .work-main h3, main #work .selected-project-copy h3 { margin: 0 0 20px; }
-main #work .work-features { margin-top: 24px; gap: 10px; }
-main #work .legal-feature { margin-top: 28px; padding-top: 0; }
-main #work .legal-feature h4 { margin-top: 20px; margin-bottom: 12px; }
-main #work .legal-controls { margin-bottom: 20px; padding-bottom: 0; }
-main #work .selected-project-note { margin-top: 20px; }
-main .hero-actions { margin-top: 28px; gap: 12px; }
-main .hero-statement > p { margin-top: 24px; }
+main #work .selected-project, main #work .work-row { padding-top: 0; padding-bottom: 0; margin: 0; column-gap: clamp(calc(32px * var(--spacing-scale)), calc(4vw * var(--spacing-scale)), calc(64px * var(--spacing-scale))); row-gap: var(--content-space); }
+main #work .work-main h3, main #work .selected-project-copy h3 { margin: 0 0 calc(20px * var(--spacing-scale)); }
+main #work .work-features { margin-top: calc(24px * var(--spacing-scale)); gap: calc(10px * var(--spacing-scale)); }
+main #work .legal-feature { margin-top: calc(28px * var(--spacing-scale)); padding-top: 0; }
+main #work .legal-feature h4 { margin-top: calc(20px * var(--spacing-scale)); margin-bottom: calc(12px * var(--spacing-scale)); }
+main #work .legal-controls { margin-bottom: calc(20px * var(--spacing-scale)); padding-bottom: 0; }
+main #work .selected-project-note { margin-top: calc(20px * var(--spacing-scale)); }
+main .hero-actions { margin-top: calc(28px * var(--spacing-scale)); gap: calc(12px * var(--spacing-scale)); }
+main .hero-statement > p { margin-top: calc(24px * var(--spacing-scale)); }
 main .contact { min-height: 0; padding-top: var(--section-space); }
-main .contact-main { margin-top: 48px; padding-bottom: 64px; }
-main .contact-main > p { margin-top: 28px; }
-main .contact-details { margin-top: 32px; padding-top: 0; }
+main .contact-main { margin-top: calc(48px * var(--spacing-scale)); padding-bottom: calc(64px * var(--spacing-scale)); }
+main .contact-main > p { margin-top: calc(28px * var(--spacing-scale)); }
+main .contact-details { margin-top: calc(32px * var(--spacing-scale)); padding-top: 0; }
 @media (max-width: 800px) {
-  main[data-language] { --section-space: 56px; --project-space: 72px; --heading-space: 32px; --content-space: 28px; }
-  main .section-head { gap: 20px; }
-  main .experience-row { row-gap: 24px; }
+  main[data-language] { --section-space: calc(56px * var(--spacing-scale)); --project-space: calc(72px * var(--spacing-scale)); --heading-space: calc(32px * var(--spacing-scale)); --content-space: calc(28px * var(--spacing-scale)); }
+  main .section-head { gap: calc(20px * var(--spacing-scale)); }
+  main .experience-row { row-gap: calc(24px * var(--spacing-scale)); }
   main #work .legal-feature { min-height: 0; }
-  main #work .selected-project, main #work .work-row { row-gap: 32px; }
-  main .contact-main { margin-top: 32px; padding-bottom: 32px; }
+  main #work .selected-project, main #work .work-row { row-gap: calc(32px * var(--spacing-scale)); }
+  main .contact-main { margin-top: calc(32px * var(--spacing-scale)); padding-bottom: calc(32px * var(--spacing-scale)); }
 }
 @media (max-width: 700px) {
-  main .hero { padding-bottom: 32px; }
+  main .hero { padding-bottom: calc(32px * var(--spacing-scale)); }
   main .hero-statement, main[data-language="en"] .hero-statement { padding-bottom: 0; }
-  main .hero-name, main[data-language="en"] .hero-name { margin-top: 24px; }
-  main .hero-statement, main[data-language="en"] .hero-statement { margin-top: 32px; }
-  main .hero-statement > p { margin-top: 20px; }
-  main .hero-actions { margin-top: 24px; }
+  main .hero-name, main[data-language="en"] .hero-name { margin-top: calc(24px * var(--spacing-scale)); }
+  main .hero-statement, main[data-language="en"] .hero-statement { margin-top: calc(32px * var(--spacing-scale)); }
+  main .hero-statement > p { margin-top: calc(20px * var(--spacing-scale)); }
+  main .hero-actions { margin-top: calc(24px * var(--spacing-scale)); }
   main .experience-number { margin-bottom: -12px; }
-  main .experience-metrics div { min-height: 88px; padding-top: 18px; padding-bottom: 18px; }
-  main .contact-main > p { margin-top: 24px; }
+  main .experience-metrics div { min-height: 88px; padding-top: calc(18px * var(--spacing-scale)); padding-bottom: calc(18px * var(--spacing-scale)); }
+  main .contact-main > p { margin-top: calc(24px * var(--spacing-scale)); }
 }
 
 /* Separate portfolio sections with whitespace, without stacked rules. */
@@ -77,33 +78,33 @@ main .verba-demo {
 
 /* Keep internal group spacing separate from the gap between whole sections. */
 main .experience-meta { margin-bottom: 0; }
-main .experience-identity h3 { margin-bottom: 20px; }
-main .experience-metrics { margin-top: 24px; }
-main .experience-metrics div { min-height: 80px; padding-top: 8px; padding-bottom: 8px; }
-main .carousel-controls { margin-top: 20px; margin-bottom: 16px; }
-main .contact footer { position: static; width: var(--v2-content); margin: 0 auto; padding: 24px 0; }
+main .experience-identity h3 { margin-bottom: calc(20px * var(--spacing-scale)); }
+main .experience-metrics { margin-top: calc(24px * var(--spacing-scale)); }
+main .experience-metrics div { min-height: 80px; padding-top: calc(8px * var(--spacing-scale)); padding-bottom: calc(8px * var(--spacing-scale)); }
+main .carousel-controls { margin-top: calc(20px * var(--spacing-scale)); margin-bottom: calc(16px * var(--spacing-scale)); }
+main .contact footer { position: static; width: var(--v2-content); margin: 0 auto; padding: calc(24px * var(--spacing-scale)) 0; }
 @media (min-width: 801px) {
   main #work .selected-project, main #work .work-row { align-items: start; }
-  main .hero-statement, main[data-language="en"] .hero-statement { bottom: 32px; }
+  main .hero-statement, main[data-language="en"] .hero-statement { bottom: calc(32px * var(--spacing-scale)); }
 }
 @media (max-width: 800px) {
-  main .experience-metrics { margin-top: 20px; }
-  main #work .legal-stack { margin-bottom: 16px; }
-  main .experience-bullets { gap: 12px; }
+  main .experience-metrics { margin-top: calc(20px * var(--spacing-scale)); }
+  main #work .legal-stack { margin-bottom: calc(16px * var(--spacing-scale)); }
+  main .experience-bullets { gap: calc(12px * var(--spacing-scale)); }
 }
 
 /* Four section boundaries: compact transitions, generous project introductions. */
-main .experience { padding-top: 28px; }
-main #work { padding-top: 32px; }
-main .experience-head { margin-bottom: clamp(64px, 6vw, 88px); }
-main .experience-list { row-gap: clamp(112px, 10vw, 152px); }
+main .experience { padding-top: calc(28px * var(--spacing-scale)); }
+main #work { padding-top: calc(32px * var(--spacing-scale)); }
+main .experience-head { margin-bottom: clamp(calc(64px * var(--spacing-scale)), calc(6vw * var(--spacing-scale)), calc(88px * var(--spacing-scale))); }
+main .experience-list { row-gap: clamp(calc(112px * var(--spacing-scale)), calc(10vw * var(--spacing-scale)), calc(152px * var(--spacing-scale))); }
 @media (min-width: 801px) {
-  main .hero { min-height: 0; padding-bottom: 24px; }
+  main .hero { min-height: 0; padding-bottom: calc(24px * var(--spacing-scale)); }
   main .hero-copy { min-height: calc(clamp(780px, 100svh, 1040px) - 190px); }
 }
 @media (max-width: 800px) {
-  main .experience { padding-top: 24px; }
-  main #work { padding-top: 28px; }
-  main .experience-head { margin-bottom: 56px; }
-  main .experience-list { row-gap: 96px; }
+  main .experience { padding-top: calc(24px * var(--spacing-scale)); }
+  main #work { padding-top: calc(28px * var(--spacing-scale)); }
+  main .experience-head { margin-bottom: calc(56px * var(--spacing-scale)); }
+  main .experience-list { row-gap: calc(96px * var(--spacing-scale)); }
 }

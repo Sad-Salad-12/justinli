@@ -108,3 +108,23 @@ main .experience-list { row-gap: clamp(calc(112px * var(--spacing-scale)), calc(
   main .experience-head { margin-bottom: calc(56px * var(--spacing-scale)); }
   main .experience-list { row-gap: calc(96px * var(--spacing-scale)); }
 }
+
+/* Desktop: more air inside each block; the gaps between sections stay as tuned. */
+@media (min-width: 801px) {
+  main .experience-identity > p:first-child { margin-bottom: calc(16px * var(--spacing-scale)); }
+  main .experience-identity h3 { margin-bottom: calc(28px * var(--spacing-scale)); }
+  main .experience-bullets { gap: calc(24px * var(--spacing-scale)); }
+  main .experience-row { padding-bottom: calc(60px * var(--spacing-scale)); }
+  main .media-block-heading { margin-bottom: calc(24px * var(--spacing-scale)); }
+  main .carousel-controls { margin-bottom: calc(24px * var(--spacing-scale)); }
+  main .carousel-active-title { margin-top: calc(20px * var(--spacing-scale)); }
+  main .work-head { margin-bottom: clamp(calc(64px * var(--spacing-scale)), calc(6vw * var(--spacing-scale)), calc(88px * var(--spacing-scale))); }
+  main #work .work-main h3, main #work .selected-project-copy h3 { margin-bottom: calc(28px * var(--spacing-scale)); }
+  main #work .legal-feature { margin-top: calc(44px * var(--spacing-scale)); }
+  main #work .legal-feature h4 { margin-top: calc(28px * var(--spacing-scale)); margin-bottom: calc(16px * var(--spacing-scale)); }
+  main #work .legal-controls { margin-bottom: calc(32px * var(--spacing-scale)); }
+  main #work .work-features { margin-top: calc(36px * var(--spacing-scale)); }
+  main #work .selected-project-note { margin-top: calc(28px * var(--spacing-scale)); }
+  main .contact-main > p { margin-top: calc(40px * var(--spacing-scale)); }
+  main .contact-details { margin-top: calc(48px * var(--spacing-scale)); }
+}

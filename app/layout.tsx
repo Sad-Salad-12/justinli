@@ -3,10 +3,11 @@ import "./globals.css";
 import "./variant-v2.css";
 import "./verba-demo.css";
 import "./spacing.css";
+import "./orbit-motion.css";
 
 const defaultTitle = "Justin Li — Solutions Architect & FDE";
 const defaultDescription =
-  "Justin Li’s Solutions Architect and Forward Deployed Engineer portfolio, featuring applied AI experience, system design, and production delivery.";
+  "Justin Li — AI product and solution design. Projects: AI ad-report automation, Verba, Lark and Tableau dashboards.";
 const siteUrl = new URL("https://sad-salad-12.github.io/justinli/");
 const socialImage = new URL("og.png", siteUrl).toString();
 

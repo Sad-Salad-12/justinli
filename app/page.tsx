@@ -240,7 +240,12 @@ export default function Home() {
         </div>
 
         <figure className="hero-portrait hero-enter hero-enter-4">
-          <span className="portrait-orbit" aria-hidden="true" />
+          <span className="portrait-orbit" aria-hidden="true">
+            <span className="orbit-track">
+              <i className="orbit-satellite" />
+              <i className="orbit-satellite orbit-satellite-small" />
+            </span>
+          </span>
           <span className="portrait-frame">
             <Image
               src={withBasePath("/justin-shanghai-portrait.jpg")}
@@ -252,17 +257,19 @@ export default function Home() {
               unoptimized
             />
           </span>
+          <span className="portrait-orbit portrait-orbit-front" aria-hidden="true">
+            <span className="orbit-track">
+              <i className="orbit-satellite" />
+              <i className="orbit-satellite orbit-satellite-small" />
+            </span>
+          </span>
         </figure>
       </section>
 
       <section className="experience" id="experience" aria-labelledby="experience-title">
         <div className="section-head experience-head" data-reveal="title">
           <p className="section-label">{t.experience.label}</p>
-          <h2 id="experience-title">
-            {t.experience.headline}
-            <br />
-            <span>{t.experience.headlineAccent}</span>
-          </h2>
+          <h2 id="experience-title">{t.experience.headline}</h2>
         </div>
         <div className="experience-list">
           {t.experience.items.map((experience) => (
@@ -355,16 +362,13 @@ export default function Home() {
           <i />
           <i />
           <i />
+          <i />
         </div>
         <p className="section-label" data-reveal="copy">
           {t.contact.label}
         </p>
         <div className="contact-main" data-reveal="title">
-          <h2 id="contact-title">
-            {t.contact.headline}
-            <br />
-            <span>{t.contact.headlineAccent}</span>
-          </h2>
+          <h2 id="contact-title">{t.contact.headline}</h2>
           <p>{t.contact.body}</p>
           <address className="contact-details">
             <div className="contact-channels">
@@ -382,7 +386,6 @@ export default function Home() {
         </div>
         <footer>
           <span>{t.contact.footerRole}</span>
-          <span>{t.contact.footerStatement}</span>
           <a href="#top">{t.contact.backToTop}</a>
         </footer>
       </section>

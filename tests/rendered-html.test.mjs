@@ -20,12 +20,11 @@ test("server-renders the streamlined English portfolio", async () => {
   assert.match(html, /<html lang="en"/i);
   assert.match(html, /<title>Justin Li — Solutions Architect &amp; FDE<\/title>/i);
   assert.match(html, /JUSTIN LI\./);
-  assert.match(html, /01 — 2 PROJECTS/);
   assert.match(html, /Work experience/);
-  assert.match(html, /02 — 3 PROJECTS/);
   assert.match(html, /Other works/);
   assert.match(html, /03 — NEW YORK, NY/);
-  assert.doesNotMatch(html, /Business-aware|Built to deliver|Work is more than a file|Let’s solve|DESIGNED FOR THE REAL WORLD/);
+  assert.doesNotMatch(html, /Business-aware|Built to deliver|Work is more than a file|Let’s solve|DESIGNED FOR THE REAL WORLD|PROJECTS/);
+  assert.doesNotMatch(html, /class="contact-email"[^]*?↗/);
   assert.equal((html.match(/class="orbit-satellite/g) ?? []).length, 4);
   assert.doesNotMatch(html, /SCROLL — 01 \/ 03|JUSTIN LI \/ PORTRAIT/);
   assert.match(html, /AI Advertisement Report Automation/);
@@ -92,8 +91,6 @@ test("keeps bilingual content and hosted assets wired correctly", async () => {
   assert.match(page, /NEXT_PUBLIC_BASE_PATH/);
   assert.match(content, /headline: "工作经历"/);
   assert.match(content, /headline: "其他作品"/);
-  assert.match(content, /01 — 2 个项目/);
-  assert.match(content, /02 — 3 个项目/);
   assert.match(content, /03 — 美国纽约/);
   assert.match(content, /产品演示/);
   assert.match(content, /生成的报告页面/);

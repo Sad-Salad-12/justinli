@@ -375,7 +375,6 @@ export default function Home() {
               <a className="contact-email" href={`mailto:${t.identity.email}`}>
                 <span>{t.contact.emailLabel}</span>
                 <strong>{t.identity.email}</strong>
-                <i aria-hidden="true">↗</i>
               </a>
               <a className="contact-phone" href={`tel:${t.identity.phoneHref}`}>
                 <span>{t.contact.phoneLabel}</span>

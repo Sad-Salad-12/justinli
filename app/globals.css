@@ -1787,13 +1787,6 @@ a {
   letter-spacing: -0.035em;
 }
 
-.contact-email i {
-  color: var(--blue);
-  font-size: 22px;
-  font-style: normal;
-  transition: transform 180ms ease;
-}
-
 .contact-phone strong {
   font-size: clamp(16px, 1.45vw, 21px);
   font-weight: 520;
@@ -1803,10 +1796,6 @@ a {
 .contact-email:hover,
 .contact-phone:hover {
   color: var(--white);
-}
-
-.contact-email:hover i {
-  transform: translate(3px, -3px);
 }
 
 .contact footer {

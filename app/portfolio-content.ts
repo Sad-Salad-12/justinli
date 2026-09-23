@@ -141,7 +141,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       secondaryAction: "Contact",
     },
     experience: {
-      label: "01 — 2 PROJECTS",
+      label: "01",
       headline: "Work experience",
       media: {
         demoLabel: "PRODUCT DEMO",
@@ -226,7 +226,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       ],
     },
     work: {
-      label: "02 — 3 PROJECTS",
+      label: "02",
       headline: "Other works",
       previewAction: "View full image",
       items: [
@@ -289,7 +289,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       secondaryAction: "联系我",
     },
     experience: {
-      label: "01 — 2 个项目",
+      label: "01",
       headline: "工作经历",
       media: {
         demoLabel: "产品演示",
@@ -374,7 +374,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       ],
     },
     work: {
-      label: "02 — 3 个项目",
+      label: "02",
       headline: "其他作品",
       previewAction: "查看完整图片",
       items: [

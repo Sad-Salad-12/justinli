@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { AdReportMedia } from "./experience-media";
+import { IntroOverlay } from "./intro-overlay";
 import { SelectedProjects } from "./selected-projects";
 import { VerbaDemo } from "./verba-demo";
 import { type Language, portfolioContent } from "./portfolio-content";
@@ -170,6 +171,7 @@ export default function Home() {
 
   return (
     <main data-language={language}>
+      <IntroOverlay />
       <header className="site-header" aria-label={t.a11y.mainNavigation}>
         <a className="brand" href="#top" aria-label={t.a11y.backToTop}>
           {t.identity.name}<span> / 01</span>

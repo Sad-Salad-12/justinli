@@ -184,6 +184,25 @@ test("keeps retained sections white and the final contact section dark", async (
   assert.doesNotMatch(css, /\.document-cover|\.pdf-modal/);
 });
 
+test("plays the intro only on a first visit and never traps the page", async () => {
+  const [html, css, engine] = await Promise.all([
+    render().then((response) => response.text()),
+    readFile(new URL("../app/intro.css", import.meta.url), "utf8"),
+    readFile(new URL("../app/intro-engine.ts", import.meta.url), "utf8"),
+  ]);
+
+  assert.match(html, /<head>[\s\S]*portfolio-intro-seen[\s\S]*<\/head>/);
+  assert.match(html, /prefers-reduced-motion: reduce/);
+  assert.match(html, /!location\.hash/);
+  assert.match(html, /__introStarted/);
+  assert.match(html, /class="intro-overlay"/);
+  assert.match(html, /Skip intro/);
+  assert.match(css, /\.intro-overlay\s*\{\s*display:\s*none;/);
+  assert.match(css, /html\.intro:not\(\.intro-leaving\) main > :not\(\.intro-overlay\)/);
+  assert.match(engine, /\.hero-name/);
+  assert.match(engine, /\.portrait-orbit:not\(\.portrait-orbit-front\)/);
+});
+
 test("keeps the enlarged portrait and omits retired sections", async () => {
   const [html, css] = await Promise.all([
     render().then((response) => response.text()),

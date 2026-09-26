@@ -43,13 +43,21 @@ export const metadata: Metadata = {
   },
 };
 
+// Decides before first paint whether this visit gets the intro: first visit only, English,
+// no deep link, no reduced motion, not a crawler. `?intro` forces it. If the intro script
+// never starts, the class is removed so the page cannot stay hidden.
+const introGate = `(function(){try{var d=document.documentElement,s=window.localStorage,f=/[?&]intro\\b/.test(location.search),b=navigator.webdriver||/bot|crawl|spider|slurp|headless|lighthouse|preview/i.test(navigator.userAgent);if(f||(!b&&!s.getItem("portfolio-intro-seen")&&s.getItem("portfolio-language")!=="zh"&&!location.hash&&!matchMedia("(prefers-reduced-motion: reduce)").matches)){d.classList.add("intro");setTimeout(function(){if(!window.__introStarted)d.classList.remove("intro")},4000)}}catch(e){}})();`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: introGate }} />
+      </head>
       <body>{children}</body>
     </html>
   );

@@ -14,7 +14,7 @@ html.intro .intro-overlay {
   inset: 0;
   display: block;
   background: var(--white);
-  transition: opacity 520ms ease;
+  transition: opacity 350ms ease;
 }
 
 /* The page stays laid out underneath so the intro can measure it, but only shows at the handoff. */

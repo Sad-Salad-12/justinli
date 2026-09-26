@@ -14,8 +14,8 @@ const INK: RGB = [11, 12, 15];
 const BLUE: RGB = [20, 91, 255];
 const SOFT_BLUE: RGB = [111, 155, 255];
 const LABEL = "#4b4e55";
-const HANDOFF = 9.0;
-const FADE = 0.52;
+const PLAY = 4.2;
+const FADE = 0.35;
 
 const rgba = (c: RGB, a: number) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
 const mix = (a: RGB, b: RGB, t: number): RGB => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
@@ -49,6 +49,28 @@ const ease = {
   swing: bezier(0.76, 0, 0.24, 1),
   sweep: bezier(0.55, 0, 0.2, 1),
 };
+// Monotone cubic through (x, y) points (Fritsch–Carlson): smooth, never runs backwards.
+function monotone(points: [number, number][]) {
+  const n = points.length, xs = points.map((p) => p[0]), ys = points.map((p) => p[1]);
+  const d = xs.slice(0, -1).map((x, i) => (ys[i + 1] - ys[i]) / (xs[i + 1] - x));
+  const m = xs.map((_, i) => (i === 0 ? d[0] : i === n - 1 ? d[n - 2] : d[i - 1] * d[i] <= 0 ? 0 : (d[i - 1] + d[i]) / 2));
+  for (let i = 0; i < n - 1; i++) {
+    const a = m[i] / d[i], b = m[i + 1] / d[i], h = a * a + b * b;
+    if (h > 9) { const k = 3 / Math.sqrt(h); m[i] = k * a * d[i]; m[i + 1] = k * b * d[i]; }
+  }
+  return (x: number) => {
+    if (x <= xs[0]) return ys[0];
+    if (x >= xs[n - 1]) return ys[n - 1];
+    let i = 0;
+    while (x > xs[i + 1]) i++;
+    const h = xs[i + 1] - xs[i], t = (x - xs[i]) / h, t2 = t * t, t3 = t2 * t;
+    return (2 * t3 - 3 * t2 + 1) * ys[i] + (t3 - 2 * t2 + t) * h * m[i] + (-2 * t3 + 3 * t2) * ys[i + 1] + (t3 - t2) * h * m[i + 1];
+  };
+}
+// The choreography below is authored on a 9 s timeline; this maps real seconds onto it so the
+// whole intro plays in PLAY seconds, spending relatively more time on the collapse and the name.
+const pace = monotone([[0, 0], [0.29, 0.62], [1.43, 3.3], [1.91, 4.1], [2.72, 5.45], [3.05, 6.1], [PLAY, 9.0]]);
+
 // Eased approach to a steady speed: starts at velocity 0 and tends to v.
 const drift = (dt: number, v: number, tau = 0.5) => (dt <= 0 ? 0 : v * (dt - tau * (1 - Math.exp(-dt / tau))));
 
@@ -373,7 +395,7 @@ export function runIntro(canvas: HTMLCanvasElement, { onHandoff, onDone }: Optio
       c.globalAlpha = 1;
     });
 
-    if (t >= 0.78) movingDot(tr, tracerA(t - 1 / 60), 6 * dotScale * (1 - 0.4 * tr.merge), BLUE, 1, 0.9);
+    if (t >= 0.78) movingDot(tr, tracerA(t - step), 6 * dotScale * (1 - 0.4 * tr.merge), BLUE, 1, 0.9);
     dot(core.x, core.y, 7 * dotScale * ease.outBack(seg(t, 0.2, 0.62), 2.2), BLUE, 1, seg(t, 0.4, 1.0));
     pulse(core.x, core.y, t, 0.52, 0.95, 8, 88, 0.3, px(1.3));
     pulse(core.x, core.y, t, 2.78, 0.9, 8, 60, 0.22, px(1.3));
@@ -456,7 +478,7 @@ export function runIntro(canvas: HTMLCanvasElement, { onHandoff, onDone }: Optio
     const blueA = 1 - ink;
     if (blueA > 0) {
       const r = t < 6.3 ? d.r : lerp(d.r, d.r * 0.55, ink);
-      movingDot(d, t < 5.36 ? nameDot(t - 1 / 60) : d, r, BLUE, blueA, t < 5.36 ? 0.9 : lerp(0.9, 0, seg(t, 5.36, 6.0)));
+      movingDot(d, t < 5.36 ? nameDot(t - step) : d, r, BLUE, blueA, t < 5.36 ? 0.9 : lerp(0.9, 0, seg(t, 5.36, 6.0)));
     }
     const pc = periodCentre(t);
     pulse(pc.x, pc.y, t, 5.3, 1.1, pc.r * 1.1, pc.r * 6, 0.3);
@@ -568,7 +590,7 @@ export function runIntro(canvas: HTMLCanvasElement, { onHandoff, onDone }: Optio
       dot(o.cx + lx * cr - ly * sr, o.cy + lx * sr + ly * cr, 4, BLUE, markA);
     }
     if (tracer.flying && t >= 6.28) {
-      const prev = t - 1 / 60 >= 6.28 ? (() => { const p = ease.glide(seg(t - 1 / 60, 6.28, TRACE[0])), from = periodCentre(t - 1 / 60); return { x: lerp(from.x, joinPt.x, p), y: lerp(from.y, joinPt.y, p) }; })() : tracer;
+      const prev = t - step >= 6.28 ? (() => { const p = ease.glide(seg(t - step, 6.28, TRACE[0])), from = periodCentre(t - step); return { x: lerp(from.x, joinPt.x, p), y: lerp(from.y, joinPt.y, p) }; })() : tracer;
       movingDot(tracer, prev, 5 * ease.outBack(seg(t, 6.28, 6.5)), BLUE, 1, 1);
     }
 
@@ -602,13 +624,17 @@ export function runIntro(canvas: HTMLCanvasElement, { onHandoff, onDone }: Optio
   }
 
   let t = 0, last: number | null = null, raf = 0, leftAt: number | null = null, stopped = false;
+  // Choreography time covered by one 60 fps frame at the current pace; sizes the motion smear.
+  let step = 1 / 60;
   const leave = () => { if (leftAt === null) { leftAt = performance.now(); onHandoff(); } };
   const frame = (now: number) => {
     if (stopped) return;
     if (leftAt === null) t += last === null ? 0 : Math.min(0.05, (now - last) / 1000);
     last = now;
-    draw(Math.min(t, HANDOFF));
-    if (t >= HANDOFF) leave();
+    const real = Math.min(t, PLAY), story = pace(real);
+    step = Math.max(1e-3, story - pace(Math.max(0, real - 1 / 60)));
+    draw(story);
+    if (t >= PLAY) leave();
     if (leftAt !== null && now - leftAt > FADE * 1000) { stopped = true; onDone(); return; }
     raf = requestAnimationFrame(frame);
   };

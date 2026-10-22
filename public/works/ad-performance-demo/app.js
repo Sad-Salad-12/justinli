@@ -105,7 +105,7 @@
     render();
     $("#sidebar").classList.remove("open");
     $("#menu-toggle").setAttribute("aria-expanded", "false");
-    if (getComputedStyle($("#sidebar")).display !== "none") $("#report-nav").querySelector('[aria-current="page"]').focus();
+    if (getComputedStyle($("#sidebar")).display !== "none") $("#report-nav").querySelector('[aria-current="page"]').focus({ preventScroll: true });
   });
   $("#adgroup-table").addEventListener("click", event => {
     const sort = event.target.closest("[data-sort]");

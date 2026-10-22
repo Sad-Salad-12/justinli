@@ -1,0 +1,90 @@
+:root{--header-height:52px;--nav-width:142px;font-size:14px;font-family:"Avenir Next","Helvetica Neue",-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif}
+h1,h2,.kpi-number,.nav-country{font-family:inherit}
+body{background:#f7f7f5}
+.app-header{padding:0 12px;gap:8px}
+.icon-button.mobile-menu{display:none}
+.report-mark{display:none}
+.app-title{font-size:14px}
+.app-title span{display:none}
+.demo-badge{font-size:10px;padding:5px 6px}
+.header-actions{gap:6px}
+.text-button{font-size:12px;padding:8px 10px;gap:5px}
+.text-button svg{width:15px;height:15px}
+.sidebar{width:var(--nav-width);padding-top:14px;transform:none;box-shadow:none}
+.nav-caption{font-size:10px;padding:0 12px 6px}
+.nav-section{font-size:11px;letter-spacing:0;padding:13px 12px 5px}
+.nav-item{width:calc(100% - 5px);min-height:44px;padding:8px 7px 8px 12px;gap:6px;font-size:11px;border-radius:0 20px 20px 0}
+.nav-country{font-size:11px;min-width:20px}
+.nav-subtitle{display:none}
+.sidebar-footer{font-size:10px;padding:12px}
+.sidebar-footer>span:last-child{font-size:9px}
+main{padding:12px 10px 18px;margin-left:var(--nav-width)}
+.report-context{font-size:10px;gap:8px;margin-bottom:10px}
+.report-context>span:first-child{font-size:10px}
+.report-context>span:last-child{display:none}
+.report-canvas{padding:18px 12px 14px;min-height:0}
+.filter-toolbar{min-height:36px;margin-bottom:20px;gap:8px}
+.date-control{width:auto}
+.date-button{font-size:12px;padding:11px 10px;min-width:220px;gap:7px}
+.date-button svg{width:16px;height:16px}
+.date-popover{top:47px;width:min(340px,calc(100vw - 170px));padding:14px}
+.date-presets button,.date-hint,.date-fields label{font-size:11px}
+.date-fields{grid-template-columns:1fr}
+.date-fields input{font-size:12px}
+.group-filter{font-size:11px;gap:5px}
+.group-filter button{font-size:11px;padding:7px 9px}
+h1{font-size:18px;line-height:1.3;margin:0 4px 12px;letter-spacing:-.35px}
+h2{font-size:16px;line-height:1.35;letter-spacing:-.2px}
+.kpi-band{grid-template-columns:repeat(3,minmax(0,1fr));padding:16px;gap:11px;border-radius:24px}
+.kpi-card{padding:14px 7px;min-height:98px;border-radius:11px;gap:6px}
+.kpi-label{font-size:clamp(10px,10cqi,12px)}
+.kpi-number{font-size:clamp(17px,16cqi,30px);letter-spacing:-.5px}
+.kpi-delta{font-size:12px;min-height:15px}
+.comparison-note{font-size:10px;min-height:28px;padding:8px 4px 0}
+.detail-band{border-radius:22px;padding:17px 12px 12px;margin:12px 0 0}
+.detail-heading{padding:0 2px 12px;gap:8px}
+.export-button{font-size:11px;padding:5px 2px;gap:4px}
+.export-button svg{width:14px;height:14px}
+.table-shell{border-radius:14px}
+.table-scroll{max-height:none;scrollbar-width:auto;cursor:grab}
+table{font-size:13px;min-width:1020px}
+th{font-size:13px}
+th:first-child{width:132px;padding-left:10px}
+th button{min-height:39px}
+td{height:38px;padding:7px 8px}
+.row-button{font-size:13px;height:38px;gap:7px}
+.row-number{font-size:11px;min-width:19px}
+tfoot td{font-size:12px;height:40px}
+tfoot td:first-child{font-size:11px;padding-left:10px}
+.table-footer{padding:11px 10px;font-size:10px;line-height:1.6;gap:8px;flex-wrap:wrap}
+.heatmap-legend{font-size:10px;gap:10px;flex-wrap:wrap;justify-content:flex-start;padding-top:10px}
+.canvas-footer{font-size:10px;line-height:1.5;gap:8px;padding-top:13px;flex-wrap:wrap}
+.report-canvas{cursor:grab}
+html[data-dragging] *,html[data-dragging]{cursor:grabbing!important;user-select:none!important}
+.compact-filters{display:none}
+dialog{padding:20px;max-width:560px}
+dialog p,.source-facts{font-size:13px}
+.source-facts{grid-template-columns:80px 1fr;gap:10px}
+.formula-grid{grid-template-columns:1fr 1fr}
+.formula-grid strong{font-size:14px}
+.formula-grid span{font-size:12px}
+@media(max-width:540px){
+  :root{--nav-width:0px}
+  .sidebar,.icon-button.mobile-menu{display:none}
+  .demo-badge{display:none}
+  .app-title{font-size:13px}
+  .app-header{padding:0 10px}
+  .header-actions .text-button{font-size:11px;padding:7px 8px;border:1px solid var(--line);background:white}
+  .compact-filters{position:fixed;top:52px;left:0;right:0;height:58px;background:#fff;z-index:14;display:grid;grid-template-columns:1.3fr 1fr;gap:12px;padding:8px 12px;border-bottom:1px solid var(--line)}
+  .compact-filters label{display:flex;flex-direction:column;gap:3px;font-size:9px;color:var(--muted)}
+  .compact-filters select{font:inherit;font-size:11px;color:var(--ink);background:white;border:0;width:100%;padding:0;min-height:24px}
+  main{margin-top:110px;padding:12px 8px}
+  .report-canvas{padding:16px 10px 12px}
+  .kpi-band{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;padding:14px}
+  .filter-toolbar{margin-bottom:18px;flex-wrap:wrap}
+  .date-control,.date-button{width:100%;min-width:0}
+  .date-popover{width:min(330px,calc(100vw - 40px))}
+  .kpi-card{min-height:100px}
+  .kpi-number{font-size:clamp(18px,16cqi,30px)}
+  .group-filter{width:100%}
+}

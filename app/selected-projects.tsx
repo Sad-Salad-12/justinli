@@ -2,6 +2,7 @@
 
 import { useRef, useState, type ReactNode } from "react";
 import type { Language } from "./portfolio-content";
+import { AdvertisingDashboard } from "./advertising-dashboard";
 import "./selected-projects.css";
 
 const features = [
@@ -48,6 +49,7 @@ export function SelectedProjects({ language, basePath = "", children }: { langua
         </div>
       </div>
     </article>
+    <AdvertisingDashboard language={language} basePath={basePath} />
     {children}
     <article className="selected-project tableau-project">
       <button className="tableau-preview" type="button" onClick={() => open(path("tableau-supplier.png"), zh ? "供应商分析看板" : "Supplier dashboard")} aria-label={zh ? "查看完整 Tableau 看板" : "View full Tableau dashboard"}>

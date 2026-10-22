@@ -31,3 +31,11 @@
 #work .selected-project,#work .work-row,#work .work-list,#work .legal-feature,#work .legal-controls{border-top:0;border-bottom:0}
 
 #work .work-image-action,#work .work-features li,#work .legal-card button{border-top:0;border-bottom:0}
+
+#advertising-dashboard{scroll-margin-top:140px}
+.advertising-demo{min-width:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--white)}
+.advertising-demo-caption{display:flex;justify-content:space-between;gap:16px;padding:14px 16px;font-size:12px;line-height:1.4;color:var(--muted)}
+.advertising-demo-caption>span:first-child{color:var(--blue)}
+.advertising-demo iframe{display:block;width:100%;height:640px;border:0;background:white}
+.advertising-demo iframe:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
+@media(max-width:800px){.advertising-demo iframe{height:600px}.advertising-demo-caption{font-size:11px;padding:12px}}

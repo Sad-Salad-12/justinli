@@ -7,6 +7,7 @@
 - 英文优先、简体中文切换
 - AI Advertisement Report Automation 产品演示与成果轮播
 - Verba 本地优先 RAG 项目流程与验证数据
+- Other works 第二项：可交互的广告投放看板（法国 / 意大利 / 英国，Search / P-Max）
 - R&D Project Dashboards（Lark Base）真实项目快照
 - 响应式移动端布局
 - 联系方式与招聘导向的个人定位
@@ -25,3 +26,11 @@ npm run dev
 ```sh
 npm run build
 ```
+
+## 广告投放交互作品
+
+`app/advertising-dashboard.tsx` 在法务作品之后嵌入 `public/works/ad-performance-demo/`，研发看板和 Tableau 作品依次保留。演示使用1092条匿名模拟记录，随 GitHub Pages 发布，无需飞书登录或本地服务器；不连接真实广告账户。支持国家与渠道筛选、日期比较、产品联动、排序、CSV导出和鼠标拖动 / 原生滚动。
+
+页面语言通过 `?lang=en` / `?lang=zh` 传入。桌面显示侧边导航，窄屏显示国家与投放类型下拉框。配色保留浅蓝指标框、红涨绿跌、黑色表头、蓝橙热力图。
+
+运行 `npm test` 执行生产构建及全部测试。若本地依赖使用跨目录符号链接，开发预览可用 `npm run dev -- --webpack`。

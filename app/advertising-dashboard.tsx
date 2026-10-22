@@ -20,7 +20,7 @@ export function AdvertisingDashboard({ language, basePath }: { language: Languag
         <iframe
           ref={frame}
           key={language}
-          src={`${basePath}/works/ad-performance-demo/index.html?lang=${language}`}
+          src={`${basePath}/works/ad-performance-demo/index.html?lang=${language}&v=2`}
           title={zh ? "广告投放交互看板：切换国家、投放类型和日期，滚动查看产品明细" : "Interactive advertising dashboard: filter by country, campaign and date, then scroll through product performance"}
           loading="lazy"
           tabIndex={0}

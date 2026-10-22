@@ -12,7 +12,7 @@ test("publishes the interactive ad dashboard as the second work, with portable a
   const advertising = work.indexOf('id="advertising-dashboard"');
   const rd = work.indexOf('class="work-row"');
   assert.ok(legal >= 0 && advertising > legal && rd > advertising);
-  assert.match(work, /src="\/justinli\/works\/ad-performance-demo\/index\.html\?lang=en"/);
+  assert.match(work, /src="\/justinli\/works\/ad-performance-demo\/index\.html\?lang=en&amp;v=2"/);
   const index = await readFile(new URL("index.html", demo), "utf8");
   assert.doesNotMatch(index, /https?:\/\/|localhost|127\.0\.0\.1/);
   for (const match of index.matchAll(/(?:src|href)="([^"#]+)"/g)) await access(new URL(match[1], demo));

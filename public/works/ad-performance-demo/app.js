@@ -179,5 +179,12 @@
   $("#portfolio-channel").addEventListener("change", event => {
     $("#report-nav").querySelector(`[data-country="${state.country}"][data-channel="${event.target.value}"]`).click();
   });
+  window.addEventListener("message", event => {
+    if (event.source !== window.parent || event.origin !== window.location.origin) return;
+    const message = event.data;
+    if (!message || message.type !== "ad-demo:set-report" || !["FR", "IT", "UK"].includes(message.country) || !["Search", "PMax"].includes(message.channel)) return;
+    if (state.country === message.country && state.channel === message.channel) return;
+    $("#report-nav").querySelector(`[data-country="${message.country}"][data-channel="${message.channel}"]`).click();
+  });
   renderNavigation(); render();
 })();

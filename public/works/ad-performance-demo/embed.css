@@ -88,3 +88,11 @@ dialog p,.source-facts{font-size:13px}
   .kpi-number{font-size:clamp(18px,16cqi,30px)}
   .group-filter{width:100%}
 }
+
+/* The portfolio's adjacent controls own report navigation. */
+:root{--header-height:0px;--nav-width:0px}
+body{background:#fff}
+.app-header,.sidebar,.compact-filters,.report-context{display:none!important}
+main{margin:0;padding:0}
+.report-canvas{border:0;padding:18px 14px 14px}
+.date-popover{width:min(340px,calc(100vw - 40px))}

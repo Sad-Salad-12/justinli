@@ -7,6 +7,8 @@ import { IntroOverlay } from "./intro-overlay";
 import { SelectedProjects } from "./selected-projects";
 import { VerbaDemo } from "./verba-demo";
 import { type Language, portfolioContent } from "./portfolio-content";
+import { PortfolioNavigation } from "./portfolio-navigation";
+import { PortfolioMotion } from "./portfolio-motion";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/justinli";
 const withBasePath = (path: string) => `${basePath}${path}`;
@@ -170,45 +172,16 @@ export default function Home() {
   }, [activeWorkIndex]);
 
   return (
-    <main data-language={language}>
+    <main className="portfolio-america" data-language={language}>
       <IntroOverlay />
-      <header className="site-header" aria-label={t.a11y.mainNavigation}>
-        <a className="brand" href="#top" aria-label={t.a11y.backToTop}>
-          {t.identity.name}<span> / 01</span>
-        </a>
-        <nav className="nav-links" aria-label={t.a11y.pageNavigation}>
-          <a href="#experience">{t.nav.experience}</a>
-          <a href="#work">{t.nav.work}</a>
-        </nav>
-        <div className="header-actions">
-          <div
-            className={`language-switch is-${language}`}
-            role="group"
-            aria-label={t.a11y.languageSelector}
-          >
-            <span className="language-switch-thumb" aria-hidden="true" />
-            <button
-              type="button"
-              className={language === "en" ? "is-active" : undefined}
-              aria-pressed={language === "en"}
-              onClick={() => setLanguage("en")}
-            >
-              English
-            </button>
-            <button
-              type="button"
-              className={language === "zh" ? "is-active" : undefined}
-              aria-pressed={language === "zh"}
-              onClick={() => setLanguage("zh")}
-            >
-              简体中文
-            </button>
-          </div>
-          <a className="header-contact" href="#contact">
-            {t.nav.contact} <span aria-hidden="true">↘</span>
-          </a>
-        </div>
-      </header>
+      <PortfolioNavigation
+        language={language}
+        name={t.identity.name}
+        labels={t.nav}
+        a11y={t.a11y}
+        onEnglish={() => setLanguage("en")}
+        onChinese={() => setLanguage("zh")}
+      />
 
       <section className="hero" id="top" aria-labelledby="hero-title">
         <div className="hero-grid" aria-hidden="true" />
@@ -358,6 +331,8 @@ export default function Home() {
           </SelectedProjects>
         </div>
       </section>
+
+      <PortfolioMotion contact={t.nav.contact} email={t.identity.email} />
 
       <section className="contact" id="contact" aria-labelledby="contact-title">
         <div className="contact-orbit" aria-hidden="true">

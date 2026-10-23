@@ -4,6 +4,7 @@ import "./variant-v2.css";
 import "./verba-demo.css";
 import "./spacing.css";
 import "./orbit-motion.css";
+import "./america-theme.css";
 
 const defaultTitle = "Justin Li — Solutions Architect & FDE";
 const defaultDescription =
@@ -56,6 +57,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem("portfolio-theme");document.documentElement.dataset.portfolioTheme=t==="light"||t==="dark"?t:matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}catch(e){}})();` }} />
         <script dangerouslySetInnerHTML={{ __html: introGate }} />
       </head>
       <body>{children}</body>

@@ -172,7 +172,7 @@ export default function Home() {
     <main data-language={language}>
       <header className="site-header" aria-label={t.a11y.mainNavigation}>
         <a className="brand" href="#top" aria-label={t.a11y.backToTop}>
-          {t.identity.name}<span> / 01</span>
+          {t.identity.name}
         </a>
         <nav className="nav-links" aria-label={t.a11y.pageNavigation}>
           <a href="#experience">{t.nav.experience}</a>
@@ -268,7 +268,7 @@ export default function Home() {
 
       <section className="experience" id="experience" aria-labelledby="experience-title">
         <div className="section-head experience-head" data-reveal="title">
-          <p className="section-label">{t.experience.label}</p>
+          {t.experience.label && <p className="section-label">{t.experience.label}</p>}
           <h2 id="experience-title">{t.experience.headline}</h2>
         </div>
         <div className="experience-list">
@@ -279,7 +279,6 @@ export default function Home() {
               aria-labelledby={`experience-project-${experience.number}`}
             >
               <div className="experience-row" data-reveal="project">
-                <span className="experience-number">{experience.number}</span>
                 <div className="experience-identity">
                   <p>{experience.eyebrow}</p>
                   <h3 id={`experience-project-${experience.number}`}>{experience.title}</h3>
@@ -312,7 +311,7 @@ export default function Home() {
 
       <section className="work" id="work" aria-labelledby="work-title">
         <div className="section-head work-head" data-reveal="title">
-          <p className="section-label">{t.work.label}</p>
+          {t.work.label && <p className="section-label">{t.work.label}</p>}
           <h2 id="work-title">{t.work.headline}</h2>
         </div>
 
@@ -334,7 +333,7 @@ export default function Home() {
                   unoptimized
                 />
                 <span className="work-image-index">
-                  {work.index} / LARK BASE
+                  LARK BASE
                 </span>
                 <span className="work-image-action">
                   {t.work.previewAction} <i aria-hidden="true">↗</i>

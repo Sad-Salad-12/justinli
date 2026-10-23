@@ -244,9 +244,6 @@ export function AdReportMedia({ copy }: AdReportMediaProps) {
         </div>
 
         <div className="carousel-controls">
-          <span className="carousel-count" aria-live="polite">
-            {String(activeSlide + 1).padStart(2, "0")} / {String(slideTotal).padStart(2, "0")}
-          </span>
           <div className="carousel-arrows">
             <button
               type="button"
@@ -357,9 +354,6 @@ export function AdReportMedia({ copy }: AdReportMediaProps) {
                 unoptimized
               />
               <figcaption>
-                <span>
-                  {String(expandedSlide + 1).padStart(2, "0")} / {String(slideTotal).padStart(2, "0")}
-                </span>
                 {copy.slides[expandedSlide].title}
               </figcaption>
             </figure>

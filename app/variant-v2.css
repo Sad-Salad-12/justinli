@@ -1456,3 +1456,13 @@ main {
   line-height: 1.35;
   text-align: center;
 }
+
+
+/* Keep the existing alignment after removing decorative numbering. */
+.section-head h2 { grid-column: 2; }
+.experience-identity { grid-column: 2; }
+.experience-bullets { grid-column: 3; }
+.carousel-controls, .legal-gallery .legal-controls { justify-content: flex-end; }
+@media (max-width: 700px) {
+  .section-head h2, .experience-identity, .experience-bullets { grid-column: 1; }
+}

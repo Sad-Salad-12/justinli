@@ -141,7 +141,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       secondaryAction: "Contact",
     },
     experience: {
-      label: "01",
+      label: "",
       headline: "Work experience",
       media: {
         demoLabel: "PRODUCT DEMO",
@@ -226,7 +226,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       ],
     },
     work: {
-      label: "02",
+      label: "",
       headline: "Other works",
       previewAction: "View full image",
       items: [
@@ -242,7 +242,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       ],
     },
     contact: {
-      label: "03 — NEW YORK, NY",
+      label: "NEW YORK, NY",
       headline: "Contact",
       body: "Open to Solutions Architect and Forward Deployed Engineer roles.",
       emailLabel: "EMAIL",
@@ -289,7 +289,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       secondaryAction: "联系我",
     },
     experience: {
-      label: "01",
+      label: "",
       headline: "工作经历",
       media: {
         demoLabel: "产品演示",
@@ -374,7 +374,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       ],
     },
     work: {
-      label: "02",
+      label: "",
       headline: "其他作品",
       previewAction: "查看完整图片",
       items: [
@@ -388,7 +388,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       ],
     },
     contact: {
-      label: "03 — 美国纽约",
+      label: "美国纽约",
       headline: "联系方式",
       body: "寻找解决方案架构师与前线部署工程师岗位。",
       emailLabel: "邮箱",

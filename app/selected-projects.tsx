@@ -24,7 +24,6 @@ export function SelectedProjects({ language, basePath = "", children }: { langua
     <article className="selected-project legal-project">
       <div className="legal-gallery">
         <div className="legal-controls">
-          <span>{String(active + 1).padStart(2, "0")} / 03</span>
           <div><button type="button" onClick={() => move(-1)} aria-label={zh ? "上一张" : "Previous card"}>←</button><button type="button" onClick={() => move(1)} aria-label={zh ? "下一张" : "Next card"}>→</button></div>
         </div>
         <div className="legal-stack" onPointerDown={e => { dragStart.current = e.clientX; }} onPointerUp={e => { const distance = e.clientX - (dragStart.current ?? e.clientX); dragStart.current = null; if (Math.abs(distance) > 45) move(distance < 0 ? 1 : -1); }} onPointerCancel={() => { dragStart.current = null; }}>

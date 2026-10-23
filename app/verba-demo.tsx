@@ -23,7 +23,7 @@ export function VerbaDemo({ copy, language }: { copy: LocalizedExperienceMedia; 
   return (
     <div className="verba-demo" id="verba-demo">
       <div className="verba-appbar"><div className="verba-wordmark" aria-label="Verba">verba<span aria-hidden="true">.</span></div></div>
-      <iframe ref={frame} key={language} src={`${url}&embed=1`} title={demo.title} loading="lazy" scrolling="no" onLoad={() => frame.current?.contentWindow?.postMessage({ type: "verba:measure" }, demoOrigin)} className="verba-demo-frame" style={{ height }} />
+      <iframe ref={frame} key={language} src={`${url}&embed=1&typeface=1`} title={demo.title} loading="lazy" scrolling="no" onLoad={() => frame.current?.contentWindow?.postMessage({ type: "verba:measure" }, demoOrigin)} className="verba-demo-frame" style={{ height }} />
     </div>
   );
 }

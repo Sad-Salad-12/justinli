@@ -39,7 +39,7 @@ test("server-renders the streamlined English portfolio", async () => {
   assert.match(html, /playsinline=""/i);
   assert.match(html, /controls=""/i);
   assert.match(html, /Generated advertising report slides/);
-  assert.match(html, /<iframe[^>]*src="https:\/\/justin\.zl5626\.chatgpt\.site\/verba\/index\.html\?lang=en&amp;parentOrigin=[^" ]+&amp;embed=1"/);
+  assert.match(html, /<iframe[^>]*src="https:\/\/justin\.zl5626\.chatgpt\.site\/verba\/index\.html\?lang=en&amp;parentOrigin=[^" ]+&amp;embed=1&amp;typeface=1"/);
   assert.doesNotMatch(html, /Open full demo|verba-demo-note|verba-demo-toolbar/);
   assert.match(html, /300\+|30\+/);
   assert.match(html, /USERS PROVIDED FEEDBACK/);
@@ -184,23 +184,17 @@ test("keeps retained sections white and the final contact section dark", async (
   assert.doesNotMatch(css, /\.document-cover|\.pdf-modal/);
 });
 
-test("plays the intro only on a first visit and never traps the page", async () => {
-  const [html, css, engine] = await Promise.all([
+test("opens immediately without a first-visit intro", async () => {
+  const [html, page, layout, typeface] = await Promise.all([
     render().then((response) => response.text()),
-    readFile(new URL("../app/intro.css", import.meta.url), "utf8"),
-    readFile(new URL("../app/intro-engine.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/typeface.css", import.meta.url), "utf8"),
   ]);
-
-  assert.match(html, /<head>[\s\S]*portfolio-intro-seen[\s\S]*<\/head>/);
-  assert.match(html, /prefers-reduced-motion: reduce/);
-  assert.match(html, /!location\.hash/);
-  assert.match(html, /__introStarted/);
-  assert.match(html, /class="intro-overlay"/);
-  assert.match(html, /Skip intro/);
-  assert.match(css, /\.intro-overlay\s*\{\s*display:\s*none;/);
-  assert.match(css, /html\.intro:not\(\.intro-leaving\) main > :not\(\.intro-overlay\)/);
-  assert.match(engine, /\.hero-name/);
-  assert.match(engine, /\.portrait-orbit:not\(\.portrait-orbit-front\)/);
+  assert.doesNotMatch(html + page + layout, /IntroOverlay|intro-overlay|introGate|__introStarted|portfolio-intro-seen|Skip intro/);
+  assert.match(typeface, /animation: none !important/);
+  assert.match(typeface, /Rhymes Text/);
+  assert.match(layout, /typeface\.css/);
 });
 
 test("keeps the enlarged portrait and omits retired sections", async () => {

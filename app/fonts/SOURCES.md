@@ -1,5 +1,5 @@
-# Typeface sources
+# Typeface
 
-Visual study: https://america.gov/ — inspected 2026-10-22.
+Rhymes Text regular, identified in the America.gov Contact heading and selected by the user on 2026-10-22. Source: https://america.gov/_astro/rhymes-text-regular.DRsO9i-l.woff2
 
-The original public frontend uses Rhymes Text and Helvetica Now Text / Display. These local webfont files retain those family names and weights; Chinese text uses system fallbacks. File identities are recorded by the pre-publication source commit.
+Chinese glyphs use the platform Songti/SimSun serif fallback.

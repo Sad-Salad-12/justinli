@@ -1,0 +1,21 @@
+/* Preserve the existing composition and palette; replace the typeface only. */
+@font-face {
+  font-family: "Rhymes Text";
+  src: url("./fonts/rhymes-text.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+:root {
+  --portfolio-typeface: "Rhymes Text", "Songti SC", "STSong", "SimSun", "Times New Roman", serif;
+  --v2-sans: var(--portfolio-typeface);
+  --v2-serif: var(--portfolio-typeface);
+}
+html, body, body *, body *::before, body *::after {
+  font-family: var(--portfolio-typeface) !important;
+}
+/* Opening the page immediately presents its content. */
+.site-header, .hero-enter, .hero-name.hero-enter,
+.hero-statement.hero-enter, .hero-portrait.hero-enter {
+  animation: none !important;
+}

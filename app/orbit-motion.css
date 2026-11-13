@@ -1,0 +1,161 @@
+/* Orbiting dots for the opening portrait and the closing contact rings. */
+
+/* Hero: satellites travel the portrait ellipse. The back track shows the upper
+   arc behind the photo; the front track repeats the lower arc above it. */
+.portrait-orbit-front {
+  z-index: 3;
+  border-color: rgb(20 91 255 / 34%);
+  clip-path: inset(50% -30% -30% -30%);
+  pointer-events: none;
+}
+
+.portrait-orbit-front::before,
+.portrait-orbit-front::after {
+  display: none;
+}
+
+.orbit-track {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(-30% -30% 50% -30%);
+}
+
+.portrait-orbit-front .orbit-track {
+  clip-path: none;
+}
+
+.orbit-satellite {
+  display: none;
+}
+
+@supports (offset-path: ellipse(50% 50% at 50% 50%)) {
+  .orbit-satellite {
+    --orbit-start: 58%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--blue);
+    box-shadow:
+      0 0 0 5px rgb(20 91 255 / 13%),
+      0 0 18px 2px rgb(20 91 255 / 45%);
+    offset-path: ellipse(50% 50% at 50% 50%);
+    offset-distance: var(--orbit-start);
+    offset-rotate: 0deg;
+    animation:
+      orbit-travel 18s linear infinite,
+      orbit-fade-in 1.2s ease 0.9s backwards;
+  }
+
+  .orbit-satellite-small {
+    --orbit-start: 12%;
+    width: 5px;
+    height: 5px;
+    background: #6f9bff;
+    box-shadow: 0 0 10px 1px rgb(20 91 255 / 40%);
+    animation-duration: 27s, 1.2s;
+    animation-direction: reverse, normal;
+  }
+}
+
+@keyframes orbit-travel {
+  from {
+    offset-distance: var(--orbit-start);
+  }
+  to {
+    offset-distance: calc(var(--orbit-start) + 100%);
+  }
+}
+
+@keyframes orbit-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Contact: each ring carries a dot with a fading trail. */
+.contact-orbit {
+  opacity: 1;
+  border-color: #24262d;
+}
+
+.contact-orbit::before,
+.contact-orbit::after {
+  border-color: #1c1e24;
+}
+
+.contact-orbit i,
+.contact-orbit i:nth-child(n) {
+  --ring-start: 0deg;
+  --ring-trail: conic-gradient(from 0deg, transparent 0deg 250deg, rgb(64 128 255 / 0%) 250deg, rgb(64 128 255 / 80%) 360deg);
+  inset: 0;
+  width: auto;
+  height: auto;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  rotate: var(--ring-start);
+  animation: orbit-rotate 48s linear infinite;
+}
+
+.contact-orbit i::before,
+.contact-orbit i::after {
+  position: absolute;
+  content: "";
+}
+
+.contact-orbit i::before {
+  z-index: 1;
+  top: -4px;
+  left: calc(50% - 4px);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--blue);
+  box-shadow:
+    0 0 0 5px rgb(20 91 255 / 14%),
+    0 0 20px 3px rgb(20 91 255 / 55%);
+}
+
+.contact-orbit i::after {
+  inset: 0;
+  border-radius: 50%;
+  background: var(--ring-trail);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px));
+}
+
+.contact-orbit i:nth-child(1) {
+  --ring-start: 250deg;
+}
+
+.contact-orbit i:nth-child(2) {
+  --ring-start: 300deg;
+  --ring-trail: conic-gradient(from 0deg, rgb(64 128 255 / 80%) 0deg, rgb(64 128 255 / 0%) 110deg, transparent 110deg);
+  inset: 18%;
+  animation-duration: 32s;
+  animation-direction: reverse;
+}
+
+.contact-orbit i:nth-child(3) {
+  --ring-start: 210deg;
+  inset: 36%;
+  animation-duration: 22s;
+}
+
+.contact-orbit i:nth-child(4) {
+  --ring-start: 70deg;
+  --ring-trail: none;
+}
+
+.contact-orbit i:nth-child(4)::before {
+  top: -2.5px;
+  left: calc(50% - 2.5px);
+  width: 5px;
+  height: 5px;
+  background: #6f9bff;
+  box-shadow: 0 0 12px 2px rgb(20 91 255 / 45%);
+}

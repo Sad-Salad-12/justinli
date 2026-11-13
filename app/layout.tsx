@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import "./site.css";
+import "./globals.css";
+import "./variant-v2.css";
+import "./verba-demo.css";
+import "./spacing.css";
+import "./orbit-motion.css";
+import "./typeface.css";
 
 const defaultTitle = "Justin Li — Solutions Architect & FDE";
 const defaultDescription =
@@ -25,9 +30,9 @@ export const metadata: Metadata = {
     images: [
       {
         url: socialImage,
-        width: 1200,
-        height: 630,
-        alt: "Justin Li — Solutions Architect & FDE",
+        width: 1731,
+        height: 909,
+        alt: "Justin Li — Complex systems, made useful.",
       },
     ],
   },
@@ -45,7 +50,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body>{children}</body>
     </html>
   );

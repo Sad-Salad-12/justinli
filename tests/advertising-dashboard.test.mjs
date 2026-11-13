@@ -5,16 +5,18 @@ import test from "node:test";
 
 const demo = new URL("../out/works/ad-performance-demo/", import.meta.url);
 
-test("publishes the interactive ad dashboard as the second work, with portable assets", async () => {
+test("publishes the interactive ad dashboard first in Other works, with portable assets", async () => {
   const html = await readFile(new URL("../out/index.html", import.meta.url), "utf8");
   const work = html.slice(html.indexOf('id="work"'));
-  const legal = work.indexOf('class="selected-project legal-project"');
   const advertising = work.indexOf('id="advertising-dashboard"');
-  const rd = work.indexOf('class="work-row"');
-  assert.ok(legal >= 0 && advertising > legal && rd > advertising);
-  assert.match(work, /src="\/justinli\/works\/ad-performance-demo\/index\.html\?lang=en&amp;v=3"/);
+  const legal = work.indexOf('id="legal-workspace"');
+  const stills = work.indexOf('id="rd-dashboard"');
+  assert.ok(advertising >= 0 && legal > advertising && stills > legal);
+  assert.match(work, /src="\/justinli\/works\/ad-performance-demo\/index\.html\?lang=en&amp;v=4"/);
   const index = await readFile(new URL("index.html", demo), "utf8");
   assert.doesNotMatch(index, /https?:\/\/|localhost|127\.0\.0\.1/);
+  // The demo sets its own sans type; it no longer inherits the page serif.
+  assert.doesNotMatch(index, /typeface\.css/);
   for (const match of index.matchAll(/(?:src|href)="([^"#]+)"/g)) await access(new URL(match[1], demo));
 });
 

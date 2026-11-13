@@ -1,40 +1,45 @@
 "use client";
 
-import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+/* eslint-disable @next/next/no-img-element */
+import { type ReactNode, useEffect, useState } from "react";
+import { AdvertisingDashboard } from "./advertising-dashboard";
 import { AdReportMedia } from "./experience-media";
-import { SelectedProjects } from "./selected-projects";
+import { type Entry, type Language, portfolioContent } from "./portfolio-content";
+import { LegalWorkspace, StillWorks } from "./selected-projects";
 import { VerbaDemo } from "./verba-demo";
-import { type Language, portfolioContent } from "./portfolio-content";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/justinli";
 const withBasePath = (path: string) => `${basePath}${path}`;
 
-const workAssets = [
-  {
-    index: "02",
-    image: withBasePath("/works/rd-project-dashboard-lark-base.png"),
-  },
-] as const;
+/** A project: metadata in the left rail, title and text beside it, media below at full width. */
+function ProjectEntry({ entry, children }: { entry: Entry; children: ReactNode }) {
+  return (
+    <article className="entry" id={entry.id} aria-labelledby={`${entry.id}-title`}>
+      <div className="entry-head grid">
+        <h3 className="entry-title" id={`${entry.id}-title`}>
+          {entry.title}
+        </h3>
+        <ul className="entry-meta">
+          <li>{entry.kind}</li>
+          {entry.meta.map((line) => (
+            <li key={line}>{line}</li>
+          ))}
+        </ul>
+        <div className="entry-body">
+          {entry.body.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </div>
+      </div>
+      <div className="entry-media">{children}</div>
+    </article>
+  );
+}
 
 export default function Home() {
   const [language, setLanguage] = useState<Language>("en");
   const [preferenceReady, setPreferenceReady] = useState(false);
-  const [activeWorkIndex, setActiveWorkIndex] = useState<number | null>(null);
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const lastTriggerRef = useRef<HTMLButtonElement>(null);
-
   const t = portfolioContent[language];
-  const works = workAssets.map((asset, index) => ({
-    ...asset,
-    ...t.work.items[index],
-  }));
-  const activeWork = activeWorkIndex === null ? null : works[activeWorkIndex];
-
-  const openWork = (index: number, trigger: HTMLButtonElement) => {
-    lastTriggerRef.current = trigger;
-    setActiveWorkIndex(index);
-  };
 
   useEffect(() => {
     const savedLanguage = window.localStorage.getItem("portfolio-language");
@@ -55,139 +60,24 @@ export default function Home() {
       ?.setAttribute("content", t.meta.description);
   }, [language, preferenceReady, t.meta.description, t.meta.title]);
 
-  useEffect(() => {
-    const root = document.documentElement;
-    const header = document.querySelector<HTMLElement>(".site-header");
-    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let animationFrame = 0;
-
-    const updateScrollEffects = () => {
-      animationFrame = 0;
-      const scrollTop = Math.max(window.scrollY, 0);
-      const heroProgress = Math.min(scrollTop / Math.max(window.innerHeight * 0.9, 1), 1);
-      const allowDepth = !motionPreference.matches && window.innerWidth > 700;
-
-      root.style.setProperty(
-        "--hero-grid-shift",
-        `${allowDepth ? heroProgress * 18 : 0}px`,
-      );
-      root.style.setProperty(
-        "--hero-portrait-shift",
-        `${allowDepth ? heroProgress * 14 : 0}px`,
-      );
-      root.style.setProperty(
-        "--hero-portrait-scale",
-        allowDepth ? (1 - heroProgress * 0.008).toFixed(4) : "1",
-      );
-      root.style.setProperty(
-        "--hero-grid-opacity",
-        allowDepth ? (0.44 - heroProgress * 0.13).toFixed(3) : "0.44",
-      );
-      root.style.setProperty(
-        "--v2-name-shift",
-        `${allowDepth ? heroProgress * -42 : 0}px`,
-      );
-      root.style.setProperty(
-        "--v2-copy-shift",
-        `${allowDepth ? heroProgress * -18 : 0}px`,
-      );
-      root.style.setProperty(
-        "--v2-portrait-shift",
-        `${allowDepth ? heroProgress * 34 : 0}px`,
-      );
-      root.style.setProperty(
-        "--v2-hero-fade",
-        allowDepth ? (1 - heroProgress * 0.34).toFixed(3) : "1",
-      );
-      header?.classList.toggle("is-scrolled", scrollTop > 24);
-    };
-
-    const queueScrollEffects = () => {
-      if (animationFrame !== 0) return;
-      animationFrame = window.requestAnimationFrame(updateScrollEffects);
-    };
-
-    updateScrollEffects();
-    window.addEventListener("scroll", queueScrollEffects, { passive: true });
-    window.addEventListener("resize", queueScrollEffects);
-    motionPreference.addEventListener("change", queueScrollEffects);
-
-    return () => {
-      if (animationFrame !== 0) window.cancelAnimationFrame(animationFrame);
-      window.removeEventListener("scroll", queueScrollEffects);
-      window.removeEventListener("resize", queueScrollEffects);
-      motionPreference.removeEventListener("change", queueScrollEffects);
-      root.style.removeProperty("--hero-grid-shift");
-      root.style.removeProperty("--hero-portrait-shift");
-      root.style.removeProperty("--hero-portrait-scale");
-      root.style.removeProperty("--hero-grid-opacity");
-      root.style.removeProperty("--v2-name-shift");
-      root.style.removeProperty("--v2-copy-shift");
-      root.style.removeProperty("--v2-portrait-shift");
-      root.style.removeProperty("--v2-hero-fade");
-    };
-  }, []);
-
-  useEffect(() => {
-    if (activeWorkIndex === null) return;
-
-    const handleModalKeys = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setActiveWorkIndex(null);
-        return;
-      }
-
-      if (event.key !== "Tab") return;
-
-      const dialog = document.querySelector<HTMLElement>(".work-image-dialog");
-      const focusable = Array.from(
-        dialog?.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex="0"]') ?? [],
-      ).filter((element) => !element.hasAttribute("hidden"));
-
-      if (focusable.length === 0) return;
-
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    };
-
-    document.body.classList.add("modal-open");
-    closeButtonRef.current?.focus();
-    window.addEventListener("keydown", handleModalKeys);
-
-    return () => {
-      document.body.classList.remove("modal-open");
-      window.removeEventListener("keydown", handleModalKeys);
-      lastTriggerRef.current?.focus();
-    };
-  }, [activeWorkIndex]);
+  const [adReport, verba] = t.experience.items;
 
   return (
-    <main data-language={language}>
-      <header className="site-header" aria-label={t.a11y.mainNavigation}>
-        <a className="brand" href="#top" aria-label={t.a11y.backToTop}>
-          {t.identity.name}
-        </a>
-        <nav className="nav-links" aria-label={t.a11y.pageNavigation}>
-          <a href="#experience">{t.nav.experience}</a>
-          <a href="#work">{t.nav.work}</a>
-        </nav>
-        <div className="header-actions">
-          <div
-            className={`language-switch is-${language}`}
-            role="group"
-            aria-label={t.a11y.languageSelector}
-          >
-            <span className="language-switch-thumb" aria-hidden="true" />
+    <div className="site" data-language={language}>
+      <header className="site-header">
+        <div className="wrap grid">
+          <a className="brand" href="#top" aria-label={t.a11y.backToTop}>
+            {t.identity.name}
+          </a>
+          <nav className="site-nav" aria-label={t.a11y.mainNavigation}>
+            <a href="#experience">{t.nav.experience}</a>
+            <a href="#work">{t.nav.work}</a>
+            <a href="#contact">{t.nav.contact}</a>
+          </nav>
+          <div className="language-switch" role="group" aria-label={t.a11y.languageSelector}>
             <button
               type="button"
-              className={language === "en" ? "is-active" : undefined}
+              lang="en"
               aria-pressed={language === "en"}
               onClick={() => setLanguage("en")}
             >
@@ -195,236 +85,101 @@ export default function Home() {
             </button>
             <button
               type="button"
-              className={language === "zh" ? "is-active" : undefined}
+              lang="zh-CN"
               aria-pressed={language === "zh"}
               onClick={() => setLanguage("zh")}
             >
               简体中文
             </button>
           </div>
-          <a className="header-contact" href="#contact">
-            {t.nav.contact} <span aria-hidden="true">↘</span>
-          </a>
         </div>
       </header>
 
-      <section className="hero" id="top" aria-labelledby="hero-title">
-        <div className="hero-grid" aria-hidden="true" />
-        <div className="hero-copy">
-          <ul className="hero-disciplines hero-enter hero-enter-1">
-            {t.hero.disciplines.map((discipline) => (
-              <li key={discipline}>{discipline}</li>
-            ))}
-          </ul>
-          <h1 className="hero-name hero-enter hero-enter-2">{t.identity.heroName}</h1>
-          <div className="hero-statement hero-enter hero-enter-3">
-            <h2 id="hero-title">
-              {t.hero.headline}
-              <br />
-              <span>{t.hero.headlineAccent}</span>
-            </h2>
-            <p>
-              {t.hero.bodyLineOne}
-              <br className="desktop-only" />
-              {t.hero.bodyLineTwo}
-            </p>
-            <div className="hero-actions">
-              <a className="primary-link" href="#experience">
-                {t.hero.primaryAction} <span aria-hidden="true">↓</span>
-              </a>
-              <a className="text-link" href="#contact">
-                {t.hero.secondaryAction} <span aria-hidden="true">↗</span>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <figure className="hero-portrait hero-enter hero-enter-4">
-          <span className="portrait-orbit" aria-hidden="true">
-            <span className="orbit-track">
-              <i className="orbit-satellite" />
-              <i className="orbit-satellite orbit-satellite-small" />
-            </span>
-          </span>
-          <span className="portrait-frame">
-            <Image
+      <main id="top">
+        <section className="hero wrap grid" aria-labelledby="hero-name">
+          <figure className="hero-portrait">
+            <img
               src={withBasePath("/justin-shanghai-portrait.jpg")}
               alt={t.a11y.portraitAlt}
               width={1080}
               height={1619}
-              sizes="(max-width: 700px) 68vw, (max-width: 980px) 34vw, 24vw"
-              priority
-              unoptimized
+              fetchPriority="high"
             />
-          </span>
-          <span className="portrait-orbit portrait-orbit-front" aria-hidden="true">
-            <span className="orbit-track">
-              <i className="orbit-satellite" />
-              <i className="orbit-satellite orbit-satellite-small" />
-            </span>
-          </span>
-        </figure>
-      </section>
-
-      <section className="experience" id="experience" aria-labelledby="experience-title">
-        <div className="section-head experience-head" data-reveal="title">
-          {t.experience.label && <p className="section-label">{t.experience.label}</p>}
-          <h2 id="experience-title">{t.experience.headline}</h2>
-        </div>
-        <div className="experience-list">
-          {t.experience.items.map((experience) => (
-            <section
-              className="experience-project"
-              key={experience.number}
-              aria-labelledby={`experience-project-${experience.number}`}
-            >
-              <div className="experience-row" data-reveal="project">
-                <div className="experience-identity">
-                  <p>{experience.eyebrow}</p>
-                  <h3 id={`experience-project-${experience.number}`}>{experience.title}</h3>
-                  {experience.meta && <p className="experience-meta">{experience.meta}</p>}
+          </figure>
+          <div className="hero-text">
+            <h1 id="hero-name">{t.identity.name}</h1>
+            <p className="hero-descriptor">{t.hero.descriptor}</p>
+            <p className="hero-body">{t.hero.body}</p>
+            <dl className="facts">
+              {t.hero.facts.map((fact) => (
+                <div key={fact.label}>
+                  <dt>{fact.label}</dt>
+                  <dd>{fact.href ? <a href={fact.href}>{fact.value}</a> : fact.value}</dd>
                 </div>
-                <ul className="experience-bullets">
-                  {experience.bullets.map((bullet) => (
-                    <li key={bullet}>{bullet}</li>
-                  ))}
-                </ul>
-                <div className="experience-metrics">
-                  {experience.metrics.map((metric) => (
-                    <div key={metric.label}>
-                      <strong>{metric.value}</strong>
-                      <span>{metric.label}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              ))}
+            </dl>
+          </div>
+        </section>
 
-              {experience.media === "ad-report" ? (
-                <AdReportMedia copy={t.experience.media} />
-              ) : (
-                <VerbaDemo copy={t.experience.media} language={language} />
-              )}
-            </section>
-          ))}
-        </div>
-      </section>
+        <section className="section wrap" id="experience" aria-labelledby="experience-title">
+          <h2 className="section-title" id="experience-title">
+            {t.experience.headline}
+          </h2>
+          <ProjectEntry entry={adReport}>
+            <AdReportMedia copy={t.experience.media} lightboxCopy={t.lightbox} />
+          </ProjectEntry>
+          <ProjectEntry entry={verba}>
+            <VerbaDemo copy={t.experience.media} language={language} />
+          </ProjectEntry>
+        </section>
 
-      <section className="work" id="work" aria-labelledby="work-title">
-        <div className="section-head work-head" data-reveal="title">
-          {t.work.label && <p className="section-label">{t.work.label}</p>}
-          <h2 id="work-title">{t.work.headline}</h2>
-        </div>
+        <section className="section wrap" id="work" aria-labelledby="work-title">
+          <h2 className="section-title" id="work-title">
+            {t.work.headline}
+          </h2>
+          <ProjectEntry entry={t.work.dashboard}>
+            <AdvertisingDashboard
+              copy={t.work.dashboardControls}
+              language={language}
+              basePath={basePath}
+            />
+          </ProjectEntry>
+          <ProjectEntry entry={t.work.legal}>
+            <LegalWorkspace
+              copy={t.work.legalGallery}
+              lightboxCopy={t.lightbox}
+              language={language}
+              basePath={basePath}
+            />
+          </ProjectEntry>
+          <StillWorks items={t.work.stills} lightboxCopy={t.lightbox} basePath={basePath} />
+        </section>
+      </main>
 
-        <div className="work-list">
-          <SelectedProjects language={language} basePath={basePath}>
-          {works.map((work, index) => (
-            <article className="work-row" key={work.index} data-reveal="media">
-              <button
-                className="work-image-preview"
-                onClick={(event) => openWork(index, event.currentTarget)}
-                aria-label={t.a11y.previewWork(work.title)}
-              >
-                <Image
-                  src={work.image}
-                  alt={work.imageAlt}
-                  width={2940}
-                  height={1380}
-                  sizes="(max-width: 700px) 100vw, 66vw"
-                  unoptimized
-                />
-                <span className="work-image-index">
-                  LARK BASE
-                </span>
-                <span className="work-image-action">
-                  {t.work.previewAction} <i aria-hidden="true">↗</i>
-                </span>
-              </button>
-
-              <div className="work-main">
-                <h3>{work.title}</h3>
-                <p>{work.summary}</p>
-                <ul className="work-features">
-                  {work.features.map((feature) => (
-                    <li key={feature}>{feature}</li>
-                  ))}
-                </ul>
-
-              </div>
-            </article>
-          ))}
-          </SelectedProjects>
-        </div>
-      </section>
-
-      <section className="contact" id="contact" aria-labelledby="contact-title">
-        <div className="contact-orbit" aria-hidden="true">
-          <i />
-          <i />
-          <i />
-          <i />
-        </div>
-        <p className="section-label" data-reveal="copy">
-          {t.contact.label}
-        </p>
-        <div className="contact-main" data-reveal="title">
-          <h2 id="contact-title">{t.contact.headline}</h2>
-          <p>{t.contact.body}</p>
-          <address className="contact-details">
-            <div className="contact-channels">
+      <footer className="contact" id="contact" aria-labelledby="contact-title">
+        <div className="wrap grid">
+          <h2 className="section-title" id="contact-title">
+            {t.contact.headline}
+          </h2>
+          <div className="contact-main">
+            <p>{t.contact.body}</p>
+            <address>
               <a className="contact-email" href={`mailto:${t.identity.email}`}>
-                <span>{t.contact.emailLabel}</span>
-                <strong>{t.identity.email}</strong>
+                {t.identity.email}
               </a>
               <a className="contact-phone" href={`tel:${t.identity.phoneHref}`}>
-                <span>{t.contact.phoneLabel}</span>
-                <strong>{t.identity.phone}</strong>
+                {t.identity.phone}
               </a>
-            </div>
-          </address>
-        </div>
-        <footer>
-          <span>{t.contact.footerRole}</span>
-          <a href="#top">{t.contact.backToTop}</a>
-        </footer>
-      </section>
-
-      {activeWork && (
-        <div
-          className="work-image-modal"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="work-image-modal-title"
-          onMouseDown={(event) => {
-            if (event.currentTarget === event.target) setActiveWorkIndex(null);
-          }}
-        >
-          <div className="work-image-dialog">
-            <div className="work-image-toolbar">
-              <div>
-                <span>{activeWork.type}</span>
-                <strong id="work-image-modal-title">{activeWork.title}</strong>
-              </div>
-              <button
-                ref={closeButtonRef}
-                onClick={() => setActiveWorkIndex(null)}
-                aria-label={t.a11y.closeWorkPreview}
-              >
-                {t.a11y.closeWorkPreview} <span aria-hidden="true">×</span>
-              </button>
-            </div>
-            <div className="work-image-stage">
-              <Image
-                src={activeWork.image}
-                alt={activeWork.imageAlt}
-                width={2940}
-                height={1380}
-                sizes="96vw"
-                unoptimized
-              />
-            </div>
+            </address>
           </div>
+          <p className="colophon">
+            <span>
+              {t.identity.name} · {t.identity.location}
+            </span>
+            <a href="#top">{t.contact.backToTop}</a>
+          </p>
         </div>
-      )}
-    </main>
+      </footer>
+    </div>
   );
 }

@@ -1,67 +1,149 @@
 "use client";
 
-import { useRef, useState, type ReactNode } from "react";
-import type { Language } from "./portfolio-content";
-import { AdvertisingDashboard } from "./advertising-dashboard";
-import "./selected-projects.css";
+/* eslint-disable @next/next/no-img-element */
+import { useState } from "react";
+import { Lightbox } from "./lightbox";
+import type { Language, LegalCopy, LightboxCopy, StillWork } from "./portfolio-content";
 
-const features = [
-  { id: "wiki", iconX: 748, iconY: 170, en: ["Knowledge Base", "Legal knowledge base", "Contract templates, governance guidance and IP procedures, organized by topic."], zh: ["知识库", "法务知识库", "合同模板、公司治理指引和知识产权流程，按主题分类整理。"] },
-  { id: "base", iconX: 748, iconY: 338, en: ["Lark Base", "Compliance task tracker", "Task types, priorities and status views. Linked license and seal requests, plus an assignment reminder workflow."], zh: ["多维表格", "合规任务台账", "任务类型、优先级和状态视图；关联证照印章申请与任务分配提醒流程。"] },
-  { id: "updates", iconX: 750, iconY: 503, en: ["Subscriptions", "Compliance channel", "Policy updates, risk reminders and training announcements, with sample posts in English and Chinese."], zh: ["订阅号", "合规订阅号", "发布制度更新、风险提示和培训公告，含中英文示例内容。"] },
-] as const;
+const legalSizes: Record<string, [number, number]> = {
+  "wiki-en": [2250, 1294],
+  "wiki-zh": [2570, 1526],
+  "base-en": [2260, 1290],
+  "base-zh": [2570, 1396],
+  "updates-en": [1640, 1436],
+  "updates-zh": [1646, 1428],
+};
 
-export function SelectedProjects({ language, basePath = "", children }: { language: Language; basePath?: string; children?: ReactNode }) {
+type LegalWorkspaceProps = {
+  copy: LegalCopy;
+  lightboxCopy: LightboxCopy;
+  language: Language;
+  basePath: string;
+};
+
+/** Three modules of the Lark legal mock; each screenshot is shown whole. */
+export function LegalWorkspace({ copy, lightboxCopy, language, basePath }: LegalWorkspaceProps) {
   const [active, setActive] = useState(0);
-  const [preview, setPreview] = useState<{ src: string; title: string } | null>(null);
-  const dialog = useRef<HTMLDialogElement>(null);
-  const dragStart = useRef<number | null>(null);
-  const zh = language === "zh", feature = features[active], text = feature[language];
-  const path = (file: string) => `${basePath}/works/${file}`;
-  const move = (delta: number) => setActive(value => (value + delta + features.length) % features.length);
-  const open = (src: string, title: string) => { setPreview({ src, title }); dialog.current?.showModal(); };
-  return <>
-    <article className="selected-project legal-project">
-      <div className="legal-gallery">
-        <div className="legal-controls">
-          <div><button type="button" onClick={() => move(-1)} aria-label={zh ? "上一张" : "Previous card"}>←</button><button type="button" onClick={() => move(1)} aria-label={zh ? "下一张" : "Next card"}>→</button></div>
-        </div>
-        <div className="legal-stack" onPointerDown={e => { dragStart.current = e.clientX; }} onPointerUp={e => { const distance = e.clientX - (dragStart.current ?? e.clientX); dragStart.current = null; if (Math.abs(distance) > 45) move(distance < 0 ? 1 : -1); }} onPointerCancel={() => { dragStart.current = null; }}>
-          {features.map((item, index) => {
-            const position = (index - active + features.length) % features.length;
-            const src = path(`legal/${item.id}-${language}.png`);
-            return <div key={item.id} className="legal-card" data-position={position} aria-hidden={position !== 0}>
-              {/* User-provided screenshots are shown whole, without fabricated interface content. */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={src} alt={`${item[language][0]} — ${zh ? "法务系统 mock" : "legal system mock"}`} draggable={false} />
-              <button type="button" tabIndex={position === 0 ? 0 : -1} onClick={() => open(src, item[language][1])}>{zh ? "查看完整截图" : "View full screenshot"} ↗</button>
-            </div>;
-          })}
-        </div>
+  const [expanded, setExpanded] = useState<number | null>(null);
+  const feature = copy.features[active];
+
+  const screenshots = copy.features.map((item) => ({
+    src: `${basePath}/works/legal/${item.id}-${language}.png`,
+    alt: copy.screenshotAlt(item.tab),
+    title: item.title,
+    size: legalSizes[`${item.id}-${language}`],
+  }));
+  const screenshot = screenshots[active];
+
+  return (
+    <figure className="figure figure-inset">
+      <div className="rail-tabs" role="group" aria-label={copy.tabsLabel}>
+        {copy.features.map((item, index) => (
+          <button
+            type="button"
+            key={item.id}
+            aria-pressed={index === active}
+            onClick={() => setActive(index)}
+          >
+            <strong>{item.tab}</strong>
+            <span>{item.title}</span>
+            <span>{item.description}</span>
+          </button>
+        ))}
       </div>
-      <div className="selected-project-copy">
-        <h3>{zh ? "法务与合规协作系统" : "Legal & compliance workspace"}</h3>
-        <p>{zh ? "用飞书搭建的公司法务系统 mock：知识库、合规任务台账和订阅号。" : "Mock company legal system built in Lark: knowledge base, compliance task tracker and subscription channel."}</p>
-        <div className="legal-feature" key={feature.id} aria-live="polite">
-          <div className="legal-feature-brand"><span className="legal-feature-icon" role="img" aria-label={text[0]} style={{ backgroundImage: `url("${path("legal/reference.png")}")`, backgroundPosition: `-${feature.iconX * .8}px -${feature.iconY * .8}px` }} /><span>{text[0]}</span></div>
-          <h4>{text[1]}</h4><p>{text[2]}</p>
+      <div className="figure-main">
+        <div className="mat">
+          <button
+            type="button"
+            className="stage legal-stage"
+            onClick={() => setExpanded(active)}
+            aria-label={`${copy.viewFull}: ${feature.title}`}
+          >
+            <img
+              key={screenshot.src}
+              className="frame"
+              src={screenshot.src}
+              alt={screenshot.alt}
+              width={screenshot.size[0]}
+              height={screenshot.size[1]}
+              loading="lazy"
+              decoding="async"
+            />
+          </button>
         </div>
+        <figcaption aria-live="polite">
+          <p className="legal-caption">
+            <strong>{feature.title}</strong>
+            <span>{feature.description}</span>
+          </p>
+          <button type="button" className="text-action" onClick={() => setExpanded(active)}>
+            {copy.viewFull}
+          </button>
+        </figcaption>
       </div>
-    </article>
-    <AdvertisingDashboard language={language} basePath={basePath} />
-    {children}
-    <article className="selected-project tableau-project">
-      <button className="tableau-preview" type="button" onClick={() => open(path("tableau-supplier.png"), zh ? "供应商分析看板" : "Supplier dashboard")} aria-label={zh ? "查看完整 Tableau 看板" : "View full Tableau dashboard"}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={path("tableau-supplier.png")} alt={zh ? "Tableau 供应商看板：销售额、月度趋势、订单国家分布和供应商地理分布" : "Tableau supplier dashboard: sales, monthly trends, order geography and supplier footprint"} loading="lazy" />
-        <span>{zh ? "查看完整看板" : "View full dashboard"} ↗</span>
-      </button>
-      <div className="selected-project-copy"><h3>{zh ? "供应商看板" : "Supplier dashboard"}</h3><p>{zh ? "Data Science 课程作业，Tableau 看板：供应商销售额、月度销售、订单国家分布、供应商地理分布与平均建议零售价。" : "Tableau dashboard for a Data Science course: supplier revenue, monthly sales, order geography, supplier locations and average MSRP."}</p><p className="selected-project-note">{zh ? "课程作业 · 静态图片" : "Coursework · static image"}</p></div>
-    </article>
-    <dialog ref={dialog} className="selected-preview-dialog" onClick={event => { if(event.target === event.currentTarget) dialog.current?.close(); }}>
-      <div className="selected-preview-toolbar"><strong>{preview?.title}</strong><button type="button" onClick={() => dialog.current?.close()} aria-label={zh ? "关闭图片" : "Close image"}>×</button></div>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      {preview && <img src={preview.src} alt={preview.title} />}
-    </dialog>
-  </>;
+      <Lightbox
+        items={screenshots}
+        index={expanded}
+        copy={lightboxCopy}
+        onIndexChange={(index) => {
+          setExpanded(index);
+          if (index !== null) setActive(index);
+        }}
+      />
+    </figure>
+  );
+}
+
+const stillAssets: Record<StillWork["id"], { file: string; size: [number, number] }> = {
+  "rd-dashboard": { file: "rd-project-dashboard-lark-base.png", size: [2940, 1380] },
+  "supplier-dashboard": { file: "tableau-supplier.png", size: [1430, 910] },
+};
+
+type StillWorksProps = {
+  items: StillWork[];
+  lightboxCopy: LightboxCopy;
+  basePath: string;
+};
+
+/** Static dashboard images, shown side by side in the text column. */
+export function StillWorks({ items, lightboxCopy, basePath }: StillWorksProps) {
+  const [expanded, setExpanded] = useState<number | null>(null);
+  const images = items.map((item) => ({
+    src: `${basePath}/works/${stillAssets[item.id].file}`,
+    alt: item.imageAlt,
+    title: item.title,
+  }));
+
+  return (
+    <div className="stills grid">
+      <div className="stills-list">
+        {items.map((item, index) => (
+          <article className="still" id={item.id} key={item.id}>
+            <div className="mat">
+              <button
+                type="button"
+                className="stage still-stage"
+                onClick={() => setExpanded(index)}
+                aria-label={`${lightboxCopy.viewFull}: ${item.title}`}
+              >
+                <img
+                  className="frame"
+                  src={images[index].src}
+                  alt={item.imageAlt}
+                  width={stillAssets[item.id].size[0]}
+                  height={stillAssets[item.id].size[1]}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </button>
+            </div>
+            <h3>{item.title}</h3>
+            <p>{item.summary}</p>
+            <p className="still-note">{item.note}</p>
+          </article>
+        ))}
+      </div>
+      <Lightbox items={images} index={expanded} copy={lightboxCopy} onIndexChange={setExpanded} />
+    </div>
+  );
 }

@@ -1,4 +1,4 @@
-:root{--header-height:52px;--nav-width:142px;font-size:14px;font-family:"Avenir Next","Helvetica Neue",-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif}
+:root{--header-height:52px;--nav-width:142px;font-size:14px;font-family:"Helvetica Neue",Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
 h1,h2,.kpi-number,.nav-country{font-family:inherit}
 body{background:#f7f7f5}
 .app-header{padding:0 12px;gap:8px}

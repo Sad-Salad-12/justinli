@@ -240,7 +240,6 @@ export function AdReportMedia({ copy }: AdReportMediaProps) {
         <section className="output-carousel" aria-label={copy.carouselLabel}>
         <div className="media-block-heading carousel-heading">
           <span>{copy.outputsLabel}</span>
-          <p>{copy.interactionHint}</p>
         </div>
 
         <div className="carousel-controls">

@@ -1,0 +1,232 @@
+/*
+ * Refinements on top of the existing design (2026-11-13). Loaded last.
+ * 1. One left edge and one two-column split for every project block.
+ * 2. Project titles share the size already used in Other works.
+ * 3. Darker body text.
+ * 4. One frame for every work sample.
+ * 5. Small labels in sentence case, without wide tracking.
+ */
+
+:root {
+  --body-text: #43464d;
+  --frame-radius: 12px;
+  --project-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  --project-gap: clamp(calc(32px * 1.2), calc(4vw * 1.2), calc(64px * 1.2));
+}
+
+/* 1. Alignment. Phones already stack everything in one column. */
+@media (min-width: 701px) {
+  main .section-head h2,
+  main[data-language="en"] .section-head h2 {
+    grid-column: 1 / -1;
+  }
+
+  main .experience-row {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  }
+
+  main .experience-identity {
+    grid-column: 1;
+  }
+
+  main .experience-bullets {
+    grid-column: 2;
+  }
+
+  main .experience-metrics {
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    column-gap: clamp(28px, 4vw, 64px);
+  }
+
+  main .experience-metrics div,
+  main .experience-metrics div + div {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+@media (min-width: 981px) {
+  main .experience-row,
+  main .experience-metrics,
+  main .ad-report-media,
+  main #work .work-row {
+    grid-template-columns: var(--project-columns);
+    column-gap: var(--project-gap);
+  }
+}
+
+/* 2. Project titles. */
+main .experience-identity h3,
+main[data-language="en"] .experience-identity h3 {
+  max-width: none;
+  font-size: clamp(28px, 3vw, 44px);
+  letter-spacing: -1.3px;
+  line-height: 1.15;
+}
+
+/* 3. Body text. */
+main .experience-bullets,
+main .experience-bullets li,
+main .selected-project-copy > p:not(.selected-project-note),
+main .legal-feature p,
+main .work-main p {
+  color: var(--body-text);
+}
+
+/* 4. Frames. */
+main .demo-video-frame,
+main .output-card,
+main .verba-demo,
+main .legal-card,
+main .advertising-demo,
+main .work-image-preview,
+main .tableau-preview {
+  border: 1px solid var(--line);
+  border-radius: var(--frame-radius);
+}
+
+main .verba-demo,
+main .tableau-preview {
+  overflow: clip;
+}
+
+/*
+ * 5. Text sizes. Information that stays on the page is at least 15px;
+ *    labels are in sentence case, so the all-caps tracking goes too.
+ */
+main .site-header .brand {
+  font-size: 0.9375rem;
+}
+
+main .nav-links a,
+main .header-contact {
+  font-size: 1rem;
+}
+
+/* The switch has fixed cells, so they grow with the larger label. */
+main .language-switch {
+  grid-template-columns: repeat(2, 76px);
+  height: 34px;
+}
+
+main .language-switch-thumb {
+  width: 76px;
+  height: 26px;
+}
+
+main .language-switch.is-zh .language-switch-thumb {
+  transform: translateX(76px);
+}
+
+main .language-switch button {
+  font-size: 0.875rem;
+}
+
+main .hero-disciplines {
+  color: var(--body-text);
+  font-size: 1.0625rem;
+  letter-spacing: 0;
+}
+
+main .hero-disciplines li + li::before {
+  color: var(--muted);
+  content: "/";
+}
+
+main .hero-statement > p {
+  font-size: 1.125rem;
+}
+
+main .primary-link,
+main .text-link {
+  font-size: 1rem;
+}
+
+main .experience-meta {
+  color: var(--body-text);
+  font-size: 1.0625rem;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+main .experience-meta + .experience-meta {
+  margin-top: 2px;
+}
+
+main .experience-bullets,
+main .selected-project-copy > p,
+main .legal-feature p,
+main .work-main p,
+main .contact-main > p {
+  font-size: 1.0625rem;
+}
+
+main .media-block-heading span,
+main .media-block-heading p {
+  font-size: 1rem;
+  letter-spacing: 0;
+}
+
+main .media-block-heading p {
+  max-width: none;
+  color: var(--body-text);
+}
+
+main .experience-metrics span {
+  color: var(--body-text);
+  font-size: 1rem;
+  letter-spacing: 0;
+}
+
+main .legal-card button,
+main .tableau-preview span,
+main .work-image-action,
+main .advertising-controls legend,
+main .advertising-options button {
+  font-size: 0.9375rem;
+  letter-spacing: 0;
+}
+
+main .legal-feature-brand {
+  font-size: 1rem;
+}
+
+main .contact > .section-label {
+  color: #a9abb2;
+  font-size: 1.125rem;
+  letter-spacing: 0;
+}
+
+main .contact-email span,
+main .contact-phone span {
+  color: #9da0a8;
+  font-size: 1rem;
+  letter-spacing: 0;
+}
+
+main .contact footer {
+  justify-content: flex-end;
+  font-size: 0.9375rem;
+  letter-spacing: 0;
+}
+
+/* The contact label follows the same content width as the heading below it. */
+main .contact > .section-label {
+  width: var(--v2-content);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* Chinese glyphs fill the whole em box, so the name needs room below it. */
+main[data-language="zh"] .hero-name {
+  margin-bottom: 0.13em;
+}
+
+/* Where the statement is pinned to the bottom of the hero, lift the name clear of it. */
+@media (min-width: 701px) {
+  main[data-language="zh"] .hero-name {
+    position: relative;
+    top: -0.2em;
+  }
+}

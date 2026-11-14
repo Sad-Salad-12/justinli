@@ -1,18 +1,16 @@
 export type Language = "en" | "zh";
 
 export type LocalizedWork = {
-  type: string;
   title: string;
   summary: string;
   imageAlt: string;
-  features: string[];
 };
 
 export type LocalizedExperience = {
   number: string;
-  eyebrow: string;
   title: string;
   meta?: string;
+  metaNote?: string;
   media: "ad-report" | "verba-demo";
   bullets: string[];
   metrics: Array<{
@@ -25,7 +23,6 @@ export type LocalizedExperienceMedia = {
   demoLabel: string;
   demoCaption: string;
   outputsLabel: string;
-  interactionHint: string;
   carouselLabel: string;
   previousSlide: string;
   nextSlide: string;
@@ -96,7 +93,6 @@ type PortfolioContent = {
     body: string;
     emailLabel: string;
     phoneLabel: string;
-    footerRole: string;
     backToTop: string;
   };
 };
@@ -114,7 +110,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       email: "justinli@stern.nyu.edu",
       phone: "(646) 228-4995",
       phoneHref: "+16462284995",
-      location: "NEW YORK, NY",
+      location: "New York, NY",
     },
     a11y: {
       mainNavigation: "Main navigation",
@@ -132,7 +128,7 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       contact: "Contact",
     },
     hero: {
-      disciplines: ["Solution Architect", "Product Management", "AI Operations"],
+      disciplines: ["Solutions Architect", "Product Management", "AI Operations"],
       headline: "AI product and",
       headlineAccent: "solution design.",
       bodyLineOne: "I write PRDs, turn manual workflows into AI pipelines,",
@@ -144,10 +140,9 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       label: "",
       headline: "Work experience",
       media: {
-        demoLabel: "PRODUCT DEMO",
+        demoLabel: "Product demo",
         demoCaption: "Input: weekly ad data folder. Output: editable PowerPoint report.",
-        outputsLabel: "GENERATED SLIDES",
-        interactionHint: "DRAG OR USE ARROWS · CLICK TO INSPECT",
+        outputsLabel: "Generated slides",
         carouselLabel: "Generated advertising report slides",
         previousSlide: "Previous output",
         nextSlide: "Next output",
@@ -195,22 +190,18 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       items: [
         {
           number: "01",
-          eyebrow: "AI PRODUCT DEVELOPMENT",
           title: "AI Advertisement Report Automation Project",
           meta: "Product Lead · Virtual · May 2025 — Aug 2025",
+          metaNote: "2 alpha versions · 1-month build cycle",
           media: "ad-report",
           bullets: [
             "Wrote the PRDs. Broke a manual Meta and Google Ads reporting workflow into data inputs, transformation rules, slide templates and few-shot examples for an LLM report generator.",
             "Built and tested two alpha versions in one month with a University of Chicago developer; improved output quality from peer feedback.",
           ],
-          metrics: [
-            { value: "2", label: "ALPHA VERSIONS" },
-            { value: "1 MONTH", label: "BUILD CYCLE" },
-          ],
+          metrics: [],
         },
         {
           number: "02",
-          eyebrow: "AI SOLUTION DESIGN",
           title: "Verba — AI solution design tool",
           meta: "",
           media: "verba-demo",
@@ -219,8 +210,8 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
             "English and Chinese. Five built-in examples (school, course, support, restaurant, sales) plus live generation with an LLM.",
           ],
           metrics: [
-            { value: "300+", label: "AGENT RUNS" },
-            { value: "30+", label: "USERS PROVIDED FEEDBACK" },
+            { value: "300+", label: "Agent runs" },
+            { value: "30+", label: "Users provided feedback" },
           ],
         },
       ],
@@ -231,29 +222,26 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       previewAction: "View full image",
       items: [
         {
-          type: "PRODUCT OPERATIONS · LARK BASE",
           title: "R&D Project Dashboards",
           summary:
             "R&D project dashboard in Lark Base: task status, priority, team ranking and task keywords.",
           imageAlt:
             "Lark Base R&D project dashboard showing task status, priority, team ranking, and task keyword charts",
-          features: ["Task status and priority", "Team ranking", "Task keyword patterns"],
         },
       ],
     },
     contact: {
-      label: "NEW YORK, NY",
+      label: "New York, NY",
       headline: "Contact",
       body: "Open to Solutions Architect and Forward Deployed Engineer roles.",
-      emailLabel: "EMAIL",
-      phoneLabel: "PHONE",
-      footerRole: "JUSTIN LI / SOLUTIONS × FDE",
-      backToTop: "BACK TO TOP ↑",
+      emailLabel: "Email",
+      phoneLabel: "Phone",
+      backToTop: "Back to top",
     },
   },
   zh: {
     meta: {
-      title: "李泽霆 — 解决方案与前线部署工程师",
+      title: "李泽霆 — 解决方案架构师 & FDE",
       description: "李泽霆 — AI 产品与方案设计。项目：AI 广告报告自动化、Verba、飞书与 Tableau 看板。",
     },
     identity: {
@@ -280,34 +268,33 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       contact: "联系",
     },
     hero: {
-      disciplines: ["解决方案架构师", "产品管理", "AI 运营"],
+      disciplines: ["解决方案架构师", "产品管理", "产品运营"],
       headline: "AI 产品",
-      headlineAccent: "与方案设计。",
-      bodyLineOne: "编写 PRD，把人工流程拆解成 AI 流水线，",
-      bodyLineTwo: "并与开发者一起构建和测试原型。",
+      headlineAccent: "与方案设计",
+      bodyLineOne: "写 PRD，将人工流程转为 AI pipeline，",
+      bodyLineTwo: "并与开发共同搭建、测试原型。",
       primaryAction: "查看经历",
-      secondaryAction: "联系我",
+      secondaryAction: "联系",
     },
     experience: {
       label: "",
       headline: "工作经历",
       media: {
         demoLabel: "产品演示",
-        demoCaption: "输入：每周广告数据文件夹。输出：可编辑的 PowerPoint 报告。",
-        outputsLabel: "生成的报告页面",
-        interactionHint: "拖动或点击箭头 · 点击查看细节",
+        demoCaption: "输入：周度广告数据文件夹。输出：可编辑的 PowerPoint 报告。",
+        outputsLabel: "生成的幻灯片",
         carouselLabel: "自动生成的广告报告幻灯片",
-        previousSlide: "上一张成果",
-        nextSlide: "下一张成果",
-        openFullscreen: "放大查看成果",
-        closeFullscreen: "关闭细节查看",
-        fullscreenLabel: "广告报告成果细节查看",
+        previousSlide: "上一张",
+        nextSlide: "下一张",
+        openFullscreen: "放大查看",
+        closeFullscreen: "关闭大图",
+        fullscreenLabel: "广告报告幻灯片大图",
         verba: {
-          title: "Verba — 方案与演示互动试玩",
+          title: "Verba 在线演示：方案与幻灯片",
         },
         slides: [
           {
-            title: "品牌 A 广告表现",
+            title: "品牌 A 广告效果",
             alt: "品牌 A 广告表现周报的封面页",
           },
           {
@@ -343,32 +330,28 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       items: [
         {
           number: "01",
-          eyebrow: "人工智能产品开发",
-          title: "人工智能广告报告自动化项目",
+          title: "AI 广告报告自动化项目",
           meta: "产品负责人 · 远程 · 2025 年 5 月—8 月",
+          metaNote: "2 个 Alpha 版 · 1 个月开发周期",
           media: "ad-report",
           bullets: [
-            "编写 PRD，将人工 Meta 与 Google Ads 报告流程拆解为数据输入、转换规则、幻灯片模板和少样本示例，用于大语言模型生成报告。",
-            "与芝加哥大学开发者在一个月内完成并测试两个内测版本，根据同行反馈改进输出质量。",
+            "写 PRD，将 Meta 和 Google Ads 的人工报告流程拆成数据输入、转换规则、幻灯片模板和 few-shot 示例，用于 LLM 生成报告。",
+            "与芝加哥大学的一位开发者在一个月内完成 2 个 Alpha 版的搭建和测试，并根据试用反馈优化输出质量。",
           ],
-          metrics: [
-            { value: "2 个", label: "内测版本" },
-            { value: "1 个月", label: "构建周期" },
-          ],
+          metrics: [],
         },
         {
           number: "02",
-          eyebrow: "人工智能方案设计",
           title: "Verba — AI 方案设计工具",
           meta: "",
           media: "verba-demo",
           bullets: [
-            "输入：客户需求。输出：附来源引用的方案说明和三页演示文稿。",
-            "支持中英文；内置 5 个示例（学校、课程、客服、餐饮、销售），并可调用大语言模型实时生成。",
+            "输入：客户 brief。输出：带引用来源的方案说明和 3 页 PPT。",
+            "中英文双语；内置 5 个示例（学校、课程、客服、餐饮、销售），也支持用 LLM 实时生成方案。",
           ],
           metrics: [
-            { value: "300+", label: "智能体运行次数" },
-            { value: "30+", label: "用户反馈" },
+            { value: "300+", label: "次 Agent 运行" },
+            { value: "30+", label: "位用户提供反馈" },
           ],
         },
       ],
@@ -379,22 +362,19 @@ export const portfolioContent: Record<Language, PortfolioContent> = {
       previewAction: "查看完整图片",
       items: [
         {
-          type: "产品运营 · 飞书多维表格",
           title: "研发项目仪表盘",
-          summary: "飞书多维表格研发项目仪表盘：任务状态、优先级、团队排名与任务关键词。",
+          summary: "飞书多维表格研发项目仪表盘：任务状态、优先级、团队排名和任务关键词。",
           imageAlt: "展示任务状态、优先级、团队排名与任务关键词图表的飞书多维表格研发项目仪表盘",
-          features: ["任务状态与优先级", "团队排名", "任务关键词分布"],
         },
       ],
     },
     contact: {
       label: "美国纽约",
       headline: "联系方式",
-      body: "寻找解决方案架构师与前线部署工程师岗位。",
+      body: "求职方向：解决方案架构师 / Forward Deployed Engineer（FDE）。",
       emailLabel: "邮箱",
       phoneLabel: "电话",
-      footerRole: "李泽霆 / 解决方案 × 前线部署",
-      backToTop: "返回顶部 ↑",
+      backToTop: "返回顶部",
     },
   },
 };

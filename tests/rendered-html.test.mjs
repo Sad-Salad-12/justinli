@@ -22,7 +22,7 @@ test("server-renders the streamlined English portfolio", async () => {
   assert.match(html, /JUSTIN LI\./);
   assert.match(html, /Work experience/);
   assert.match(html, /Other works/);
-  assert.match(html, /NEW YORK, NY/);
+  assert.match(html, /New York, NY/);
   assert.doesNotMatch(html, /Business-aware|Built to deliver|Work is more than a file|Let’s solve|DESIGNED FOR THE REAL WORLD|PROJECTS/);
   assert.doesNotMatch(html, /class="contact-email"[^]*?↗/);
   assert.equal((html.match(/class="orbit-satellite/g) ?? []).length, 4);
@@ -42,7 +42,7 @@ test("server-renders the streamlined English portfolio", async () => {
   assert.match(html, /<iframe[^>]*src="https:\/\/justin\.zl5626\.chatgpt\.site\/verba\/index\.html\?lang=en&amp;parentOrigin=[^" ]+&amp;embed=1&amp;typeface=1"/);
   assert.doesNotMatch(html, /Open full demo|verba-demo-note|verba-demo-toolbar/);
   assert.match(html, /300\+|30\+/);
-  assert.match(html, /USERS PROVIDED FEEDBACK/);
+  assert.match(html, /Users provided feedback/);
   assert.doesNotMatch(html, /Updated September|AI SLIDE LAYOUTS|PREVIEW SLIDES/);
   assert.doesNotMatch(html, /Interface concept|verba-concept|111 indexed chunks/);
   assert.match(html, /src="\/justinli\/justin-shanghai-portrait\.jpg"/);
@@ -93,8 +93,7 @@ test("keeps bilingual content and hosted assets wired correctly", async () => {
   assert.match(content, /headline: "其他作品"/);
   assert.match(content, /美国纽约/);
   assert.match(content, /产品演示/);
-  assert.match(content, /生成的报告页面/);
-  assert.match(content, /拖动或点击箭头/);
+  assert.match(content, /生成的幻灯片/);
   assert.doesNotMatch(content, /打开完整试玩/);
   assert.match(content, /Verba — AI 方案设计工具/);
   assert.match(content, /R&D Project Dashboards/);
@@ -323,4 +322,48 @@ test("uses collision-free iPad and iPhone proportions", async () => {
     /@media \(max-width: 700px\)[\s\S]*?\.verba-cycle-nodes\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)/s,
   );
   assert.match(variant, /min-height:\s*max\(760px,\s*100svh\)/);
+});
+
+test("applies the alignment, frame and label refinements last", async () => {
+  const [html, layout, css] = await Promise.all([
+    render().then((response) => response.text()),
+    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/refinements.css", import.meta.url), "utf8"),
+  ]);
+
+  // Loaded after every other stylesheet so its overrides win.
+  assert.match(layout, /typeface\.css";\s*import "\.\/refinements\.css";/);
+  assert.match(css, /--project-columns:\s*minmax\(0,\s*1\.55fr\)\s*minmax\(0,\s*1fr\)/);
+  assert.match(css, /main \.section-head h2,[^{]*\{[^}]*grid-column:\s*1 \/ -1/s);
+  assert.match(css, /main \.experience-identity\s*\{[^}]*grid-column:\s*1/s);
+  assert.match(css, /main \.tableau-preview\s*\{[^}]*border-radius:\s*var\(--frame-radius\)/s);
+  assert.match(css, /--body-text:/);
+
+  // Small numbers are plain text; only Verba keeps the large metrics.
+  assert.equal((html.match(/class="experience-metrics"/g) ?? []).length, 1);
+  assert.match(html, /2 alpha versions · 1-month build cycle/);
+  assert.doesNotMatch(html, /ALPHA VERSIONS|PRODUCT DEMO|GENERATED SLIDES|AGENT RUNS|LARK BASE|BACK TO TOP|SOLUTIONS × FDE/);
+  assert.doesNotMatch(html, /[↘↗↑↓]/);
+
+  // Removed small print: category labels, feature pills, badges and the footer byline.
+  assert.doesNotMatch(html, /class="work-features"|class="work-image-index"|class="selected-project-note"/);
+  assert.doesNotMatch(html, /AI product development|click to inspect|Coursework · static image/);
+  assert.match(html, /Static Tableau dashboard for a Data Science course/);
+  assert.match(css, /main \.experience-meta\s*\{[^}]*font-size:\s*1\.0625rem/s);
+  assert.match(css, /main \.language-switch-thumb\s*\{[^}]*width:\s*76px/s);
+});
+
+test("uses field terms instead of literal translations in the Chinese copy", async () => {
+  const [content, projects] = await Promise.all([
+    readFile(new URL("../app/portfolio-content.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/selected-projects.tsx", import.meta.url), "utf8"),
+  ]);
+
+  assert.match(content, /李泽霆 — 解决方案架构师 & FDE/);
+  assert.match(content, /AI 广告报告自动化项目/);
+  assert.match(content, /few-shot 示例/);
+  assert.match(content, /2 个 Alpha 版 · 1 个月开发周期/);
+  assert.match(content, /Forward Deployed Engineer（FDE）/);
+  assert.match(projects, /法务与合规工作台/);
+  assert.doesNotMatch(content + projects, /前线部署|人工智能广告|少样本|内测版本|智能体运行次数|流水线|系统 mock/);
 });

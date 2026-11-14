@@ -203,7 +203,7 @@ export default function Home() {
             </button>
           </div>
           <a className="header-contact" href="#contact">
-            {t.nav.contact} <span aria-hidden="true">↘</span>
+            {t.nav.contact}
           </a>
         </div>
       </header>
@@ -230,10 +230,10 @@ export default function Home() {
             </p>
             <div className="hero-actions">
               <a className="primary-link" href="#experience">
-                {t.hero.primaryAction} <span aria-hidden="true">↓</span>
+                {t.hero.primaryAction}
               </a>
               <a className="text-link" href="#contact">
-                {t.hero.secondaryAction} <span aria-hidden="true">↗</span>
+                {t.hero.secondaryAction}
               </a>
             </div>
           </div>
@@ -280,23 +280,25 @@ export default function Home() {
             >
               <div className="experience-row" data-reveal="project">
                 <div className="experience-identity">
-                  <p>{experience.eyebrow}</p>
                   <h3 id={`experience-project-${experience.number}`}>{experience.title}</h3>
                   {experience.meta && <p className="experience-meta">{experience.meta}</p>}
+                  {experience.metaNote && <p className="experience-meta">{experience.metaNote}</p>}
                 </div>
                 <ul className="experience-bullets">
                   {experience.bullets.map((bullet) => (
                     <li key={bullet}>{bullet}</li>
                   ))}
                 </ul>
-                <div className="experience-metrics">
-                  {experience.metrics.map((metric) => (
-                    <div key={metric.label}>
-                      <strong>{metric.value}</strong>
-                      <span>{metric.label}</span>
-                    </div>
-                  ))}
-                </div>
+                {experience.metrics.length > 0 && (
+                  <div className="experience-metrics">
+                    {experience.metrics.map((metric) => (
+                      <div key={metric.label}>
+                        <strong>{metric.value}</strong>
+                        <span>{metric.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {experience.media === "ad-report" ? (
@@ -332,22 +334,14 @@ export default function Home() {
                   sizes="(max-width: 700px) 100vw, 66vw"
                   unoptimized
                 />
-                <span className="work-image-index">
-                  LARK BASE
-                </span>
                 <span className="work-image-action">
-                  {t.work.previewAction} <i aria-hidden="true">↗</i>
+                  {t.work.previewAction}
                 </span>
               </button>
 
               <div className="work-main">
                 <h3>{work.title}</h3>
                 <p>{work.summary}</p>
-                <ul className="work-features">
-                  {work.features.map((feature) => (
-                    <li key={feature}>{feature}</li>
-                  ))}
-                </ul>
 
               </div>
             </article>
@@ -383,7 +377,6 @@ export default function Home() {
           </address>
         </div>
         <footer>
-          <span>{t.contact.footerRole}</span>
           <a href="#top">{t.contact.backToTop}</a>
         </footer>
       </section>
@@ -401,7 +394,6 @@ export default function Home() {
           <div className="work-image-dialog">
             <div className="work-image-toolbar">
               <div>
-                <span>{activeWork.type}</span>
                 <strong id="work-image-modal-title">{activeWork.title}</strong>
               </div>
               <button
